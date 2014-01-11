@@ -1,7 +1,7 @@
 Whiskython
 ==========
 
-* **Oficial page**: [http://whiskyton.heroku.com/](http://whiskyton.heroku.com/)
+* **Oficial page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
 * **Version**: 0.0.1 (Jan. 11h 2014)
 * **Authors**: [Eduardo Cuducos](http://about.me/cuducos) and [Gabriel Vicente](http://about.me/gabrielvicente)
 
