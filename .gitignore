@@ -3,7 +3,7 @@
 
 # logs and databases
 *.db
-db_repository
+#db_repository
 
 # virtualenv
 flask/
