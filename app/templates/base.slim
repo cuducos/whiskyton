@@ -26,6 +26,8 @@ html lang="en"
     / whiskyton
     link rel="stylesheet" type="text/css" href="/static/css/style.css"
     %script type="text/javascript" src="/static/js/init.js"
+    - if ga
+      %script type="text/javascript" src="/static/js/ga.js"
   
   body
     
@@ -43,8 +45,8 @@ html lang="en"
       div#whiskies.row
 
         @block content
-  
       div#footer.row
+  
       
         div.col-xs-12.col-md-6
           h4.h5 About this project

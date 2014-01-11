@@ -15,13 +15,15 @@ def index():
   return render_template('home.slim',
     main_title = app.config['MAIN_TITLE'],
     headline = app.config['HEADLINE'],
+    ga = app.config['GOOGLE_ANALYTICS'],
     random_one = random_one)
     
 @app.route('/404')
 def page_not_found():
   return render_template('404.slim',
     main_title = app.config['MAIN_TITLE'],
-    headline = app.config['HEADLINE'])
+    headline = app.config['HEADLINE'],
+        ga = app.config['GOOGLE_ANALYTICS'])
 
 @app.route('/w/<whiskyID>')
 def search(whiskyID): 
@@ -51,6 +53,7 @@ def search(whiskyID):
       return render_template('whiskies.slim',
         main_title = 'Whiskies for ' + reference.distillery + ' lovers | ' + app.config['MAIN_TITLE'],
         headline = app.config['HEADLINE'],
+        ga = app.config['GOOGLE_ANALYTICS'],
         whiskies = whiskies,
         reference = reference)        
     # if queries fail, return 404
