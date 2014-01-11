@@ -1,0 +1,70 @@
+!5
+html lang="en"
+
+  head
+
+    title {{main_title}}
+    meta name="keywords" content="whisky, scotch whisky, flavor, profile"
+    meta name="author" content="Eduardo Cuducos"
+    meta http-equiv="x-ua-compatible" content="ie=edge"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    /meta name="copyright" content="Licensed under GPL and MIT."
+    
+    / jquery
+    %script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"
+    
+    / highcharts
+    %script type="text/javascript" src="/static/js/highcharts.js"
+    %script type="text/javascript" src="/static/js/highcharts-more.js"
+
+    / bootstrap & typeahead
+    link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css"
+    link rel="stylesheet" type="text/css" href="/static/css/bootstrap-theme.min.css"
+    %script type="text/javascript" src="/static/js/bootstrap.min.js"
+    %script type="text/javascript" src="/static/js/typeahead.min.js"
+
+    / whiskyton
+    link rel="stylesheet" type="text/css" href="/static/css/style.css"
+    %script type="text/javascript" src="/static/js/init.js"
+  
+  body
+    
+    div.container
+      div#header.row
+        div.col-xs-12.page-header
+          h1
+            {{main_title}}
+            small {{headline}}
+        
+          form.search-bar.form-inline action="/search" method="post"
+            input.form-control type="text" name="s" id="s" placeholder="Tell us a whisky distillery you like"
+            input.btn.btn-primary type="submit" value="Find them!"
+  
+      div#whiskies.row
+
+        @block content
+  
+      div#footer.row
+      
+        div.col-xs-12.col-md-6
+          h4.h5 About this project
+          p
+            |This web based app uses an open database about whisky to help you find whiskys you'd probably like by comparing it to the ones you already like. Read <a href="http://github.com/cuducos/whiskyton">more about this project at GitHub</a>.
+          
+        div.col-xs-12.col-md-6
+          h4.h5 Database source
+          ul.list-inline
+            li
+              a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html"
+                acronym title="Network Example Source Supporting Innovative Experimentation from the University of Strathclyde, Glasgow" NESSIE
+          h4.h5 Powered by
+          ul.list-inline
+            li
+              a href="http://python.org/" Python
+              a href="http://flask.pocoo.org/" Flask
+              a href="http://jquery.com/" jQuery
+              a href="http://www.highcharts.com/" Highcharts JS
+              a href="http://getbootstrap.com/" Bootstrap
+              a href="https://github.com/twitter/typeahead.js" typeahead.js
+              a href="http://www.sqlalchemy.org/" SQL ALchemy
+              a href="https://github.com/thoughtnirvana/slimish-jinja2" slimish-jinja2

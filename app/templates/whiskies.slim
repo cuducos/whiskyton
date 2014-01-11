@@ -1,0 +1,64 @@
+-extends "base.slim"
+-block content
+
+  div.col-xs-12
+    h2.h3
+      |Other whiskies for <span class="label label-default">{{reference.distillery}}</span> lovers:        
+
+    - for whisky in whiskies
+      div.chart.col-xs-12.col-md-4
+        h3.h4 {{whisky.distillery}}
+        table.single id="whisky_{{whisky.id}}"
+          tr
+            th Taste
+            th.whisky {{whisky.distillery}}
+            th.reference {{reference.distillery}}
+          tr
+            th Body
+            td {{ whisky.body }} 
+            td {{ reference.body }} 
+          tr
+            th Sweetness
+            td {{ whisky.sweetness }} 
+            td {{ reference.sweetness }} 
+          tr
+            th Smoky
+            td {{ whisky.smoky }} 
+            td {{ reference.smoky }} 
+          tr
+            th Medicinal
+            td {{ whisky.medicinal }} 
+            td {{ reference.medicinal }} 
+          tr
+            th Tobacco
+            td {{ whisky.tobacco }} 
+            td {{ reference.tobacco }} 
+          tr
+            th Honey
+            td {{ whisky.honey }} 
+            td {{ reference.honey }} 
+          tr
+            th Spicy
+            td {{ whisky.spicy }} 
+            td {{ reference.spicy }} 
+          tr
+            th Winey
+            td {{ whisky.winey }} 
+            td {{ reference.winey }} 
+          tr
+            th Nutty
+            td {{ whisky.nutty }} 
+            td {{ reference.nutty }} 
+          tr
+            th Malty
+            td {{ whisky.malty }} 
+            td {{ reference.malty }} 
+          tr
+            th Fruity
+            td {{ whisky.fruity }} 
+            td {{ reference.fruity }} 
+          tr
+            th Floral
+            td {{ whisky.floral }} 
+            td {{ reference.floral }} 
+      
