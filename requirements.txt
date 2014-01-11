@@ -1,5 +1,4 @@
 Flask==0.9
-flask-heroku==0.1.8
 Flask-SQLAlchemy==0.16
 Jinja2==2.7.1
 MarkupSafe==0.18
@@ -9,9 +8,10 @@ Werkzeug==0.9.4
 argparse==1.2.1
 blinker==1.3
 decorator==3.4.0
+gunicorn==18.0
 itsdangerous==0.23
 pbr==0.5.23
-psycopg2==2.5.1
+psycopg2==2.5.2
 slimish-jinja==1.0.2
 sqlalchemy-migrate==0.7.2
 wsgiref==0.1.2
