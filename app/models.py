@@ -2,7 +2,8 @@ from app import db
 
 class Whisky(db.Model):
   id = db.Column(db.Integer, primary_key = True)
-  distillery = db.Column(db.String(64), unique = True)
+  distillery = db.Column(db.String(64))
+  ci_index = db.Column(db.String(64), index = True, unique = True)
   body = db.Column(db.Integer)
   sweetness = db.Column(db.Integer)
   smoky = db.Column(db.Integer)

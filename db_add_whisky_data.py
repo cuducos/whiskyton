@@ -5,6 +5,7 @@ for line in file_handler:
   cells = line.split(',')
   row = models.Whisky(
     distillery = cells[1].strip(),
+    ci_index = cells[1].strip().lower(),
     body = int(cells[2]),
     sweetness = int(cells[3]),
     smoky = int(cells[4]),

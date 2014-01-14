@@ -62,8 +62,8 @@ def search(whiskyID):
 
 @app.route('/search', methods = ['GET', 'POST'])
 def findID():
-  s = request.form['s']
-  whisky = models.Whisky.query.filter_by(distillery = s).first()
+  s = request.form['s'].lower()
+  whisky = models.Whisky.query.filter_by(ci_index = s).first()
   if whisky == None:
     return redirect('/404')
   else:
