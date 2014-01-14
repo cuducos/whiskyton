@@ -1,4 +1,4 @@
-import random
+import random, json
 from flask import Flask, render_template, redirect, Response, request
 from slimish_jinja import SlimishExtension
 from app import app, models
@@ -72,9 +72,6 @@ def findID():
 @app.route('/whiskyton.json')
 def whisky_list():
   whiskies = models.Whisky.query.all()
-  wlist = '[' 
-  for whisky in whiskies:
-    wlist = wlist + '\n    "' + whisky.distillery + '",'
-  wlist = wlist[:-1] + '\n]'
+  wlist = json.dumps([whisky.distillery for whisky in whiskies])
   resp = Response( response = wlist, status = 200, mimetype='application/json')
   return resp
