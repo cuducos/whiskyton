@@ -18,7 +18,11 @@ It is our very first project in Python (and we are not professional coders) -- s
 Instalation
 -----------
 
-Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running and install the following extensions:
+Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
+
+Check if the access data (user, password and database) to your PostgreSQL is correct at `config.py`.
+
+Install the following extensions:
 
 ```
 $ pip install Flask==0.9
