@@ -90,6 +90,7 @@ $(document).ready(function(){
 	// autocomplete
 	$('#s').typeahead({
 		name: 'whiskyton',
+		limit: 36,
 		prefetch: 'whiskyton.json'
 	})
 
