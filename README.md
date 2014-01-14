@@ -29,6 +29,7 @@ $ pip install Flask==0.9
 $ pip install Flask-SQLAlchemy==0.16
 $ pip install slimish-jinja==1.0.2
 $ pip install SQLAlchemy==0.7.9
+$ pip install sqlalchemy-citext==1.2-0
 $ pip install sqlalchemy-migrate==0.7.2
 ```
 
