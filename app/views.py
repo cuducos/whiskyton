@@ -25,15 +25,13 @@ def page_not_found():
     headline = app.config['HEADLINE'],
         ga = app.config['GOOGLE_ANALYTICS'])
 
-@app.route('/w/<whiskyID>')
-def search(whiskyID): 
-  # check if whisky exists
-  whiskyID = int(whiskyID)
-  reference = models.Whisky.query.filter_by(id = whiskyID).first()
+@app.route('/<whisky_slug>')
+def whisky_page(whisky_slug):
+  reference = models.Whisky.query.filter_by(ci_index = whisky_slug).first()
   # error page if whisky doesn't exist
   if reference == None :
     return redirect('/404')
-  # loag correlations
+  # load correlations
   else:    
     # query
     correlations = models.Correlation.query\
@@ -59,6 +57,16 @@ def search(whiskyID):
     # if queries fail, return 404
     else:
       return redirect('/404')
+      
+@app.route('/w/<whiskyID>')
+def search(whiskyID):
+  whiskyID = int(whiskyID)
+  reference = models.Whisky.query.filter_by(id = whiskyID).first()
+  if reference == None:
+    return redirect('/404')
+  else:
+    return redirect('/' + reference.ci_index)
+    
 
 @app.route('/search', methods = ['GET', 'POST'])
 def findID():
@@ -67,7 +75,7 @@ def findID():
   if whisky == None:
     return redirect('/404')
   else:
-    return redirect('/w/' + str(whisky.id))
+    return redirect('/' + str(whisky.ci_index))
 
 @app.route('/whiskyton.json')
 def whisky_list():
