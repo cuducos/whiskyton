@@ -20,7 +20,7 @@ Instalation
 
 Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
 
-Check if the access data (user, password and database) to your PostgreSQL is correct at `config.py`.
+Check if the access data to your local PostgreSQL server (user, password and database) is correct at `config.py` (first instance of the variable `SQLALCHEMY_DATABASE_URI`; the second instance is set to work under Heroku server).
 
 Install the following extensions:
 
@@ -30,6 +30,12 @@ $ pip install Flask-SQLAlchemy==0.16
 $ pip install slimish-jinja==1.0.2
 $ pip install SQLAlchemy==0.7.9
 $ pip install sqlalchemy-migrate==0.7.2
+```
+
+If you already have an old version of Whiskython database, drop it:
+
+```
+$ ./db_drop_tables.py
 ```
 
 Then run the following commands (you might have to give the right permissions to each file by typing `chmod a+x [filename]`, otherwise you won't be able to execiute them):
