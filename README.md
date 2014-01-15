@@ -1,26 +1,26 @@
 Whiskython
 ==========
 
-* **Oficial page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
+* **Official page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
 * **Version**: 0.0.1 (Jan. 11h 2014)
 * **Authors**: [Eduardo Cuducos](http://about.me/cuducos) and [Gabriel Vicente](http://about.me/gabrielvicente)
 
 About
 -----
 
-This web based app uses [an open database about whisky](https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html) to help you find whiskys you'd probably like. It uses mathematics to run through the tastes classified in that database, and to find the best macthes. We were inspired by [this data visualization shared on Reddit](http://www.reddit.com/r/dataisbeautiful/comments/1u747v/flavor_profiles_for_86_scotch_whiskies/).
+This web based app uses [an open database about whisky](https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html) to help you find whiskys you'd probably like. It uses mathematics to run through the tastes classified in that database, and to find the best matches. We were inspired by [this data visualization shared on Reddit](http://www.reddit.com/r/dataisbeautiful/comments/1u747v/flavor_profiles_for_86_scotch_whiskies/).
 
 What really matters
 -------------------
 
-It is our very first project in Python (and we are not professional coders) -- so every feedback is important to help us through our learning process. **Don't hesitate to criticize our code and software design!** To be true, that is what we are expecting :)
+This is our very first project in Python (and we are not professional coders) -- so all feedback is important to help us through our learning process. **Don't hesitate to criticize our code and software design!** To be true, that is what we are expecting :)
 
-Instalation
+Installation
 -----------
 
 Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
 
-Check if the access data to your local PostgreSQL server (user, password and database) is correct at `config.py`. Look for the first instance of the variable `SQLALCHEMY_DATABASE_URI` (the second instance of tis variable is set to make the app work under [Heroku](http://heroku.com) server).
+Check if the access data to your local PostgreSQL server (user, password and database) is correct at `config.py`. Look for the first instance of the variable `SQLALCHEMY_DATABASE_URI` (the second instance of this variable is set to make the app work under [Heroku](http://heroku.com) server).
 
 Install the dependencies:
 
@@ -56,11 +56,10 @@ We had a lot of Python teachers, we are so glad we could count on you, guys:
 * Everyone who have ever contributed to [The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)
 * Everyone who helped at Reddit, mainly these guys [here](http://www.reddit.com/r/webdev/comments/1uec51/a_dinosaur_wants_to_code/) and [here](http://www.reddit.com/r/Python/comments/1rnfle/setting_up_a_web_development_environment/) 
 
-In sum, we had the best teachers of the world in the Python. Any mistake here is completely our fault. 
+In sum, we had the best teachers of the world in Python. Any mistake here is completely our fault. 
 
 License
 -------
-
 Copyright (c) 2014 Eduardo Cuducos and Gabriel Vicente
 
 Licensed under the MIT license (see [MIT-LICENSE file](https://github.com/cuducos/whiskyton/raw/master/MIT-LICENSE))
