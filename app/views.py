@@ -25,6 +25,8 @@ def index():
 
 @app.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
+    if whisky_slug != whisky_slug.lower():
+        return redirect('/' + whisky_slug.lower())
     reference = models.Whisky.query.filter_by(ci_index=whisky_slug).first()
     # error page if whisky doesn't exist
     if reference is None:
