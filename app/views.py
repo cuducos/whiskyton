@@ -1,6 +1,6 @@
 import random
 import json
-from flask import Flask, render_template, redirect, Response, request
+from flask import Flask, render_template, redirect, Response, request, abort
 from slimish_jinja import SlimishExtension
 from app import app, models
 from sqlalchemy import desc
@@ -23,21 +23,12 @@ def index():
         random_one=random_one)
 
 
-@app.route('/404')
-def page_not_found():
-    return render_template(
-        '404.slim',
-        main_title=app.config['MAIN_TITLE'],
-        headline=app.config['HEADLINE'],
-        ga=app.config['GOOGLE_ANALYTICS'])
-
-
 @app.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
     reference = models.Whisky.query.filter_by(ci_index=whisky_slug).first()
     # error page if whisky doesn't exist
     if reference is None:
-        return redirect('/404')
+        return abort(404)
     # load correlations
     else:
         # query
@@ -66,7 +57,7 @@ def whisky_page(whisky_slug):
                 reference=reference)
         # if queries fail, return 404
         else:
-            return redirect('/404')
+            return abort(404)
 
 
 @app.route('/w/<whiskyID>')
@@ -74,7 +65,7 @@ def search(whiskyID):
     whiskyID = int(whiskyID)
     reference = models.Whisky.query.filter_by(id=whiskyID).first()
     if reference is None:
-        return redirect('/404')
+        return abort(404)
     else:
         return redirect('/' + reference.ci_index)
 
@@ -84,7 +75,7 @@ def findID():
     s = request.form['s'].lower()
     whisky = models.Whisky.query.filter_by(ci_index=s).first()
     if whisky is None:
-        return redirect('/404')
+        return abort(404)
     else:
         return redirect('/' + str(whisky.ci_index))
 
@@ -98,3 +89,12 @@ def whisky_list():
         status=200,
         mimetype='application/json')
     return resp
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template(
+        '404.slim',
+        main_title=app.config['MAIN_TITLE'],
+        headline=app.config['HEADLINE'],
+        ga=app.config['GOOGLE_ANALYTICS']), 404
