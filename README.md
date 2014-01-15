@@ -58,7 +58,9 @@ We had a lot of Python teachers, we are so glad we could count on you, guys:
 
 In sum, we had the best teachers of the world in the Python. Any mistake here is completely our fault. 
 
-License, copyright and shit
----------------------------
+License
+-------
 
-Do whatever you want with these code, but try to remember to mention the source.
+Copyright (c) 2014 Eduardo Cuducos and Gabriel Vicente
+
+Licensed under the MIT license (see [MIT-LICENSE file](https://github.com/cuducos/whiskyton/raw/master/MIT-LICENSE))
