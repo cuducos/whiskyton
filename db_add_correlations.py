@@ -40,11 +40,7 @@ def pearsonr(x, y):
 
 
 def get_tastes(whisky):
-    global tastes
-    values = []
-    for taste in tastes:
-        eval('values.append(whisky.' + taste + ')')
-    return values
+    return [getattr(whisky, taste) for taste in tastes]
 
 # calc and add to db
 
