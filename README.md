@@ -22,14 +22,10 @@ Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](
 
 Check if the access data to your local PostgreSQL server (user, password and database) is correct at `config.py`. Look for the first instance of the variable `SQLALCHEMY_DATABASE_URI` (the second instance of tis variable is set to make the app work under [Heroku](http://heroku.com) server).
 
-Install the following extensions:
+Install the dependencies:
 
 ```
-$ pip install Flask==0.9
-$ pip install Flask-SQLAlchemy==0.16
-$ pip install slimish-jinja==1.0.2
-$ pip install SQLAlchemy==0.7.9
-$ pip install sqlalchemy-migrate==0.7.2
+$ pip install -r requirements.txt
 ```
 
 If you already have an old version of Whiskython database, drop it:
