@@ -60,9 +60,8 @@ def whisky_page(whisky_slug):
             return abort(404)
 
 
-@app.route('/w/<whiskyID>')
+@app.route('/w/int:whiskyID')
 def search(whiskyID):
-    whiskyID = int(whiskyID)
     reference = models.Whisky.query.filter_by(id=whiskyID).first()
     if reference is None:
         return abort(404)
