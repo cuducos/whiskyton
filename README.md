@@ -27,6 +27,14 @@ Install the dependencies:
 $ pip install -r requirements.txt
 ```
 
+You may need to create the Whiskyton database:
+
+```
+sudo -u postgres createdb whiskyton
+```
+
+It is a good time to check if the PostgreSQL user and password are correct in the `config.py` file.
+
 If you already have an old version of Whiskython database, drop it:
 
 ```
@@ -53,9 +61,9 @@ We had a lot of Python teachers, we are so glad we could count on you, guys:
 * Allen B. Downey and Jeff Elkner, authors of [Think Python: How to Think Like a Computer Scientist](http://www.greenteapress.com/thinkpython/thinkpython.html)
 * Miguel Grinberg and his [The Flask Mega-Tutorial](http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
 * Everyone who have ever contributed to [The Hitchhiker’s Guide to Python!](http://docs.python-guide.org/en/latest/)
-* Everyone who helped at Reddit, mainly these guys [here](http://www.reddit.com/r/webdev/comments/1uec51/a_dinosaur_wants_to_code/) and [here](http://www.reddit.com/r/Python/comments/1rnfle/setting_up_a_web_development_environment/) 
+* Everyone who helped at Reddit, mainly these guys [here](http://www.reddit.com/r/webdev/comments/1uec51/a_dinosaur_wants_to_code/) and [here](http://www.reddit.com/r/Python/comments/1rnfle/setting_up_a_web_development_environment/)
 
-In sum, we had the best teachers of the world in Python. Any mistake here is completely our fault. 
+In sum, we had the best teachers of the world in Python. Any mistake here is completely our fault.
 
 License
 -------
