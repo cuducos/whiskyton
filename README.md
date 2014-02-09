@@ -19,13 +19,13 @@ Installation
 
 Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
 
-Check if the access data to your local PostgreSQL server (user, password and database) is correct at `config.py`. Look for the first instance of the variable `SQLALCHEMY_DATABASE_URI` (the second instance of this variable is set to make the app work under [Heroku](http://heroku.com) server).
-
 Install the dependencies:
 
 ```
 $ pip install -r requirements.txt
 ```
+
+If you have any trouble installing `psycopg2` I assume it is just normal. I had a couple of them. I recommend [instaling it from the source](http://initd.org/psycopg/install/#installing-from-source-code).
 
 You may need to create the Whiskyton database:
 
