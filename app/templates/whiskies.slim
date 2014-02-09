@@ -6,8 +6,10 @@
       |Other whiskies for <span class="label label-default">{{reference.distillery}}</span> lovers:        
 
     - for whisky in whiskies
-      div.chart.col-xs-12.col-md-4
+      div.chart.col-xs-12.col-md-4.whisky-card
+
         h3.h4 {{whisky.distillery}}
+
         table.single id="whisky_{{whisky.id}}"
           tr
             th Taste
@@ -62,3 +64,6 @@
             td {{ whisky.floral }} 
             td {{ reference.floral }} 
       
+        p.chart-label
+          |<span class="glyphicon glyphicon-unchecked whisky"></span> {{whisky.distillery}}
+          <span class="glyphicon glyphicon-unchecked reference"></span> {{reference.distillery}}

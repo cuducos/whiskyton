@@ -10,8 +10,25 @@ form.search-bar input.btn[type="submit"] {
 	margin-top: 9px;
 }
 
-h3 {
+div.whisky-card {
+	margin-bottom: 3em;
+}
+
+div.whisky-card h3,
+div.whisky-card p.chart-label {
 	text-align: center;
+}
+
+div.whisky-card p.chart-label {
+	color: #999;	
+}
+
+div.whisky-card p.chart-label span.whisky {
+	color: #3375B4;
+}
+
+div.whisky-card p.chart-label span.reference {
+	color: #cecece;
 }
 
 #footer {
