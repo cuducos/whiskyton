@@ -12,7 +12,7 @@ def index():
         'home.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
-        ga=app.config['GOOGLE_ANALYTICS'],
+        remote_scripts=app.config['GOOGLE_ANALYTICS'],
         random_one=random_one)
 
 
@@ -49,7 +49,7 @@ def whisky_page(whisky_slug):
                 'whiskies.html',
                 main_title=main_title,
                 headline=app.config['HEADLINE'],
-                ga=app.config['GOOGLE_ANALYTICS'],
+                remote_scripts=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
                 reference=reference,
                 count = str(len(whiskies)))
@@ -94,4 +94,4 @@ def page_not_found(e):
         '404.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
-        ga=app.config['GOOGLE_ANALYTICS']), 404
+        remote_scripts=app.config['GOOGLE_ANALYTICS']), 404
