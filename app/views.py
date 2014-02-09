@@ -32,7 +32,8 @@ def whisky_page(whisky_slug):
                 models.Correlation.reference == reference.id,
                 models.Correlation.whisky != reference.id,
                 models.Correlation.r > 0.5)\
-            .order_by(desc('r'))
+            .order_by(desc('r'))\
+            .limit(9)
         # if query succeeded
         whiskies = []
         if correlations is not None:
