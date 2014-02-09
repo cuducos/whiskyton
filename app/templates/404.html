@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="col-xs-12">
-        <h2 class="h3">Whisky not found :(</h2>
+        <h2 class="h3">Sorry, whisky not found :(</h2>
+        <h3>Why?</h3>
         <p>
-            We work with <a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html">
+        	We work with <a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html">
             an open database/classification of whiskies</a> and
             probably the one you are looking for is not on that list. 
-            We are sorry about that.
         </p>
+        <p>
+        	And, as we are not in charge of this database, there is
+			nothing we can do right now :(
+		</p>
+		<p>
+			Why don't you give <a href="/{{ random_one.ci_index }}">{{ random_one.distillery }}</a> 
+			a try?        
     </div><!-- end div.col-xs-12 -->
 {% endblock %}

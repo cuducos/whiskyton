@@ -3,11 +3,11 @@ import json
 from flask import Flask, render_template, redirect, Response, request, abort
 from app import app, models
 from sqlalchemy import desc
+from sqlalchemy.sql.expression import func, select
 
 @app.route('/')
 def index():
-    rand = random.randrange(1, 87)
-    random_one = models.Whisky.query.filter_by(id=rand).first()
+    random_one = random_whisky()
     return render_template(
         'home.html',
         main_title=app.config['MAIN_TITLE'],
@@ -91,8 +91,15 @@ def whisky_list():
 
 @app.errorhandler(404)
 def page_not_found(e):
+    random_one = random_whisky()
     return render_template(
         '404.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
-        remote_scripts=app.config['GOOGLE_ANALYTICS']), 404
+        remote_scripts=app.config['GOOGLE_ANALYTICS'],
+        random_one=random_one), 404
+
+def random_whisky():
+    #rand = random.randrange(1, 87)
+    random_one = models.Whisky.query.order_by(func.random()).first()
+    return random_one
