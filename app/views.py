@@ -1,4 +1,3 @@
-import random
 import json
 from flask import Flask, render_template, redirect, Response, request, abort
 from app import app, models
@@ -100,6 +99,5 @@ def page_not_found(e):
         random_one=random_one), 404
 
 def random_whisky():
-    #rand = random.randrange(1, 87)
     random_one = models.Whisky.query.order_by(func.random()).first()
     return random_one
