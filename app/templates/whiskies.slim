@@ -3,7 +3,7 @@
 
   div.col-xs-12
     h2.h3
-      |Other whiskies for <span class="label label-default">{{reference.distillery}}</span> lovers:        
+      |{{count}} whiskies for <span class="label label-default">{{reference.distillery}}</span> lovers:        
 
     - for whisky in whiskies
       div.chart.col-xs-12.col-md-4.whisky-card
@@ -67,3 +67,8 @@
         p.chart-label
           |<span class="glyphicon glyphicon-unchecked whisky"></span> {{whisky.distillery}}
           <span class="glyphicon glyphicon-unchecked reference"></span> {{reference.distillery}}
+          
+        p.correlation
+          |<span class="glyphicon glyphicon-thumbs-up"></span> You have a
+          <span class="label label-default">{{whisky.r}}</span> chance <br />
+          of liking <strong>{{whisky.distillery}}</strong>!

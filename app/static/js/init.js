@@ -24,6 +24,14 @@ $(document).ready(function(){
 			count++
 		})
 		
+		// save p.correlation for later (re)insertion
+		paragraph_correlation = $('p.correlation', this)
+		paragraph_correlation_content = paragraph_correlation.html()
+		paragraph_correlation.remove()
+		paragraph_correlation_new = document.createElement('p')
+		paragraph_correlation_new.setAttribute('class', 'correlation')		
+		paragraph_correlation_new.innerHTML = paragraph_correlation_content
+		
 		// remove table and add chart
 		$('table', this).remove()
 		$(this).append(document.createElement('div'))
@@ -84,6 +92,7 @@ $(document).ready(function(){
 			}]
 	
 		}) // close highcharts()
+		$(this).append(paragraph_correlation_new)
 		
 	}) // close each()
 

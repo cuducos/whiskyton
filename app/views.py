@@ -37,9 +37,9 @@ def whisky_page(whisky_slug):
         correlations = models.Correlation.query\
             .filter(
                 models.Correlation.reference == reference.id,
-                models.Correlation.whisky != reference.id)\
-            .order_by(desc('r'))\
-            .limit(9)
+                models.Correlation.whisky != reference.id,
+                models.Correlation.r > 0.5)\
+            .order_by(desc('r'))
         # if query succeeded
         whiskies = []
         if correlations is not None:
@@ -47,6 +47,7 @@ def whisky_page(whisky_slug):
                 # query each whisky
                 whisky = models.Whisky.query.filter_by(id=w.whisky).first()
                 if whisky is not None:
+                    whisky.r = '{0:.0f}'.format(w.r * 100) + '%'
                     whiskies.append(whisky)
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
             main_title = main_title + app.config['MAIN_TITLE']
@@ -56,7 +57,8 @@ def whisky_page(whisky_slug):
                 headline=app.config['HEADLINE'],
                 ga=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
-                reference=reference)
+                reference=reference,
+                count = str(len(whiskies)))
         # if queries fail, return 404
         else:
             return abort(404)

@@ -15,12 +15,18 @@ div.whisky-card {
 }
 
 div.whisky-card h3,
-div.whisky-card p.chart-label {
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
 	text-align: center;
 }
 
-div.whisky-card p.chart-label {
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
 	color: #999;	
+}
+
+div.whisky-card p.correlation {
+	margin-top: 1em;
 }
 
 div.whisky-card p.chart-label span.whisky {
