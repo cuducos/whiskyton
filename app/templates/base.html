@@ -41,16 +41,24 @@
 						<h1>
 							{{main_title}} <small>{{ headline }}</small>
 						</h1>
-						<form class="search-bar form-inline" action="/search" method="post">
-							<input class="form-control" type="text" name="s" id="s" placeholder="Tell us a whisky distillery you like"/> 
-							<input class="btn btn-primary" type="submit" value="Find them!" />
-						</form>
+						{% if not result_page %}
+						{% include "search.html" %}
+						{% endif %}
 					</div>
   				</div><!-- #header -->
       
       			<div id="whiskies" class="row">
 
 					{% block content %}{% endblock %}
+
+					{% if result_page %}
+					<div class="col-xs-12">
+						<hr />
+						<h3>{{ headline }}</h3>						
+						{% include "search.html" %}
+					</div>
+					{% endif %}
+
         
         		</div><!-- #whiskies -->
     

@@ -52,7 +52,8 @@ def whisky_page(whisky_slug):
                 remote_scripts=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
                 reference=reference,
-                count = str(len(whiskies)))
+                count=str(len(whiskies)),
+                result_page=True)
         # if queries fail, return 404
         else:
             return abort(404)
