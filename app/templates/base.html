@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <title>{{ main_title }}</title>
+        <meta name="keywords" content="whisky, scotch whisky, flavor, profile" />
+        <meta name="author" content="Eduardo Cuducos" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="copyright" content="Licensed under MIT License" />
+        
+        <script type="text/javascript" src="/static/js/jquery-1.10.2.min.js"></script>
+        
+        <script type="text/javascript" src="/static/js/highcharts.js"></script>
+        <script type="text/javascript" src="/static/js/highcharts-more.js"></script>
+    
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-theme.min.css" />
+        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/static/js/typeahead.min.js"></script>
+    
+        <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+        <script type="text/javascript" src="/static/js/init.js"></script>
+        {% if ga %}
+        <script type="text/javascript" src="/static/js/ga.js"></script>
+        {% endif %}
+ 
+    </head>
+    <body>
+    
+            <div class="container">
+				
+				<div id="header" class="row">
+					<div class="col-xs-12 page-header">
+						<h1>
+							{{main_title}} <small>{{ headline }}</small>
+						</h1>
+						<form class="search-bar form-inline" action="/search" method="post">
+							<input class="form-control" type="text" name="s" id="s" placeholder="Tell us a whisky distillery you like"/> 
+							<input class="btn btn-primary" type="submit" value="Find them!" />
+						</form>
+					</div>
+  				</div><!-- #header -->
+      
+      			<div id="whiskies" class="row">
+
+					{% block content %}{% endblock %}
+        
+        		</div><!-- #whiskies -->
+    
+      			<div id="footer" class="row">
+ 
+					<div class="col-xs-12 col-md-6">
+						<h4 class="h5">About this project</h4>
+						<p>
+							This web based app uses an open database
+						 	about whisky to help you find whiskys you'd 
+						 	probably like by comparing it to the ones
+						 	you already like. Read
+						 	<a href="http://github.com/cuducos/whiskyton">
+						 		more about this project at GitHub
+						 	</a>.
+						 </p>
+					</div>
+					
+					<div class="col-xs-12 col-md-6">
+
+						<h4 class="h5">Database source</h4>
+						<ul class="list-inline">
+							<li>
+								<a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html">
+									<abbr title="Network Example Source Supporting Innovative Experimentation from the University of Strathclyde, Glasgow">
+										NESSIE
+									</abbr>
+								</a>
+							</li>
+						</ul>
+
+						<h4 class="h5">Powered by</h4>
+						<ul class="list-inline">
+							<li>
+								<a href="http://python.org/">Python</a>
+							</li>
+							<li>
+								<a href="http://flask.pocoo.org/">Flask</a>
+							</li>
+							<li>
+								<a href="http://jquery.com/">jQuery</a>
+							</li>
+							<li>
+								<a href="http://www.highcharts.com/">Highcharts JS</a>
+							</li>
+							<li>
+								<a href="http://getbootstrap.com/">Bootstrap</a>
+							</li>
+							<li>
+								<a href="https://github.com/twitter/typeahead.js">typeahead.js</a>
+							</li>
+							<li>
+								<a href="http://glyphicons.com/">Glyphicons</a>
+							</li>
+							<li>
+								<a href="http://www.sqlalchemy.org/">SQL ALchemy</a>
+							</li>
+						</ul>
+					</div>
+
+				</div><!-- #footer -->	
+
+            </div><!-- div.container -->
+
+    </body>
+</html>

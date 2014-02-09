@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="col-xs-12 jumbotron">
+        <h1>Welcome, whisky lover!</h1>
+        <p>
+            This web app will help you to discover whiskies that you
+             will probably like.
+        </p>
+        <p> 
+            All we need to know is one whisky that you already like.
+            Just type its name on the search box, or try looking for 
+            whiskies similar to 
+            <strong>{{random_one.distillery}}</strong>:
+        </p>
+        <p>
+            <a class="btn btn-primary btn-lg" role="button" href="/w/{{ random_one.id }}">
+                Check whiskies for {{ random_one.distillery }} lover!
+            </a>
+        </p>
+    </div><!-- end div.jumbotron -->
+{% endblock %}

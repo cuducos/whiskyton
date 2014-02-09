@@ -1,22 +1,15 @@
 import random
 import json
 from flask import Flask, render_template, redirect, Response, request, abort
-from slimish_jinja import SlimishExtension
 from app import app, models
 from sqlalchemy import desc
-
-
-class MyApp(Flask):
-    jinja_options = Flask.jinja_options
-    jinja_options = jinja_options['extensions'].append(SlimishExtension)
-
 
 @app.route('/')
 def index():
     rand = random.randrange(1, 87)
     random_one = models.Whisky.query.filter_by(id=rand).first()
     return render_template(
-        'home.slim',
+        'home.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
         ga=app.config['GOOGLE_ANALYTICS'],
@@ -52,7 +45,7 @@ def whisky_page(whisky_slug):
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
             main_title = main_title + app.config['MAIN_TITLE']
             return render_template(
-                'whiskies.slim',
+                'whiskies.html',
                 main_title=main_title,
                 headline=app.config['HEADLINE'],
                 ga=app.config['GOOGLE_ANALYTICS'],
@@ -97,7 +90,7 @@ def whisky_list():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template(
-        '404.slim',
+        '404.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
         ga=app.config['GOOGLE_ANALYTICS']), 404
