@@ -3,9 +3,11 @@ from app import db, models
 file_handler = open('db_add_whisky_data.txt', 'r')
 for line in file_handler:
     cells = line.split(',')
+    slug = cells[1].strip().lower()
+    slug = slug.replace(' ','').replace('/','')
     row = models.Whisky(
         distillery=cells[1].strip(),
-        ci_index=cells[1].strip().lower(),
+        slug=slug,
         body=int(cells[2]),
         sweetness=int(cells[3]),
         smoky=int(cells[4]),

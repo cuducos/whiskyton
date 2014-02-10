@@ -19,7 +19,7 @@ def index():
 def whisky_page(whisky_slug):
     if whisky_slug != whisky_slug.lower():
         return redirect('/' + whisky_slug.lower())
-    reference = models.Whisky.query.filter_by(ci_index=whisky_slug).first()
+    reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
     # error page if whisky doesn't exist
     if reference is None:
         return abort(404)
@@ -64,17 +64,17 @@ def search(whiskyID):
     if reference is None:
         return abort(404)
     else:
-        return redirect('/' + reference.ci_index)
+        return redirect('/' + reference.slug)
 
 
 @app.route('/search', methods=['GET', 'POST'])
 def findID():
-    s = request.form['s'].lower()
-    whisky = models.Whisky.query.filter_by(ci_index=s).first()
+    slug = request.form['s'].lower().replace(' ','').replace('/','')
+    whisky = models.Whisky.query.filter_by(slug=slug).first()
     if whisky is None:
         return abort(404)
     else:
-        return redirect('/' + str(whisky.ci_index))
+        return redirect('/' + str(whisky.slug))
 
 
 @app.route('/whiskyton.json')

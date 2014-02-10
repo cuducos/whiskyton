@@ -6,14 +6,14 @@
             This web app will help you to discover whiskies that you
              will probably like.
         </p>
-        <p> 
+        <p>
             All we need to know is one whisky that you already like.
-            Just type its name on the search box, or try looking for 
-            whiskies similar to 
+            Just type its name on the search box, or try looking for
+            whiskies similar to
             <strong>{{random_one.distillery}}</strong>:
         </p>
         <p>
-            <a class="btn btn-primary btn-lg" role="button" href="/{{ random_one.ci_index }}">
+            <a class="btn btn-primary btn-lg" role="button" href="/{{ random_one.slug }}">
                 Check whiskies for {{ random_one.distillery }} lover!
             </a>
         </p>
