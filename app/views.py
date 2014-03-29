@@ -1,8 +1,10 @@
 import json
-from flask import Flask, render_template, redirect, Response, request, abort
+from flask import render_template, redirect, Response, request, abort
+from flask import make_response
 from app import app, models
 from sqlalchemy import desc
-from sqlalchemy.sql.expression import func, select
+from sqlalchemy.sql.expression import func
+
 
 @app.route('/')
 def index():
@@ -69,7 +71,7 @@ def search(whiskyID):
 
 @app.route('/search', methods=['GET', 'POST'])
 def findID():
-    slug = request.form['s'].lower().replace(' ','').replace('/','')
+    slug = request.form['s'].lower().replace(' ', '').replace('/', '')
     whisky = models.Whisky.query.filter_by(slug=slug).first()
     if whisky is None:
         return abort(404)
@@ -97,6 +99,14 @@ def page_not_found(e):
         headline=app.config['HEADLINE'],
         remote_scripts=app.config['GOOGLE_ANALYTICS'],
         random_one=random_one), 404
+
+
+@app.route('/robots.txt', methods=['GET'])
+def sitemap():
+    response = make_response(open('robots.txt').read())
+    response.headers["Content-type"] = "text/plain"
+    return response
+
 
 def random_whisky():
     random_one = models.Whisky.query.order_by(func.random()).first()
