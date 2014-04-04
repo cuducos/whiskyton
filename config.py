@@ -1,7 +1,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 if os.environ.get('DATABASE_URL') is None:
-    local_db_uri = 'postgresql://postgres:password@localhost/whiskyton'
+    local_db_uri = 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_DATABASE_URI = local_db_uri
     GOOGLE_ANALYTICS = False
 else:
