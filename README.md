@@ -17,31 +17,15 @@ This is our very first project in Python (and we are not professional coders) --
 Installation
 -----------
 
-Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
+1. Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
 
-Install the dependencies:
+2. Install the dependencies: `$ pip install -r requirements.txt` (If you have any trouble installing `psycopg2` I assume it is just normal. I had a couple of them. I recommend [instaling it from the source](http://initd.org/psycopg/install/#installing-from-source-code).)
 
-```
-$ pip install -r requirements.txt
-```
+3. The code is set to use SQLite locally. If you're using PostgreSQL instead, you might need to create the Whiskyton database `$ sudo -u postgres createdb whiskyton` (It is a good time to check if the PostgreSQL user and password are correct in the `config.py` file.)
 
-If you have any trouble installing `psycopg2` I assume it is just normal. I had a couple of them. I recommend [instaling it from the source](http://initd.org/psycopg/install/#installing-from-source-code).
+4. If you already have an old version of Whiskython database, drop it `$ ./db_drop_tables.py`
 
-You may need to create the Whiskyton database:
-
-```
-sudo -u postgres createdb whiskyton
-```
-
-It is a good time to check if the PostgreSQL user and password are correct in the `config.py` file.
-
-If you already have an old version of Whiskython database, drop it:
-
-```
-$ ./db_drop_tables.py
-```
-
-Then run the following commands (you might have to give the right permissions to each file by typing `chmod a+x [filename]`, otherwise you won't be able to execute them):
+5. Then run the following commands (you might have to give the right permissions to each file by typing `chmod a+x [filename]`, otherwise you won't be able to execute them):
 
 ```
 $ ./db_create.py
