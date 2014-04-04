@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!venv/bin/python
 from app import db, models
 file_handler = open('db_add_whisky_data.txt', 'r')
 for line in file_handler:
