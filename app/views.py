@@ -2,7 +2,7 @@ import json
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
 from app import app, models
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 from sqlalchemy.sql.expression import func
 
 
@@ -30,19 +30,22 @@ def whisky_page(whisky_slug):
         # query
         correlations = models.Correlation.query\
             .filter(
-                models.Correlation.reference == reference.id,
-                models.Correlation.whisky != reference.id,
+                or_(models.Correlation.reference == reference.id,
+                    models.Correlation.whisky == reference.id),              
                 models.Correlation.r > 0.5)\
             .order_by(desc('r'))\
             .limit(9)
         # if query succeeded
         whiskies = []
         if correlations is not None:
-            for w in correlations:
+            for corr in correlations:
                 # query each whisky
-                whisky = models.Whisky.query.filter_by(id=w.whisky).first()
+                search_for = corr.whisky
+                if reference.id == corr.whisky:
+                    search_for = corr.reference
+                whisky = models.Whisky.query.filter_by(id=search_for).first()
                 if whisky is not None:
-                    whisky.r = '{0:.0f}'.format(w.r * 100) + '%'
+                    whisky.r = '{0:.0f}'.format(corr.r * 100) + '%'
                     whiskies.append(whisky)
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
             main_title = main_title + app.config['MAIN_TITLE']
