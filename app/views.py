@@ -19,14 +19,18 @@ def index():
 
 @app.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
+
     if whisky_slug != whisky_slug.lower():
         return redirect('/' + whisky_slug.lower())
     reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
+
     # error page if whisky doesn't exist
     if reference is None:
         return abort(404)
+
     # load correlations
     else:
+
         # query
         correlations = models.Correlation.query\
             .filter(
@@ -35,18 +39,26 @@ def whisky_page(whisky_slug):
                 models.Correlation.r > 0.5)\
             .order_by(desc('r'))\
             .limit(9)
+
         # if query succeeded
         whiskies = []
         if correlations is not None:
+
+            # query each whisky
             for corr in correlations:
-                # query each whisky
+                
+                # check if whisky or reference holds the correlated ID
                 search_for = corr.whisky
                 if reference.id == corr.whisky:
                     search_for = corr.reference
+                
+                # query
                 whisky = models.Whisky.query.filter_by(id=search_for).first()
                 if whisky is not None:
                     whisky.r = '{0:.0f}'.format(corr.r * 100) + '%'
                     whiskies.append(whisky)
+            
+            # build result
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
             main_title = main_title + app.config['MAIN_TITLE']
             return render_template(
@@ -58,6 +70,7 @@ def whisky_page(whisky_slug):
                 reference=reference,
                 count=str(len(whiskies)),
                 result_page=True)
+
         # if queries fail, return 404
         else:
             return abort(404)
