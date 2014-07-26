@@ -11,6 +11,6 @@ decorator==3.4.0
 gunicorn==18.0
 itsdangerous==0.23
 pbr==0.5.23
-psycopg2==2.5.2
+slimmer==0.1.30
 sqlalchemy-migrate==0.7.2
 wsgiref==0.1.2

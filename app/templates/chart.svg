@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="330" height="260">
+  <g id="grid" fill="transparent" stroke="#cecece">
+    {% for coordinates in polygon_coordinates %}
+    <polygon points="{% for points in coordinates %}{{points[0]}},{{points[1]}} {% endfor %}" />
+    {% endfor %}
+    {% for coordinates in polygon_coordinates[0] %}
+    <line x1="{{center_x}}" y1="{{center_y}}" x2="{{coordinates[0]}}" y2="{{coordinates[1]}}" />
+    {% endfor %}
+  </g>
+  <g id="label" font-size="11px" font-family="sans-serif" fill="#606060">
+    {% for coordinates in text_coordinates %}
+    <text x="{{coordinates[0]}}" y="{{coordinates[1]}}" text-anchor="{{coordinates[2]}}">{{coordinates[3]}}</text>
+    {% endfor %}
+  </g>
+  <g id="reference" fill="rgba(185,185,185,0.8)" stroke="#b9b9b9">
+    <polygon points="{% for coordinates in reference_coordinates %}{{coordinates[0]}},{{coordinates[1]}} {% endfor %}" />
+  </g>
+  <g id="whisky" fill="rgba(51,117,118,0.1)" stroke="#3375B4">
+    <polygon points="{% for coordinates in whisky_coordinates %}{{coordinates[0]}},{{coordinates[1]}} {% endfor %}" />
+  </g>
+</svg>

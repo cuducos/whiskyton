@@ -16,81 +16,15 @@
 					<div class="chart col-xs-12 col-md-4 whisky-card">
 				
 						<h3 class="h4">{{ whisky.distillery }}</h3>
-				
-						<table class="single" id="whisky_{{ whisky.id }}">
-							<tr>
-								<th>Taste</th>
-								<th>class="whisky">{{ whisky.distillery }}</th>
-								<th>class="reference">{{ reference.distillery }}</th>
-							</tr>
-							<tr>
-								<th>Body</th>
-								<td>{{ whisky.body }}</td> 
-								<td>{{ reference.body }}</td>
-							</tr>
-							<tr>
-								<th>Sweetness</th>
-								<td>{{ whisky.sweetness }}</td>
-								<td>{{ reference.sweetness }}</td>
-							</tr>
-							<tr>
-								<th>Smoky</th>
-								<td>{{ whisky.smoky }}</td>
-								<td>{{ reference.smoky }}</td>
-							</tr>
-							<tr>
-								<th>Medicinal</th>
-								<td>{{ whisky.medicinal }}</td>
-								<td>{{ reference.medicinal }}</td>
-							</tr>
-							<tr>
-								<th>Tobacco</th>
-								<td>{{ whisky.tobacco }}</td>
-								<td>{{ reference.tobacco }}</td>
-							</tr>
-							<tr>
-								<th>Honey</th>
-								<td>{{ whisky.honey }}</td>
-								<td>{{ reference.honey }}</td>
-							</tr>
-							<tr>
-								<th>Spicy</th>
-								<td>{{ whisky.spicy }}</td>
-								<td>{{ reference.spicy }}</td>
-							</tr>
-							<tr>
-								<th>Winey</th>
-								<td>{{ whisky.winey }}</td>
-								<td>{{ reference.winey }}</td>
-							</tr>
-							<tr>
-								<th>Nutty</th>
-								<td>{{ whisky.nutty }}</td>
-								<td>{{ reference.nutty }}</td>
-							</tr>
-							<tr>
-								<th>Malty</th>
-								<td>{{ whisky.malty }}</td>
-								<td>{{ reference.malty }}</td>
-							</tr>
-							<tr>
-								<th>Fruity</th>
-								<td>{{ whisky.fruity }}</td>
-								<td>{{ reference.fruity }}</td>
-							</tr>
-							<tr>
-								<th>Floral</th>
-								<td>{{ whisky.floral }}</td>
-								<td>{{ reference.floral }}</td>
-							</tr>
-						</table>
-						
+												
 						<p class="chart-label">
 							<span class="glyphicon glyphicon-unchecked whisky"></span>
 							{{ whisky.distillery }}
 							<span class="glyphicon glyphicon-unchecked reference"></span>
 							{{ reference.distillery }}
 						</p>
+						
+						<img src="/charts/{{ reference.slug }}-{{ whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.distillery }}" />
 						
 						<p class="correlation">
 							<span class="glyphicon glyphicon-thumbs-up"></span> 
@@ -105,4 +39,3 @@
 					{% endfor %}
 				
 {% endblock %}
-		

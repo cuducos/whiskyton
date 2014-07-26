@@ -14,6 +14,11 @@ div.whisky-card {
 	margin-bottom: 3em;
 }
 
+div.whisky-card img {
+	width: 330px;
+	height: 260px;
+}
+
 div.whisky-card h3,
 div.whisky-card p.chart-label,
 div.whisky-card p.correlation {

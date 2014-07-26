@@ -1,6 +1,9 @@
 # compiled source
 *.pyc
 
+#charts cache
+app/static/charts
+
 # logs and databases
 *.db
 db_repository
