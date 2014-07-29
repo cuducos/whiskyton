@@ -36,6 +36,8 @@ $ ./db_add_correlations.py
 
 Finally `./run.py` to start your server.
 
+If you want to get rid of an older version of the cache for SVG charts, just run `./clean_chart_cache.py`.
+
 Thanks
 ------
 
