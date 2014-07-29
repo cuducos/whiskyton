@@ -16,8 +16,14 @@
   </g>
   <g id="reference" fill="rgba(185,185,185,0.8)" stroke="#b9b9b9">
     <polygon points="{% for coordinates in reference_coordinates %}{{coordinates[0]}},{{coordinates[1]}} {% endfor %}" />
+    {% for coordinates in reference_coordinates %}
+    <circle cx="{{coordinates[0]}}" cy="{{coordinates[1]}}" r="1" fill="#b9b9b9" />
+    {% endfor %}
   </g>
-  <g id="whisky" fill="rgba(51,117,118,0.1)" stroke="#3375B4">
+  <g id="whisky" fill="rgba(51,117,118,0.1)" stroke="#3375b4">
     <polygon points="{% for coordinates in whisky_coordinates %}{{coordinates[0]}},{{coordinates[1]}} {% endfor %}" />
+    {% for coordinates in whisky_coordinates %}
+    <circle cx="{{coordinates[0]}}" cy="{{coordinates[1]}}" r="1" fill="#3375b4" />
+    {% endfor %}
   </g>
 </svg>
