@@ -1,22 +1,14 @@
-$(document).ready(function(){
-
-	var whiskies = new Bloodhound({
-		datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-		queryTokenizer: Bloodhound.tokenizers.whitespace,
-		limit: 10,
-		prefetch: {
-			url: '/whiskyton.json'		
-		}
+$(document).ready(function(){	
+	$.getJSON( "/whiskyton.json", function( data ) {
+		var whiskies = json2array(data);
+		$('#s').autocomplete({lookup: whiskies});
 	});
-	
-	whiskies.initialize();
-	
-	$('#s').typeahead(null, {
-		name: 'whiskies',
-		displayKey: 'name',
-		source: whiskies.ttAdapter()
-	});
-	
-	console.log(whiskies.index.datums.length)
-	
 });
+
+var json2array = function (data) {
+	var values = [];
+	$.each(data, function(key, val) {
+		values.push(val);
+	});
+	return values;
+}

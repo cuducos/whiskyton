@@ -1,15 +1,5 @@
 @option compress: yes;
 
-form.search-bar {
-	margin: 0 0 2em 0;
-	input.form-control {
-		width: 240px;
-	}
-	input.btn[type="submit"] {
-		margin-top: 9px;
-	}
-}
-
 div.whisky-card {
 	margin-bottom: 3em;
 	img {
@@ -39,14 +29,4 @@ div.whisky-card p.chart-label span.whisky {
 
 div.whisky-card p.chart-label span.reference {
 	color: #cecece;
-}
-
-#footer {
-	border-top: 1px solid #efefef;
-	margin-top: 3em;
-	padding-top: 1em;
-	padding-bottom: 1em;
-	h4.h5 {
-		font-weight: bold;
-	}
 }

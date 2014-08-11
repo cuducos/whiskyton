@@ -12,8 +12,10 @@ from app import views, models
 assets = Environment(app)
 assets.url = app.static_url_path
 scss = Bundle(
-    'scss/style.scss',
-    'scss/typeahead.fix.scss',
+    'scss/search.scss',
+    'scss/whisky_card.scss',
+    'scss/footer.scss',
+    'scss/autocomplete.scss',
     filters='pyscss',
     output='css/style.css')
 assets.register('scss_style', scss)
