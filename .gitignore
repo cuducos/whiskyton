@@ -4,6 +4,7 @@
 #Flask-Assets cache
 app/static/.webassets-cache
 app/static/css/style.css
+app/static/js/init.min.js
 
 #charts cache
 app/static/charts

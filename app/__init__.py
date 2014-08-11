@@ -17,3 +17,11 @@ scss = Bundle(
     filters='pyscss',
     output='css/style.css')
 assets.register('scss_style', scss)
+
+# Compressed JS
+js = Bundle(
+    'js/typeahead.bundle.js',
+    'js/init.js',
+    filters='rjsmin',
+    output='js/init.min.js')
+assets.register('js_init', js)
