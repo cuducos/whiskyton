@@ -25,10 +25,13 @@
         <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
         {% endif %}
 
+		{% assets "scss_style" %}
+		<link rel=stylesheet type=text/css href="{{ ASSET_URL }}" />
+		{% endassets %}
+
         <script type="text/javascript" src="/static/js/typeahead.min.js"></script>    
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css" />
         <script type="text/javascript" src="/static/js/init.js"></script>
-         
+
     </head>
     <body>
     

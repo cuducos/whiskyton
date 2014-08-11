@@ -1,6 +1,10 @@
 # compiled source
 *.pyc
 
+#Flask-Assets cache
+app/static/.webassets-cache
+app/static/css/style.css
+
 #charts cache
 app/static/charts
 

@@ -1,4 +1,5 @@
 Flask==0.9
+Flask-Assets==0.10
 Flask-SQLAlchemy==0.16
 Jinja2==2.7.1
 MarkupSafe==0.18
@@ -11,6 +12,8 @@ decorator==3.4.0
 gunicorn==18.0
 itsdangerous==0.23
 pbr==0.5.23
+six==1.7.3
 slimmer==0.1.30
 sqlalchemy-migrate==0.7.2
+webassets==0.10.1
 wsgiref==0.1.2

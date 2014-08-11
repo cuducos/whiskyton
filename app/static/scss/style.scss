@@ -1,0 +1,50 @@
+form.search-bar {
+	margin: 0 0 2em 0;
+	input.form-control {
+		width: 240px;
+	}
+	input.btn[type="submit"] {
+		margin-top: 9px;
+	}
+}
+
+div.whisky-card {
+	margin-bottom: 3em;
+	img {
+		width: 330px;
+		height: 260px;		
+	}
+}
+
+div.whisky-card h3,
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
+	text-align: center;
+}
+
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
+	color: #999;	
+}
+
+div.whisky-card p.correlation {
+	margin-top: 1em;
+}
+
+div.whisky-card p.chart-label span.whisky {
+	color: #3375B4;
+}
+
+div.whisky-card p.chart-label span.reference {
+	color: #cecece;
+}
+
+#footer {
+	border-top: 1px solid #efefef;
+	margin-top: 3em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	h4.h5 {
+		font-weight: bold;
+	}
+}

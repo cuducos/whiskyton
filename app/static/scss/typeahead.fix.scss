@@ -1,58 +1,3 @@
-form.search-bar {
-	margin: 0 0 2em 0;
-}
-
-form.search-bar input.form-control {
-	width: 240px;
-}
-
-form.search-bar input.btn[type="submit"] {
-	margin-top: 9px;
-}
-
-div.whisky-card {
-	margin-bottom: 3em;
-}
-
-div.whisky-card img {
-	width: 330px;
-	height: 260px;
-}
-
-div.whisky-card h3,
-div.whisky-card p.chart-label,
-div.whisky-card p.correlation {
-	text-align: center;
-}
-
-div.whisky-card p.chart-label,
-div.whisky-card p.correlation {
-	color: #999;	
-}
-
-div.whisky-card p.correlation {
-	margin-top: 1em;
-}
-
-div.whisky-card p.chart-label span.whisky {
-	color: #3375B4;
-}
-
-div.whisky-card p.chart-label span.reference {
-	color: #cecece;
-}
-
-#footer {
-	border-top: 1px solid #efefef;
-	margin-top: 3em;
-	padding-top: 1em;
-	padding-bottom: 1em;
-}
-
-#footer h4.h5 {
-	font-weight: bold;
-}
-
 /* typeahead.js fix */
 
 .twitter-typeahead .tt-query,
@@ -83,6 +28,9 @@ div.whisky-card p.chart-label span.reference {
 .tt-suggestion {
   display: block;
   padding: 3px 20px;
+  p {
+  	margin: 0;
+  }
 }
 
 .tt-suggestion.tt-is-under-cursor {
@@ -101,10 +49,6 @@ div.whisky-card p.chart-label span.reference {
   color: #fff;
 }
 
-.tt-suggestion p {
-  margin: 0;
-}
-
 .twitter-typeahead .tt-hint {
   display: block;
   height: 34px;
@@ -113,4 +57,3 @@ div.whisky-card p.chart-label span.reference {
   line-height: 1.428571429;
   border: 1px solid transparent;
 }
-
