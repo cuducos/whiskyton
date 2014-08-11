@@ -29,8 +29,9 @@
 		<link rel=stylesheet type=text/css href="{{ ASSET_URL }}" />
 		{% endassets %}
 
-		<script type="text/javascript" src="/static/js/jquery.autocomplete.js"></script>
-		<script type="text/javascript" src="/static/js/init.js"></script>
+		{% assets "js_init" %}
+		<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+		{% endassets %}
 
     </head>
     <body>

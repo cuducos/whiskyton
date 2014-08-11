@@ -8,7 +8,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 from app import views, models
 
-# SCSS
+# scss
 assets = Environment(app)
 assets.url = app.static_url_path
 scss = Bundle(
@@ -19,3 +19,11 @@ scss = Bundle(
     filters='pyscss',
     output='css/style.css')
 assets.register('scss_style', scss)
+
+# compressed js
+js = Bundle(
+    'js/jquery.autocomplete.js',
+    'js/init.js',
+    filters='rjsmin',
+    output='js/init.min.js')
+assets.register('js_init', js)
