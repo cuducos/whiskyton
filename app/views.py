@@ -307,3 +307,4 @@ def robots():
 def random_whisky():
     random_one = models.Whisky.query.order_by(func.random()).first()
     return random_one
+
