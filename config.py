@@ -10,3 +10,16 @@ else:
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 MAIN_TITLE = 'Whiskyton'
 HEADLINE = 'Find whiskies that you like!'
+TASTES = (
+    'spicy',
+    'honey',
+    'tobacco',
+    'medicinal',
+    'smoky',
+    'sweetness',
+    'body',
+    'floral',
+    'fruity',
+    'malty',
+    'nutty',
+    'winey')
