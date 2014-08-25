@@ -1,3 +1,4 @@
+import datetime
 import json
 import math
 import os
@@ -304,7 +305,19 @@ def robots():
     return response
 
 
+@app.route('/sitemap.xml')
+def sitemap():
+    whiskies = models.Whisky.query.all()
+    ref_file = 'app/views.py'
+    dt_unix = int(os.path.getmtime(ref_file))
+    last_change = datetime.datetime.fromtimestamp(dt_unix).strftime('%Y-%m-%d')
+    return render_template(
+        'sitemap.xml',
+        whiskies=whiskies,
+        last_change=last_change,
+        url_root=request.url_root)
+
+
 def random_whisky():
     random_one = models.Whisky.query.order_by(func.random()).first()
     return random_one
-
