@@ -2,17 +2,17 @@ import datetime
 import json
 import math
 import os
+import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
 from app import app, models
 from slimmer import xhtml_slimmer
 from sqlalchemy import desc, or_
-from sqlalchemy.sql.expression import func
 
 
 @app.route('/')
 def index():
-    random_one = random_whisky()
+    random_one = whisky.random_whisky()
     return render_template(
         'home.html',
         main_title=app.config['MAIN_TITLE'],
@@ -23,7 +23,7 @@ def index():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    slug = request.form['s'].lower().replace(' ', '').replace('/', '')
+    slug = whisky.slugfy(request.form['s'])
     whisky = models.Whisky.query.filter_by(slug=slug).first()
     if whisky is None:
         return abort(404)
@@ -34,8 +34,10 @@ def search():
 @app.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
 
-    if whisky_slug != whisky_slug.lower():
-        return redirect('/' + whisky_slug.lower())
+    slugfied = whisky.slugfy(whisky_slug)
+    if whisky_slug != slugfied:
+        return redirect('/' + slugfied)
+
     reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
 
     # error page if whisky doesn't exist
@@ -67,10 +69,10 @@ def whisky_page(whisky_slug):
                     search_for = corr.reference
 
                 # query
-                whisky = models.Whisky.query.filter_by(id=search_for).first()
-                if whisky is not None:
-                    whisky.r = '{0:.0f}'.format(corr.r * 100) + '%'
-                    whiskies.append(whisky)
+                w = models.Whisky.query.filter_by(id=search_for).first()
+                if w is not None:
+                    w.r = '{0:.0f}'.format(corr.r * 100) + '%'
+                    whiskies.append(w)
 
             # build result
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
@@ -103,10 +105,10 @@ def searchID(whiskyID):
 def create_chart(reference_slug, whisky_slug):
 
     # URL check
-    cond1 = whisky_slug != whisky_slug.lower()
-    cond2 = reference_slug != reference_slug.lower()
-    if cond1 or cond2:
-        return redirect('/' + whisky_slug.lower())
+    slug1 = whisky.slugfy(whisky_slug)
+    slug2 = whisky.slugfy(reference_slug)
+    if slug1 != whisky_slug or slug2 != reference_slug:
+        return redirect('/charts/%s-%s.svg' % (slug1, slug2))
 
     reference_obj = models.Whisky.query.filter_by(slug=reference_slug).first()
     whisky_obj = models.Whisky.query.filter_by(slug=whisky_slug).first()
@@ -309,15 +311,10 @@ def sitemap():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    random_one = random_whisky()
+    random_one = whisky.random_whisky()
     return render_template(
         '404.html',
         main_title=app.config['MAIN_TITLE'],
         headline=app.config['HEADLINE'],
         remote_scripts=app.config['GOOGLE_ANALYTICS'],
         random_one=random_one), 404
-
-
-def random_whisky():
-    random_one = models.Whisky.query.order_by(func.random()).first()
-    return random_one
