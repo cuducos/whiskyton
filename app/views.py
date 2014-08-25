@@ -298,7 +298,7 @@ def page_not_found(e):
 
 
 @app.route('/robots.txt', methods=['GET'])
-def sitemap():
+def robots():
     response = make_response(open('robots.txt').read())
     response.headers["Content-type"] = "text/plain"
     return response
