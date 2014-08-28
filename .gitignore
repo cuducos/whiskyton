@@ -6,6 +6,12 @@ app/static/.webassets-cache
 app/static/css/style.css
 app/static/js/init.min.js
 
+# vim
+.ropeproject
+*~
+*.swp
+*.swo
+
 #charts cache
 app/static/charts
 
