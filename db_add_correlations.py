@@ -43,11 +43,13 @@ def get_tastes(whisky):
 
 
 def corr_exists(id1, id2):
-    attempt1 = models.Correlation.query.filter_by(reference=id1, whisky=id2).first()
+    attempt1 = models.Correlation.query\
+        .filter_by(reference=id1, whisky=id2).first()
     if attempt1 is not None:
         return True
     else:
-        attempt2 = models.Correlation.query.filter_by(reference=id2, whisky=id1).first()
+        attempt2 = models.Correlation.query\
+            .filter_by(reference=id2, whisky=id1).first()
         if attempt2 is None:
             return False
         else:
@@ -58,16 +60,14 @@ def corr_exists(id1, id2):
 correlations_list = []
 
 for reference in whiskies:
-    
+
     for whisky in whiskies:
-    
+
         item = str(whisky.id) + 'x' + str(reference.id)
-        item_alt = str(reference.id) + 'x' + str(whisky.id)
         cond1 = item in correlations_list
-        cond2 = item_alt in correlations_list
-        cond3 = reference.id == whisky.id
-        
-        if not cond1 and not cond2 and not cond3:
+        cond2 = reference.id == whisky.id
+
+        if not cond1 and not cond2:
             corr = pearsonr(get_tastes(reference), get_tastes(whisky))
             row = models.Correlation(reference=reference.id,
                                      whisky=whisky.id,

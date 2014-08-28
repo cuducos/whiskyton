@@ -6,7 +6,7 @@ import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
 from app import app, models
-from sqlalchemy import desc, or_
+from sqlalchemy import desc
 
 
 @app.route('/')
@@ -47,31 +47,16 @@ def whisky_page(whisky_slug):
     else:
 
         # query
-        correlations = models.Correlation.query\
-            .filter(
-                or_(models.Correlation.reference == reference.id,
-                    models.Correlation.whisky == reference.id),
-                models.Correlation.r > 0.5)\
-            .order_by(desc('r'))\
+        whiskies = models.Correlation.query\
+            .add_entity(models.Whisky)\
+            .filter(models.Correlation.reference == reference.id)\
+            .filter(models.Correlation.r > 0.5)\
+            .join(models.Whisky, models.Correlation.whisky == models.Whisky.id)\
+            .order_by(desc(models.Correlation.r))\
             .limit(9)
 
         # if query succeeded
-        whiskies = []
-        if correlations is not None:
-
-            # query each whisky
-            for corr in correlations:
-
-                # check if whisky or reference holds the correlated ID
-                search_for = corr.whisky
-                if reference.id == corr.whisky:
-                    search_for = corr.reference
-
-                # query
-                w = models.Whisky.query.filter_by(id=search_for).first()
-                if w is not None:
-                    w.r = '{0:.0f}'.format(corr.r * 100) + '%'
-                    whiskies.append(w)
+        if whiskies is not None:
 
             # build result
             main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
@@ -83,7 +68,7 @@ def whisky_page(whisky_slug):
                 remote_scripts=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
                 reference=reference,
-                count=str(len(whiskies)),
+                count=whiskies.count(),
                 result_page=True)
 
         # if queries fail, return 404

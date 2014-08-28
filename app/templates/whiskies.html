@@ -15,23 +15,23 @@
 				
 					<div class="chart col-xs-12 col-md-4 whisky-card">
 				
-						<h3 class="h4">{{ whisky.distillery }}</h3>
+						<h3 class="h4">{{ whisky.Whisky.distillery }}</h3>
 												
 						<p class="chart-label">
 							<span class="glyphicon glyphicon-unchecked whisky"></span>
-							{{ whisky.distillery }}
+							{{ whisky.Whisky.distillery }}
 							<span class="glyphicon glyphicon-unchecked reference"></span>
 							{{ reference.distillery }}
 						</p>
 						
-						<img src="/charts/{{ reference.slug }}-{{ whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.distillery }}" />
+						<img src="/charts/{{ reference.slug }}-{{ whisky.Whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.Whisky.distillery }}" />
 						
 						<p class="correlation">
 							<span class="glyphicon glyphicon-thumbs-up"></span> 
 							You have a
-							<span class="label label-default">{{whisky.r}}</span> 
+							<span class="label label-default">{{ '{0:.0f}'.format(whisky.Correlation.r * 100) + '%' }}</span> 
 							chance <br />
-							of liking <strong>{{whisky.distillery}}</strong>!
+							of liking <strong>{{ whisky.Whisky.distillery }}</strong>!
 						</p>
 					
 					</div><!-- end div.whisky-card -->
