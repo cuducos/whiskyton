@@ -9,6 +9,8 @@ GOOGLE_ANALYTICS = config('GOOGLE_ANALYTICS', default=True, cast=bool)
 SQLALCHEMY_DATABASE_URI = config('DATABASE_URL', default='sqlite:///' + BASEDIR.child('app.db'))
 SQLALCHEMY_MIGRATE_REPO = BASEDIR.child('db_repository')
 
+DEBUG = config('DEBUG', default=False, cast=bool)
+
 MAIN_TITLE = 'Whiskyton'
 HEADLINE = 'Find whiskies that you like!'
 TASTES = (
