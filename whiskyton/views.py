@@ -5,7 +5,7 @@ import os
 import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
-from app import app, models
+from whiskyton import app, models
 from sqlalchemy import desc
 
 
@@ -141,7 +141,7 @@ def robots():
 @app.route('/sitemap.xml')
 def sitemap():
     whiskies = models.Whisky.query.all()
-    ref_file = 'app/views.py'
+    ref_file = 'whiskyton/views.py'
     dt_unix = int(os.path.getmtime(ref_file))
     last_change = datetime.datetime.fromtimestamp(dt_unix).strftime('%Y-%m-%d')
     return render_template(

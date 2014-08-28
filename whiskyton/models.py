@@ -1,4 +1,4 @@
-from app import db
+from whiskyton import db
 
 
 class Whisky(db.Model):
