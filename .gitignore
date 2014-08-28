@@ -1,7 +1,13 @@
 # compiled source
 *.pyc
 
-#Flask-Assets cache
+# env
+.env
+.floo
+.flooignore
+.idea
+
+# Flask-Assets cache
 app/static/.webassets-cache
 app/static/css/style.css
 app/static/js/init.min.js
@@ -12,7 +18,7 @@ app/static/js/init.min.js
 *.swp
 *.swo
 
-#charts cache
+# charts cache
 app/static/charts
 
 # logs and databases

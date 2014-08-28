@@ -1,13 +1,14 @@
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
-if os.environ.get('DATABASE_URL') is None:
-    local_db_uri = 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_DATABASE_URI = local_db_uri
-    GOOGLE_ANALYTICS = False
-else:
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    GOOGLE_ANALYTICS = True
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
+# coding: utf-8
+from unipath import Path
+from decouple import config
+
+BASEDIR = Path(__file__).parent
+
+GOOGLE_ANALYTICS = config('GOOGLE_ANALYTICS', default=True, cast=bool)
+
+SQLALCHEMY_DATABASE_URI = config('DATABASE_URL', default='sqlite:///' + BASEDIR.child('app.db'))
+SQLALCHEMY_MIGRATE_REPO = BASEDIR.child('db_repository')
+
 MAIN_TITLE = 'Whiskyton'
 HEADLINE = 'Find whiskies that you like!'
 TASTES = (
