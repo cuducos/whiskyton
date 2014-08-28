@@ -1,12 +1,19 @@
 from flask import Flask
+from flask.ext.migrate import Migrate, MigrateCommand
+from flask.ext.script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.assets import Environment, Bundle
 
-# init app and db
+# init whiskyton and db
 app = Flask(__name__)
 app.config.from_object('config')
+
 db = SQLAlchemy(app)
-from app import views, models
+migrate = Migrate(app, db)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+from whiskyton import views, models
 
 # scss
 assets = Environment(app)

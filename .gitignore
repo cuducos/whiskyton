@@ -8,18 +8,18 @@
 .idea
 
 # Flask-Assets cache
-app/static/.webassets-cache
-app/static/css/style.css
-app/static/js/init.min.js
+whiskyton/static/.webassets-cache/*
+whiskyton/static/css/style.css
+whiskyton/static/js/init.min.js
 
-# vim
+vim
 .ropeproject
 *~
 *.swp
 *.swo
 
 # charts cache
-app/static/charts
+whiskyton/static/charts
 
 # logs and databases
 *.db

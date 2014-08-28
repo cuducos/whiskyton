@@ -1,5 +1,5 @@
 #!venv/bin/python
-from app import db, models
+from whiskyton import db, models
 
 # our data
 

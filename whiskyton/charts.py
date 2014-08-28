@@ -1,6 +1,6 @@
 import math
 import os
-from app import app
+from whiskyton import app
 from flask import render_template
 from slimmer import xhtml_slimmer
 
