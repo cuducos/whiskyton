@@ -4,7 +4,7 @@ import os
 
 current_file = os.path.abspath(inspect.getfile(inspect.currentframe()))
 basedir = os.path.dirname(current_file)
-charts_dir = basedir + '/app/static/charts/'
+charts_dir = basedir + '/whiskyton/static/charts/'
 try:
     os.stat(charts_dir)
 except:
