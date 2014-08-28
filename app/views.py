@@ -22,10 +22,17 @@ def index():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    slug = whisky.slugfy(request.form['s'])
+    slug = whisky.slugfy(request.args['s'])
     w = models.Whisky.query.filter_by(slug=slug).first()
     if w is None:
-        return abort(404)
+        random_one = whisky.random_whisky()
+        return render_template(
+            '404.html',
+            main_title=app.config['MAIN_TITLE'],
+            headline=app.config['HEADLINE'],
+            remote_scripts=app.config['GOOGLE_ANALYTICS'],
+            slug=slug,
+            random_one=random_one)
     else:
         return redirect('/' + str(w.slug))
 
