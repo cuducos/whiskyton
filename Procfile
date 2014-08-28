@@ -1,2 +1,2 @@
-web: python manage.py runserver
+web: gunicorn whiskyton:app
 migrate: python manage.py db upgrade
