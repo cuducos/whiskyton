@@ -17,15 +17,19 @@ This is our very first project in Python (and we are not professional coders) --
 Installation
 -----------
 
-1. If you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running.
+1. Clone the repository: `$ git clone git@github.com:cuducos/whiskyton.git`.
 
-2. Install the dependencies: `$ pip install -r requirements.txt`.
+2. Go to the repository folder: `$ cd whiskython`.
 
-3. Create and feedthe database `$ python manage.py db upgrade`.
+3. If you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there.
 
-4. Run the server `$ python manage.py runserver` 
+4. Install the dependencies: `$ pip install -r requirements.txt`.
 
-If you want to get rid of an older version of the cache for SVG charts, just run `$ python /contrib/clean_chart_cache.py`.
+5. Create and feed the database: `$ python manage.py db upgrade`.
+
+6. Run the server: `$ python manage.py runserver`.
+
+7. If you want to get rid of the cache of SVG charts: `$ python /contrib/clean_chart_cache.py`.
 
 Thanks
 ------
