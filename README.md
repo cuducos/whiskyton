@@ -17,26 +17,15 @@ This is our very first project in Python (and we are not professional coders) --
 Installation
 -----------
 
-1. Get your [virtualenv](https://pypi.python.org/pypi/virtualenv) and [PostgreSQL](http://postgresql.org/) running.
+1. If you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running.
 
-2. Install the dependencies: `$ pip install -r requirements.txt` (If you have any trouble installing `psycopg2` I assume it is just normal. I had a couple of them. I recommend [instaling it from the source](http://initd.org/psycopg/install/#installing-from-source-code).)
+2. Install the dependencies: `$ pip install -r requirements.txt`.
 
-3. The code is set to use SQLite locally. If you're using PostgreSQL instead, you might need to create the Whiskyton database `$ sudo -u postgres createdb whiskyton` (It is a good time to check if the PostgreSQL user and password are correct in the `config.py` file.)
+3. Create and feedthe database `python manage.py db upgrade`.
 
-4. If you already have an old version of Whiskython database, drop it `$ ./db_drop_tables.py`
+4. Run the server `python manage.py runserver` 
 
-5. Then run the following commands (you might have to give the right permissions to each file by typing `chmod a+x [filename]`, otherwise you won't be able to execute them):
-
-```
-$ ./db_create.py
-$ ./db_migrate.py
-$ ./db_add_whisky_data.py
-$ ./db_add_correlations.py
-```
-
-Finally `./run.py` to start your server.
-
-If you want to get rid of an older version of the cache for SVG charts, just run `./clean_chart_cache.py`.
+If you want to get rid of an older version of the cache for SVG charts, just run `python /contrib/clean_chart_cache.py`.
 
 Thanks
 ------

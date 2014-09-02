@@ -7,9 +7,6 @@ Create Date: 2014-08-28 13:08:02.243929
 """
 
 # revision identifiers, used by Alembic.
-import csv
-from unipath import Path
-from whiskyton.whisky import slugfy
 
 revision = '1ce5878c9d7f'
 down_revision = '17f96fb856ef'
@@ -17,7 +14,11 @@ down_revision = '17f96fb856ef'
 from alembic import op
 import sqlalchemy as sa
 
+import csv
+from unipath import Path
+from whiskyton.whisky import slugfy
 from whiskyton.models import Whisky
+
 
 def upgrade():
     fname = Path('migrations', 'csv', 'whisky.csv')
