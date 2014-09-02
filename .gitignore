@@ -12,7 +12,7 @@ whiskyton/static/.webassets-cache/*
 whiskyton/static/css/style.css
 whiskyton/static/js/init.min.js
 
-vim
+# vim
 .ropeproject
 *~
 *.swp
