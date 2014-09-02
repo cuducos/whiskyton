@@ -19,7 +19,7 @@ Installation
 
 1. Clone the repository: `$ git clone git@github.com:cuducos/whiskyton.git`.
 
-2. Go to the repository folder: `$ cd whiskython`.
+2. Go to the repository folder: `$ cd whiskyton`.
 
 3. If you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there.
 
