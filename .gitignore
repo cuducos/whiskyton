@@ -7,6 +7,9 @@
 .flooignore
 .idea
 
+# vagrant
+.vagrant/
+
 # Flask-Assets cache
 whiskyton/static/.webassets-cache/*
 whiskyton/static/css/style.css
