@@ -21,11 +21,11 @@ Installation
 
 2. Install the dependencies: `$ pip install -r requirements.txt`.
 
-3. Create and feedthe database `python manage.py db upgrade`.
+3. Create and feedthe database `$ python manage.py db upgrade`.
 
-4. Run the server `python manage.py runserver` 
+4. Run the server `$ python manage.py runserver` 
 
-If you want to get rid of an older version of the cache for SVG charts, just run `python /contrib/clean_chart_cache.py`.
+If you want to get rid of an older version of the cache for SVG charts, just run `$ python /contrib/clean_chart_cache.py`.
 
 Thanks
 ------
