@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.assets import Environment, Bundle
 
 # init whiskyton and db
-app = Flask(__name__)
+app = Flask('whiskyton')
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
