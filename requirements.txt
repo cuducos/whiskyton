@@ -6,5 +6,5 @@ gunicorn==18.0
 pyScss==1.2.0.post3
 python-decouple==2.3
 slimmer==0.1.30
-SQLAlchemy==0.7.9
+SQLAlchemy==0.9
 Unipath==1.0
