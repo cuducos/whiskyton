@@ -13,24 +13,16 @@ down_revision = '1ce5878c9d7f'
 from alembic import op
 import sqlalchemy as sa
 
-import csv
-from unipath import Path
+from whiskyton import app
 from whiskyton.models import Whisky, Correlation
 
 
 def upgrade():
 
-    # load whiskies
+    # create basic vars
     whiskies = Whisky.query.all()
     correlations = []
     data = []
-
-    # load list of tastes
-    fname = Path('migrations', 'csv', 'whisky.csv')
-    reader = csv.reader(open(fname, 'r'))
-    lines = list(reader)
-    headers = lines.pop(0)
-    tastes = headers[1:-3]
 
     # loop twice to compare all whiskies
     for reference in whiskies:
@@ -43,13 +35,11 @@ def upgrade():
             if not cond1 and not cond2:
 
                 # if not, calc and include
-                corr = pearsonr(
-                    get_tastes(reference, tastes),
-                    get_tastes(whisky, tastes))
+                r = pearsonr(get_tastes(reference), get_tastes(whisky))
                 row = {
                     'reference': reference.id,
                     'whisky': whisky.id,
-                    'r': corr}
+                    'r': r}
                 data.append(row)
                 correlations.append(item)
 
@@ -78,5 +68,6 @@ def pearsonr(x, y):
         return 0
 
 
-def get_tastes(whisky, tastes):
+def get_tastes(whisky):
+    tastes = app.config['TASTES']
     return [getattr(whisky, taste) for taste in tastes]
