@@ -6,12 +6,13 @@ from slimmer import xhtml_slimmer
 
 
 def tastes2list(whisky):
-    tastes_labels = app.config['TASTES']
-    lst = []
-    for taste in tastes_labels:
-        value = eval('whisky.' + taste)
-        lst.append(str(value))
-    return lst
+    tastes = app.config['TASTES']
+    return [str(eval('whisky.' + taste)) for taste in tastes]
+    # lst = []
+    # for taste in tastes_labels:
+    #     value = eval('whisky.' + taste)
+    #     lst.append(str(value))
+    # return lst
 
 
 def cache_name(reference, comparison):
