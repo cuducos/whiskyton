@@ -112,12 +112,12 @@ def create_chart(reference_slug, whisky_slug):
     # if file does not exists, create it
     reference = charts.tastes2list(reference_obj)
     comparison = charts.tastes2list(whisky_obj)
-    filename = charts.cache_name(reference, comparison)
-    if not charts.exists(filename):
+    filename = charts.cache_name(reference, comparison, True)
+    if not filename.exists():
         charts.create(reference, comparison)
 
     # return the chart to the user
-    return Response(charts.get(filename), mimetype='image/svg+xml')
+    return Response(filename.read_file(), mimetype='image/svg+xml')
 
 
 @app.route('/whiskyton.json')

@@ -1,8 +1,8 @@
 import math
-import os
 from whiskyton import app
 from flask import render_template
 from slimmer import xhtml_slimmer
+from unipath import Path
 
 
 def tastes2list(whisky):
@@ -10,39 +10,19 @@ def tastes2list(whisky):
     return [str(eval('whisky.' + taste)) for taste in tastes]
 
 
-def cache_name(reference, comparison):
+def cache_name(reference, comparison, full_path=False):
     reference_string = ''.join(reference)
     comparison_string = ''.join(comparison)
-    return '%sx%s.svg' % (reference_string, comparison_string)
+    filename = '%sx%s.svg' % (reference_string, comparison_string)
+    if full_path:
+        return Path(cache_path(), filename).absolute()
+    else:
+        return filename
 
 
 def cache_path():
     path = app.config['BASEDIR'].child('whiskyton', 'static', 'charts')
     return path.absolute()
-
-
-def exists(filename):
-    charts_dir = cache_path()
-    try:
-        os.stat(charts_dir)
-    except:
-        os.mkdir(charts_dir)
-    filepath = charts_dir + '/' + filename
-    if os.path.isfile(filepath):
-        return True
-    else:
-        return False
-
-
-def get(filename):
-    filepath = cache_path() + '/' + filename
-    return open(filepath).read()
-
-
-def save(filename, contents):
-    new_chart = open(cache_path() + '/' + filename, 'w+')
-    new_chart.write(contents)
-    new_chart.close()
 
 
 def create(reference, comparison):
@@ -83,7 +63,8 @@ def create(reference, comparison):
     svg_compressed = xhtml_slimmer(svg_image)
 
     # save the file
-    save(cache_name(reference, comparison), svg_compressed)
+    filepath = cache_name(reference, comparison, True)
+    filepath.write_file(svg_compressed)
 
 
 def pol_coordinates(width, height, sides, scales, margin):
