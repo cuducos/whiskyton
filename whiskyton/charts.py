@@ -17,8 +17,8 @@ def cache_name(reference, comparison):
 
 
 def cache_path():
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    return basedir + '/static/charts/'
+    path = app.config['BASEDIR'].child('whiskyton', 'static', 'charts')
+    return path.absolute()
 
 
 def exists(filename):
@@ -27,7 +27,7 @@ def exists(filename):
         os.stat(charts_dir)
     except:
         os.mkdir(charts_dir)
-    filepath = charts_dir + filename
+    filepath = charts_dir + '/' + filename
     if os.path.isfile(filepath):
         return True
     else:
@@ -35,12 +35,12 @@ def exists(filename):
 
 
 def get(filename):
-    filepath = cache_path() + filename
+    filepath = cache_path() + '/' + filename
     return open(filepath).read()
 
 
 def save(filename, contents):
-    new_chart = open(cache_path() + filename, 'w+')
+    new_chart = open(cache_path() + '/' + filename, 'w+')
     new_chart.write(contents)
     new_chart.close()
 
