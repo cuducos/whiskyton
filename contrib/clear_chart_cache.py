@@ -1,11 +1,8 @@
 import os
+from unipath import Path
 
-charts_dir = '../whiskyton/static/charts/'
-try:
-    os.stat(charts_dir)
-except:
-    os.mkdir(charts_dir)
-for filename in os.listdir(charts_dir):
-    filepath = charts_dir + filename
-    if os.path.isfile(filepath):
-        os.remove(filepath)
+base_dir = Path().parent
+charts_dir = base_dir.child('whiskyton', 'static', 'charts').absolute()
+files = charts_dir.listdir()
+for f in files:
+    f.remove()
