@@ -133,7 +133,8 @@ def whisky_json():
 
 @app.route('/robots.txt', methods=['GET'])
 def robots():
-    response = make_response(open('robots.txt').read())
+    robots = app.config['BASEDIR'].child('robots.txt').read_file()
+    response = make_response(robots)
     response.headers["Content-type"] = "text/plain"
     return response
 
