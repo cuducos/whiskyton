@@ -33,8 +33,6 @@ def create(reference, comparison):
     height = 260
     margin = 60
     scales = 4
-
-    # text
     text_line_height = 11
 
     # variables for drawing
@@ -91,53 +89,70 @@ def pol_coordinates(width, height, sides, scales, margin):
     return polygon_coordinates
 
 
-def txt_coordinates(polygon_coordinates, text_line_height):
+def text_position(x, y, count, position, line_height):
+    if count in position['top']:
+        y -= line_height * 0.75
+    if count in position['right']:
+        x += line_height * 0.75
+    if count in position['bottom']:
+        y += line_height * 1.5
+    if count in position['left']:
+        x -= line_height * 0.75
+    if count in position['diagonal_up']:
+        y -= line_height * 0.5
+    if count in position['diagonal_down']:
+        y += line_height * 0.75
+    if count in position['sub_diagonal_down']:
+        y += line_height * 0.25
+    return [x, y]
+
+
+def text_alignment(count, position):
+    text_anchor = 'start'
+    if count in position['top'] or count in position['bottom']:
+        text_anchor = 'middle'
+    elif count in position['left']:
+        text_anchor = 'end'
+    return text_anchor
+
+
+def text_content(count):
+    taste = app.config['TASTES'][count]
+    taste = taste[0].upper() + taste[1:]
+    return taste
+
+
+def txt_coordinates(polygon_coordinates, line_height):
 
     # support
     text_coordinates = []
-    text_count = 0
+    count = 0
+
+    # adjust groups
+    pos = {
+        'bottom': [0, 1],
+        'right': [2, 3, 4, 5],
+        'top': [6, 7],
+        'left': [8, 9, 10, 11],
+        'diagonal_down': [2, 11],
+        'diagonal_up': [5, 8],
+        'sub_diagonal_down': [3, 10]}
 
     # calc
     for coordinates in polygon_coordinates[0]:
 
-        a = coordinates[0]
-        b = coordinates[1]
+        # get coordinates
+        x = coordinates[0]
+        y = coordinates[1]
 
-        # adjusts
-        top = [6, 7]
-        right = [2, 3, 4, 5]
-        bottom = [0, 1]
-        left = [8, 9, 10, 11]
-        diagonal_down = [2, 11]
-        diagonal_up = [5, 8]
-        sub_diagonal_down = [3, 10]
+        # get values
+        text_values = text_position(x, y, count, pos, line_height)
+        text_values.append(text_alignment(count, pos))
+        text_values.append(text_content(count))
 
-        if text_count in top:
-            b -= text_line_height * 0.75
-        if text_count in right:
-            a += text_line_height * 0.75
-        if text_count in bottom:
-            b += text_line_height * 1.5
-        if text_count in left:
-            a -= text_line_height * 0.75
-        if text_count in diagonal_up:
-            b -= text_line_height * 0.5
-        if text_count in diagonal_down:
-            b += text_line_height * 0.75
-        if text_count in sub_diagonal_down:
-            b += text_line_height * 0.25
-
-        text_anchor = 'start'
-        if text_count in top or text_count in bottom:
-            text_anchor = 'middle'
-        if text_count in left:
-            text_anchor = 'end'
-
-        taste = app.config['TASTES'][text_count]
-        taste = taste[0].upper() + taste[1:]
-
-        text_coordinates.append([int(a), int(b), text_anchor, taste])
-        text_count += 1
+        # save values
+        text_coordinates.append(text_values)
+        count += 1
 
     return text_coordinates
 
