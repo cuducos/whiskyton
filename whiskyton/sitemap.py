@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from datetime import datetime
 from unipath import Path
 from whiskyton import app

@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from flask import Flask
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager

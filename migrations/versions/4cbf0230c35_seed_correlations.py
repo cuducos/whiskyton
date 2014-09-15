@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """seed_correlations
 
 Revision ID: 4cbf0230c35

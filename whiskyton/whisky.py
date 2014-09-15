@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import models
 import re
 from sqlalchemy.sql.expression import func

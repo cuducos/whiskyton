@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """Seed whiskies
 
 Revision ID: 1ce5878c9d7f

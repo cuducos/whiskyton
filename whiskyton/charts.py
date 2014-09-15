@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import math
 from whiskyton import app
 from flask import render_template

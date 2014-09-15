@@ -1,3 +1,5 @@
+# coding: utf-8
+
 """empty message
 
 Revision ID: 17f96fb856ef

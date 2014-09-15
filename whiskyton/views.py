@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import charts
 import json
 import sitemap as whiskyton_sitemap

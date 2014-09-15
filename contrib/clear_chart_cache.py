@@ -1,4 +1,4 @@
-import os
+# coding: utf-8
 from unipath import Path
 
 base_dir = Path().parent
