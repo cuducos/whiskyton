@@ -1,14 +1,10 @@
-# coding: utf-8
 from unipath import Path
 from decouple import config
 
 BASEDIR = Path(__file__).parent
-
 GOOGLE_ANALYTICS = config('GOOGLE_ANALYTICS', default=True, cast=bool)
-
-SQLALCHEMY_DATABASE_URI = config('DATABASE_URL', default='sqlite:///' + BASEDIR.child('app.db'))
-SQLALCHEMY_MIGRATE_REPO = BASEDIR.child('db_repository')
-
+SQLALCHEMY_DATABASE_URI = config('DATABASE_URL',
+                                 default='sqlite:///' + BASEDIR.child('app.db'))
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 MAIN_TITLE = 'Whiskyton'
