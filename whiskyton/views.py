@@ -1,7 +1,6 @@
 import charts
-import datetime
 import json
-import os
+import sitemap as whiskyton_sitemap
 import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
@@ -142,9 +141,7 @@ def robots():
 @app.route('/sitemap.xml')
 def sitemap():
     whiskies = models.Whisky.query.all()
-    ref_file = 'whiskyton/views.py'
-    dt_unix = int(os.path.getmtime(ref_file))
-    last_change = datetime.datetime.fromtimestamp(dt_unix).strftime('%Y-%m-%d')
+    last_change = whiskyton_sitemap.most_recent_update()
     return render_template(
         'sitemap.xml',
         whiskies=whiskies,
