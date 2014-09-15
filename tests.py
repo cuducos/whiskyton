@@ -85,11 +85,18 @@ class TestCase(unittest.TestCase):
         assert cache_path == charts.cache_path()
 
     def test_cache_name(self):
+        # test data
         tastes_1 = ['2', '2', '3', '1', '0', '2', '2', '1', '1', '1', '1', '2']
         tastes_2 = ['2', '3', '1', '1', '1', '1', '1', '2', '0', '2', '0', '1']
-        cache_name = charts.cache_name(tastes_1, tastes_2)
-        assert cache_name == '223102211112x231111120201.svg'
-
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        path = basedir + '/whiskyton/static/charts/'
+        # app values
+        cache_path = charts.cache_name(tastes_1, tastes_2, True)
+        cache_name_1 = charts.cache_name(tastes_1, tastes_2, False)
+        cache_name_2 = charts.cache_name(tastes_1, tastes_2)
+        # test
+        assert cache_name_1 == cache_name_2 == '223102211112x231111120201.svg'
+        assert cache_path == path + cache_name_1
 
 if __name__ == '__main__':
     unittest.main()
