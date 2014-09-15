@@ -79,6 +79,11 @@ class TestCase(unittest.TestCase):
         l = ['2', '2', '0', '1', '3', '2', '2', '2', '1', '1', '1', '1']
         assert charts.tastes2list(w) == l
 
+    def test_cache_path(self):
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        cache_path = basedir + '/whiskyton/static/charts'
+        assert cache_path == charts.cache_path()
+
     def test_cache_name(self):
         tastes_1 = ['2', '2', '3', '1', '0', '2', '2', '1', '1', '1', '1', '2']
         tastes_2 = ['2', '3', '1', '1', '1', '1', '1', '2', '0', '2', '0', '1']
