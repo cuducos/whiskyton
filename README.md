@@ -15,13 +15,11 @@ What really matters
 This is our very first project in Python (and we are not professional coders) -- so all feedback is important to help us through our learning process. **Don't hesitate to criticize our code and software design!** To be true, that is what we are expecting :)
 
 Installation
------------
+------------
 
 1. Clone the repository: `$ git clone git@github.com:cuducos/whiskyton.git`.
 
-2. Go to the repository folder: `$ cd whiskyton`.
-
-3. If you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there.
+2. Go to the repository folder: `$ cd whiskyton` (if you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there).
 
 4. Install the dependencies: `$ pip install -r requirements.txt`.
 
@@ -29,7 +27,12 @@ Installation
 
 6. Run the server: `$ python manage.py runserver`.
 
-7. If you want to get rid of the cache of SVG charts: `$ python /contrib/clean_chart_cache.py`.
+Managing the charts cache
+-------------------------
+
+If you want to get rid of all the cached SVG charts: `$ python manage.py charts delete`.
+
+If you want to create all possible charts and cache the SVG files: `$ python manage.py charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
 
 Thanks
 ------

@@ -17,6 +17,10 @@ manager.add_command('db', MigrateCommand)
 
 from whiskyton import views, models
 
+# add commands to manage chart cache
+from charts_manager import ChartsCommand
+manager.add_command('charts', ChartsCommand)
+
 # scss
 assets = Environment(app)
 assets.url = app.static_url_path
