@@ -5,8 +5,8 @@ import os
 import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
-from whiskyton import app, models
 from sqlalchemy import desc
+from whiskyton import app, models
 
 
 @app.route('/')
@@ -66,11 +66,11 @@ def whisky_page(whisky_slug):
         if whiskies is not None:
 
             # build result
-            main_title = 'Whiskies for ' + reference.distillery + ' lovers | '
-            main_title = main_title + app.config['MAIN_TITLE']
+            title = 'Whiskies for %s lovers | %s' % (reference.distillery,
+                                                     app.config['MAIN_TITLE'])
             return render_template(
                 'whiskies.html',
-                main_title=main_title,
+                main_title=title,
                 headline=app.config['HEADLINE'],
                 remote_scripts=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
@@ -123,9 +123,9 @@ def create_chart(reference_slug, whisky_slug):
 @app.route('/whiskyton.json')
 def whisky_json():
     whiskies = models.Whisky.query.all()
-    wlist = json.dumps([whisky.distillery for whisky in whiskies])
+    distilleries = json.dumps([whisky.distillery for whisky in whiskies])
     resp = Response(
-        response=wlist,
+        response=distilleries,
         status=200,
         mimetype='application/json')
     return resp
