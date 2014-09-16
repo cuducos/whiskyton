@@ -21,7 +21,7 @@ def delete():
             count += 1
             size += f.size()
             f.remove()
-    print '%s cache files deleted (%s)' % (count, filesize(size))
+    print '%s cached charts deleted (%s)' % (count, filesize(size))
 
 
 @ChartsCommand.command
@@ -55,6 +55,20 @@ def create():
                                               filename.absolute(),
                                               filesize(filename.size()))
     print '%s charts created (%s)' % (count, filesize(size))
+
+
+@ChartsCommand.command
+def list():
+    "List chached charts"
+    folder = Path(charts.cache_path()).listdir()
+    count = 0
+    size = 0
+    for f in folder:
+        if f.isfile():
+            print '%s (%s)' % (f.absolute(), filesize(f.size()))
+            count += 1
+            size += f.size()
+    print '%s cached files (%s)' % (count, filesize(size))
 
 
 def filesize(size):
