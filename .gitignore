@@ -22,7 +22,7 @@ whiskyton/static/js/init.min.js
 *.swo
 
 # charts cache
-whiskyton/static/charts
+whiskyton/static/charts/*
 
 # logs and databases
 *.db

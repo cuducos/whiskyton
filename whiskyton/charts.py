@@ -51,7 +51,7 @@ def create(reference, comparison):
         height,
         polygon_coordinates)
 
-    # generate the svg
+    # gen)rate the svg
     svg_image = render_template(
         'chart.svg',
         polygon_coordinates=polygon_coordinates,
@@ -63,6 +63,7 @@ def create(reference, comparison):
     svg_compressed = xhtml_slimmer(svg_image)
 
     # save the file
+    Path(cache_path()).mkdir()
     filepath = cache_name(reference, comparison, True)
     filepath.write_file(svg_compressed)
 
