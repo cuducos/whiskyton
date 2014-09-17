@@ -34,6 +34,15 @@ If you want to get rid of all the cached SVG charts: `$ python manage.py charts 
 
 If you want to create all possible charts and cache the SVG files: `$ python manage.py charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
 
+Deploying to Heroku
+-------------------
+
+If you want to deploy to [Heroku](http://heroku.com), you need to use [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) to run both Python and Node.js ([webassets](https://github.com/miracle2k/webassets) and [Flask-Assets](https://github.com/miracle2k/flask-assets) need the `coffee` command line tool, which is installed by Node.js's `npm`).
+
+Anyway, this is simple, just run:
+
+`$ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git`.
+
 Thanks
 ------
 
