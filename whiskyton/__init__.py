@@ -36,7 +36,7 @@ assets.register('scss_style', scss)
 # compressed js
 js = Bundle(
     'js/jquery.autocomplete.js',
-    'js/init.js',
+    Bundle('coffeescript/init.coffee', filters='coffeescript'),
     filters='rjsmin',
     output='js/init.min.js')
 assets.register('js_init', js)
