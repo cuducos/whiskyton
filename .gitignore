@@ -26,7 +26,7 @@ whiskyton/static/charts/*
 
 # logs and databases
 *.db
-db_repository
+*.log
 
 # virtualenv
 flask/
