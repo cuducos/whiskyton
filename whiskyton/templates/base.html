@@ -11,7 +11,7 @@
         <meta name="copyright" content="Licensed under MIT License" />
         <meta name="description" content="Whiskyton helps you to discover whiskies that you will probably like. It guesses from a whisky you tell it you already like." />
         <meta name="keywords" content="whisky, single malt, scotch, compare, discover, comparison" />
-        
+
         {% if remote_scripts %}
         <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
@@ -36,9 +36,9 @@
 
     </head>
     <body>
-    
+
             <div class="container">
-				
+
 				<div id="header" class="row">
 					<div class="col-xs-12 page-header">
 						<h1>
@@ -49,7 +49,7 @@
 						{% endif %}
 					</div>
   				</div><!-- #header -->
-      
+
       			<div id="whiskies" class="row">
 
 					{% block content %}{% endblock %}
@@ -57,62 +57,48 @@
 					{% if result_page %}
 					<div class="col-xs-12">
 						<hr />
-						<h3>{{ headline }}</h3>						
+						<h3>{{ headline }}</h3>
 						{% include "search.html" %}
 					</div>
 					{% endif %}
 
-        
+
         		</div><!-- #whiskies -->
-    
+
       			<div id="footer" class="row">
- 
+
 					<div class="col-xs-12 col-md-6">
 						<h4 class="h5">About this project</h4>
 						<p>
-							This web based app uses an open database
-						 	about whisky to help you find whiskys you'd 
-						 	probably like by comparing it to the ones
-						 	you already like. Read
-						 	<a href="http://github.com/cuducos/whiskyton">
-						 		more about this project at <strong>GitHub</strong>
-						 	</a>.
-						 </p>
+							This web based app uses an open database about whisky to help you find whiskys you'd probably like by comparing it to the ones you already like.
+						</p>
+						<p>
+							More about Whiskyton on <a href="http://github.com/cuducos/whiskyton">GitHub</a>.
+						</p>
 					</div>
 
-					<div class="col-xs-12 col-md-4">
-
-						<h4 class="h5">Powered by</h4>
-						<ul class="list-inline">
-							<li>
-								<a href="http://python.org/">Python</a>
-							</li>
-							<li>
-								<a href="http://flask.pocoo.org/">Flask</a>
-							</li>
-							<li>
-								<a href="http://jquery.com/">jQuery</a>
-							</li>
-							<li>
-								<a href="http://getbootstrap.com/">Bootstrap</a>
-							</li>
+					<div class="col-xs-12 col-md-6">
+						<h4 class="h5">Credits</h4>
+						<ul class="list-unstyled">
+						<li>
+							By <a href="http://cuducos.me">Eduardo Cuducos</a>
+							and <a href="http://about.me/gabrielvicente">Gabriel Vicente</a>.
+						</li>
+						<li>
+							Database source:
+							<a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html"><abbr title="Network Example Source Supporting Innovative Experimentation from the University of Strathclyde, Glasgow">NESSIE</abbr></a>.
+						</li>
+						<li>
+							Powered by:
+							<a href="http://python.org/">Python</a>,
+							<a href="http://flask.pocoo.org/">Flask</a>,
+							<a href="http://jquery.com/">jQuery</a> and
+							<a href="http://getbootstrap.com/">Bootstrap</a>.
+						</li>
 						</ul>
 					</div>
 
-					<div class="col-xs-12 col-md-2">
-
-						<h4 class="h5">Database source</h4>
-						<ul class="list-inline">
-							<li>
-								<a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html">
-									<abbr title="Network Example Source Supporting Innovative Experimentation from the University of Strathclyde, Glasgow">NESSIE</abbr>
-								</a>
-							</li>
-						</ul>
-
-					</div>
-
-				</div><!-- #footer -->	
+				</div><!-- #footer -->
 
             </div><!-- div.container -->
 
