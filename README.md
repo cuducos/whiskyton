@@ -25,6 +25,8 @@ Installation
 
 5. Create and feed the database: `$ python manage.py db upgrade`.
 
+6. Compile the JavaScript from CoffeeScript: `$ python manage.py coffee compile init.coffee`.
+   
 6. Run the server: `$ python manage.py runserver`.
 
 Managing the charts cache
@@ -33,15 +35,6 @@ Managing the charts cache
 If you want to get rid of all the cached SVG charts: `$ python manage.py charts delete`.
 
 If you want to create all possible charts and cache the SVG files: `$ python manage.py charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
-
-Deploying to Heroku
--------------------
-
-If you want to deploy to [Heroku](http://heroku.com), you need to use [heroku-buildpack-multi](https://github.com/ddollar/heroku-buildpack-multi) to run both Python and Node.js ([webassets](https://github.com/miracle2k/webassets) and [Flask-Assets](https://github.com/miracle2k/flask-assets) need the `coffee` command line tool, which is installed by Node.js's `npm`).
-
-Anyway, this is simple, just run:
-
-`$ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git`.
 
 Thanks
 ------
