@@ -2,7 +2,7 @@
 *.pyc
 
 # compiled coffee script
-whiskyton/static/js/init.js
+init.js
 
 # env
 .env
