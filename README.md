@@ -23,6 +23,8 @@ Installation
 
 4. Install the dependencies: `$ pip install -r requirements.txt`.
 
+5. You should have the `coffee` command line tool working: probably `$ apt-get install nodejs` and `$ npm install coffee-script` should do the job.  
+
 5. Create and feed the database: `$ python manage.py db upgrade`.
 
 6. Run the server: `$ python manage.py runserver`.
