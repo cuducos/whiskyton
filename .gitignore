@@ -1,9 +1,6 @@
 # compiled source
 *.pyc
 
-# compiled coffee script
-init.js
-
 # env
 .env
 .floo

@@ -21,10 +21,6 @@ from whiskyton import views, models
 from charts_manager import ChartsCommand
 manager.add_command('charts', ChartsCommand)
 
-# add command to compile coffee script
-from coffeescript_manager import CoffeeCommand
-manager.add_command('coffee', CoffeeCommand)
-
 # scss
 assets = Environment(app)
 assets.url = app.static_url_path
@@ -40,7 +36,7 @@ assets.register('scss_style', scss)
 # compressed js
 js = Bundle(
     'js/jquery.autocomplete.js',
-    'js/init.js',
+    Bundle('coffeescript/init.coffee', filters='coffeescript'),
     filters='rjsmin',
     output='js/init.min.js')
 assets.register('js_init', js)
