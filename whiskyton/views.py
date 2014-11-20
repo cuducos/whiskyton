@@ -4,8 +4,7 @@ import charts
 import json
 import sitemap as whiskyton_sitemap
 import whisky
-from flask import render_template, redirect, Response, request, abort
-from flask import make_response
+from flask import abort, redirect, render_template, Response, request, send_from_directory
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import func
 from whiskyton import app, models
@@ -117,12 +116,9 @@ def whisky_json():
     return resp
 
 
-@app.route('/robots.txt', methods=['GET'])
+@app.route('/robots.txt')
 def robots():
-    robots = app.config['BASEDIR'].child('robots.txt').read_file()
-    response = make_response(robots)
-    response.headers["Content-type"] = "text/plain"
-    return response
+    return send_from_directory(app.config['BASEDIR'], 'robots.txt')
 
 
 @app.context_processor
