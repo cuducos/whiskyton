@@ -21,7 +21,6 @@ def search():
     slug = whisky.slugfy(request.args['s'])
     w = models.Whisky.query.filter_by(slug=slug).first()
     if w is None:
-        random_one = whisky.random_whisky()
         return render_template('404.html', slug=slug)
     else:
         return redirect('/' + str(w.slug))

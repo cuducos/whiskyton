@@ -64,13 +64,6 @@ class TestCase(unittest.TestCase):
 
     # test functions of whiskyton/whisky.py
 
-    def test_random_whisky(self):
-        w = app.config['W1']
-        db.session.add(w)
-        db.session.commit()
-        random_whisky = whisky.random_whisky()
-        assert random_whisky.id in range(1, 87)
-
     def test_slug(self):
         assert whisky.slugfy('Glen Deveron / MacDuff') == 'glendeveronmacduff'
 
