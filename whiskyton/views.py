@@ -7,18 +7,13 @@ import whisky
 from flask import render_template, redirect, Response, request, abort
 from flask import make_response
 from sqlalchemy import desc
+from sqlalchemy.sql.expression import func
 from whiskyton import app, models
 
 
 @app.route('/')
 def index():
-    random_one = whisky.random_whisky()
-    return render_template(
-        'home.html',
-        main_title=app.config['MAIN_TITLE'],
-        headline=app.config['HEADLINE'],
-        remote_scripts=app.config['GOOGLE_ANALYTICS'],
-        random_one=random_one)
+    return render_template('home.html')
 
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -27,13 +22,7 @@ def search():
     w = models.Whisky.query.filter_by(slug=slug).first()
     if w is None:
         random_one = whisky.random_whisky()
-        return render_template(
-            '404.html',
-            main_title=app.config['MAIN_TITLE'],
-            headline=app.config['HEADLINE'],
-            remote_scripts=app.config['GOOGLE_ANALYTICS'],
-            slug=slug,
-            random_one=random_one)
+        return render_template('404.html', slug=slug)
     else:
         return redirect('/' + str(w.slug))
 
@@ -71,9 +60,6 @@ def whisky_page(whisky_slug):
                                                      app.config['MAIN_TITLE'])
             return render_template(
                 'whiskies.html',
-                main_title=title,
-                headline=app.config['HEADLINE'],
-                remote_scripts=app.config['GOOGLE_ANALYTICS'],
                 whiskies=whiskies,
                 reference=reference,
                 count=whiskies.count(),
@@ -140,6 +126,16 @@ def robots():
     return response
 
 
+@app.context_processor
+def inject_main_vars():
+    return {
+        'main_title': app.config['MAIN_TITLE'],
+        'headline': app.config['HEADLINE'],
+        'remote_scripts': app.config['GOOGLE_ANALYTICS'],
+        'random_one': models.Whisky.query.order_by(func.random()).first()
+    }
+
+
 @app.route('/sitemap.xml')
 def sitemap():
     whiskies = models.Whisky.query.all()
@@ -155,8 +151,4 @@ def sitemap():
 def page_not_found(e):
     random_one = whisky.random_whisky()
     return render_template(
-        '404.html',
-        main_title=app.config['MAIN_TITLE'],
-        headline=app.config['HEADLINE'],
-        remote_scripts=app.config['GOOGLE_ANALYTICS'],
-        random_one=random_one), 404
+        '404.html', random_one=random_one), 404
