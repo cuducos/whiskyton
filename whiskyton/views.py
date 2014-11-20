@@ -129,6 +129,9 @@ def inject_main_vars():
         'remote_scripts': app.config['GOOGLE_ANALYTICS'],
         'random_one': models.Whisky.query.order_by(func.random()).first()
     }
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(app.config['BASEDIR'], 'favicon.ico')
 
 
 @app.route('/sitemap.xml')
