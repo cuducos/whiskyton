@@ -27,6 +27,7 @@ manager.add_command('charts', ChartsCommand)
 assets = Environment(app)
 assets.url = app.static_url_path
 scss = Bundle(
+    'scss/header.scss',
     'scss/search.scss',
     'scss/whisky_card.scss',
     'scss/footer.scss',

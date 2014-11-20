@@ -42,7 +42,9 @@
 				<div id="header" class="row">
 					<div class="col-xs-12 page-header">
 						<h1>
-							{{main_title}} <small>{{ headline }}</small>
+                            <a href="{{ url_for('index') }}">
+                                {{main_title}} <small>{{ headline }}</small>
+                            </a>
 						</h1>
 						{% if not result_page %}
 						{% include "search.html" %}
