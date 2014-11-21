@@ -9,7 +9,10 @@ ChartsCommand = Manager(usage='Manage chart cache')
 @ChartsCommand.command
 def delete():
     """Delete all cached charts"""
-    folder = Path(charts.cache_path()).listdir()
+    folderpath = Path(charts.cache_path())
+    if not folderpath.exists():
+        folderpath.mkdir()
+    folder = folderpath.listdir()
     count = 0
     size = 0
     total = float(len(folder))
@@ -60,7 +63,10 @@ def create():
 @ChartsCommand.command
 def cache():
     """List chached charts"""
-    folder = Path(charts.cache_path()).listdir()
+    folderpath = Path(charts.cache_path())
+    if not folderpath.exists():
+        folderpath.mkdir()
+    folder = folderpath.listdir()
     count = 0
     size = 0
     for f in folder:
