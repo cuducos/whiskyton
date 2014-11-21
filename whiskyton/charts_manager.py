@@ -8,7 +8,7 @@ ChartsCommand = Manager(usage='Manage chart cache')
 
 @ChartsCommand.command
 def delete():
-    "Delete all cached charts"
+    """Delete all cached charts"""
     folder = Path(charts.cache_path()).listdir()
     count = 0
     size = 0
@@ -26,7 +26,7 @@ def delete():
 
 @ChartsCommand.command
 def create():
-    "Create all charts as cache"
+    """Create all charts as cache"""
 
     # support vars
     different_tastes = []
@@ -58,8 +58,8 @@ def create():
 
 
 @ChartsCommand.command
-def list():
-    "List chached charts"
+def cache():
+    """List chached charts"""
     folder = Path(charts.cache_path()).listdir()
     count = 0
     size = 0

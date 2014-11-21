@@ -74,7 +74,7 @@ def pol_coordinates(width, height, sides, scales, margin):
     polygon_coordinates = []
     center_x = width / 2
     center_y = height / 2
-    angle_adjust = ((2 * math.pi / sides)) / 2
+    angle_adjust = (2 * math.pi / sides) / 2
     radius = (width - (2 * margin)) / 2
     interval = radius / scales
 

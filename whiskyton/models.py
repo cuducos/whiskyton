@@ -24,7 +24,7 @@ class Whisky(db.Model):
     longitude = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Distillery: %r>' % (self.distillery)
+        return '<Distillery: {}>'.format(self.distillery)
 
 
 class Correlation(db.Model):
@@ -34,4 +34,4 @@ class Correlation(db.Model):
     r = db.Column(db.Float, index=True)
 
     def __repr__(self):
-        return '<Correlation: %r>' % (self.r)
+        return '<Correlation: {}>'.format(self.r)

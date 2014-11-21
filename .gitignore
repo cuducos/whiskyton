@@ -12,12 +12,11 @@
 
 # Flask-Assets cache
 whiskyton/static/.webassets-cache/*
-whiskyton/static/css/style.css
+whiskyton/static/css
 whiskyton/static/js/init.min.js
 
 # vim
 .ropeproject
-*~
 *.swp
 *.swo
 

@@ -58,6 +58,7 @@ def whisky_page(whisky_slug):
                                                      app.config['MAIN_TITLE'])
             return render_template(
                 'whiskies.html',
+                main_title=title,
                 whiskies=whiskies,
                 reference=reference,
                 count=whiskies.count(),
@@ -68,9 +69,9 @@ def whisky_page(whisky_slug):
             return abort(404)
 
 
-@app.route('/w/<whiskyID>')
-def searchID(whiskyID):
-    reference = models.Whisky.query.filter_by(id=whiskyID).first()
+@app.route('/w/<whisky_id>')
+def search_id(whisky_id):
+    reference = models.Whisky.query.filter_by(id=whisky_id).first()
     if reference is None:
         return abort(404)
     else:
@@ -108,7 +109,7 @@ def create_chart(reference_slug, whisky_slug):
 @app.route('/whiskyton.json')
 def whisky_json():
     whiskies = models.Whisky.query.all()
-    distilleries = json.dumps([whisky.distillery for whisky in whiskies])
+    distilleries = json.dumps([w.distillery for w in whiskies])
     resp = Response(
         response=distilleries,
         status=200,
@@ -121,14 +122,6 @@ def robots():
     return send_from_directory(app.config['BASEDIR'], 'robots.txt')
 
 
-@app.context_processor
-def inject_main_vars():
-    return {
-        'main_title': app.config['MAIN_TITLE'],
-        'headline': app.config['HEADLINE'],
-        'remote_scripts': app.config['GOOGLE_ANALYTICS'],
-        'random_one': models.Whisky.query.order_by(func.random()).first()
-    }
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(app.config['BASEDIR'], 'favicon.ico')
@@ -146,7 +139,15 @@ def sitemap():
 
 
 @app.errorhandler(404)
-def page_not_found(e):
-    random_one = whisky.random_whisky()
-    return render_template(
-        '404.html', random_one=random_one), 404
+def page_not_found(error):
+    return render_template('404.html', error=error), 404
+
+
+@app.context_processor
+def inject_main_vars():
+    return {
+        'main_title': app.config['MAIN_TITLE'],
+        'headline': app.config['HEADLINE'],
+        'remote_scripts': app.config['GOOGLE_ANALYTICS'],
+        'random_one': models.Whisky.query.order_by(func.random()).first()
+    }

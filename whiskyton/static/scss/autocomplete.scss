@@ -1,11 +1,8 @@
-@option compress: yes;
-
-.autocomplete-suggestions { 
+.autocomplete-suggestions {
 	min-width: 160px;
 	margin-top: 2px;
 	padding: 5px 0;
 	background-color: #fff;
-	border: 1px solid #ccc;
 	border: 1px solid rgba(0,0,0,.2);
 	*border-right-width: 2px;
 	*border-bottom-width: 2px;
