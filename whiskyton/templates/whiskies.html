@@ -24,13 +24,13 @@
 							{{ reference.distillery }}
 						</p>
 						
-						<img src="/charts/{{ reference.slug }}-{{ whisky.Whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.Whisky.distillery }}" />
+						<img src="/charts/{{ reference.slug }}-{{ whisky.Whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.Whisky.distillery }}">
 						
 						<p class="correlation">
 							<span class="glyphicon glyphicon-thumbs-up"></span> 
 							You have a
 							<span class="label label-default">{{ '{0:.0f}'.format(whisky.Correlation.r * 100) + '%' }}</span> 
-							chance <br />
+							chance <br>
 							of liking <strong>{{ whisky.Whisky.distillery }}</strong>!
 						</p>
 					
