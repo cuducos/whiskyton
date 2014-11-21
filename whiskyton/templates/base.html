@@ -4,32 +4,28 @@
     <head>
 
         <title>{{ main_title }}</title>
-        <meta name="keywords" content="whisky, scotch whisky, flavor, profile" />
-        <meta name="author" content="Eduardo Cuducos" />
-        <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="copyright" content="Licensed under MIT License" />
-        <meta name="description" content="Whiskyton helps you to discover whiskies that you will probably like. It guesses from a whisky you tell it you already like." />
-        <meta name="keywords" content="whisky, single malt, scotch, compare, discover, comparison" />
+        <meta name="keywords" content="whisky, scotch whisky, flavor, profile">
+        <meta name="author" content="Eduardo Cuducos">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="copyright" content="Licensed under MIT License">
+        <meta name="description" content="Whiskyton helps you to discover whiskies that you will probably like. It guesses from a whisky you tell it you already like.">
+        <meta name="keywords" content="whisky, single malt, scotch, compare, discover, comparison">
 
+        <!-- CDN assets -->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         {% if remote_scripts %}
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css" />
-        <script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="/static/js/ga.js"></script>
-        <meta name="google-site-verification" content="I9mM1h5C95zHEiv6XrOCIQTt2OUyVU57lzG_7rqlhfQ" />
-        {% else %}
-        <script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap-theme.min.css" />
-        <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+        <!-- Google Analytics -->
+        <script type="text/javascript" src="{{ url_for('static', filename='js/ga.js') }}"></script>
+
         {% endif %}
-
+        <!-- Whiskyton assets -->
         {% assets "scss_style" %}
-        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}" />
+        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {% endassets %}
-
         {% assets "js_init" %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
@@ -58,7 +54,7 @@
 
 					{% if result_page %}
 					<div class="col-xs-12">
-						<hr />
+						<hr>
 						<h3>{{ headline }}</h3>
 						{% include "search.html" %}
 					</div>
