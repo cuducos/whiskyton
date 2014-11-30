@@ -38,7 +38,7 @@ def create_chart(reference_slug, whisky_slug):
     return Response(filename.read_file(), mimetype='image/svg+xml')
 
 
-@files_blueprint.route('/fonts/glyphicons-halflings-regular.<extension>')
+@files_blueprint.route('/static/fonts/glyphicons-halflings-regular.<extension>')
 def bootstrap_fonts(extension=None):
     path = app.config['BASEDIR'].child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
     filename = 'glyphicons-halflings-regular.{}'.format(extension)
