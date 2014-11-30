@@ -37,6 +37,16 @@ def create_chart(reference_slug, whisky_slug):
     return Response(filename.read_file(), mimetype='image/svg+xml')
 
 
+@files_blueprint.route('/fonts/glyphicons-halflings-regular.<extension>')
+def bootstrap_fonts(extension=None):
+    path = app.config['BASEDIR'].child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
+    filename = 'glyphicons-halflings-regular.{}'.format(extension)
+    if path.child(filename).exists():
+        return send_from_directory(path, filename)
+    else:
+        abort(404)
+
+
 @files_blueprint.route('/whiskyton.json')
 def whisky_json():
     whiskies = models.Whisky.query.all()

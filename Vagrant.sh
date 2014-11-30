@@ -2,7 +2,7 @@
 
 # Python
 apt-get update
-sudo apt-get install -y python-setuptools ipython
+sudo apt-get install -y python-setuptools ipython git
 easy_install pip
 
 # Node.js and CoffeeScript

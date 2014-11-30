@@ -11,25 +11,23 @@
         <meta name="copyright" content="Licensed under MIT License">
         <meta name="description" content="Whiskyton helps you to discover whiskies that you will probably like. It guesses from a whisky you tell it you already like.">
         <meta name="keywords" content="whisky, single malt, scotch, compare, discover, comparison">
-
-        <!-- CDN assets -->
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
-        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-        {% if remote_scripts %}
-        <!-- Google Analytics -->
-        {% assets 'ga' %}
+    	{%  assets 'libs.js' %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
-        {% endif %}
-        <!-- Whiskyton assets -->
+    	{% assets 'libs.css' %}
+        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+        {% endassets %}
         {% assets 'style' %}
         <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {% endassets %}
         {% assets 'init' %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
+        {% if remote_scripts %}
+        {% assets 'ga' %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        {% endif %}
 
     </head>
     <body>

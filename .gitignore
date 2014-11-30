@@ -15,6 +15,9 @@ whiskyton/static/.webassets-cache
 whiskyton/static/css
 whiskyton/static/js/*.min.js
 
+# Bower
+whiskyton/bower
+
 # charts cache
 whiskyton/static/charts/*
 

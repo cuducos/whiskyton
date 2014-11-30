@@ -1,0 +1,17 @@
+{
+  "name": "Whiskyton",
+  "homepage": "https://github.com/cuducos/whiskyton",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "whiskyton/bower/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "devbridge-autocomplete": "~1.2.15",
+    "bootstrap": "~3.3.1"
+  }
+}

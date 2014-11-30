@@ -1,12 +1,21 @@
 {
+  
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cuducos/whiskyton.git",
+  },
 
   "engines": {
     "node": "0.10.x"
   },
-
+  
   "dependencies": {
-    "coffee-script": "1.8.x"
+    "coffee-script": "1.8.x",
+    "bower": "1.3.x"
+  },
+
+  "scripts": {
+    "postinstall": "bower install"
   }
 
 }
-
