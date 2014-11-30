@@ -29,33 +29,8 @@ Compress(app)
 
 # scss
 assets = Environment(app)
-assets.load_path = [
-    app.config['BASEDIR'].child('whiskyton', 'coffeescript'),
-    app.config['BASEDIR'].child('whiskyton', 'scss'),
-    app.config['BASEDIR'].child('whiskyton', 'static', 'js')
-
-]
-scss = Bundle(
-    'header.scss',
-    'search.scss',
-    'whisky_card.scss',
-    'footer.scss',
-    'autocomplete.scss',
-    filters='pyscss, cssmin',
-    output='css/style.css')
-assets.register('scss_style', scss)
-
-# compressed js
-js = Bundle(
-    'jquery.autocomplete.js',
-    Bundle('init.coffee', filters='coffeescript'),
-    filters='rjsmin',
-    output='js/init.min.js')
-assets.register('js_init', js)
-
-# compress ga
-ga = Bundle('ga.js', filters='rjsmin', output='js/ga.min.js')
-assets.register('ga', ga)
+assets.load_path = [app.config['BASEDIR'].child('whiskyton')]
+assets.from_yaml(app.config['BASEDIR'].child('whiskyton', 'assets.yaml'))
 
 # register blueprints
 from whiskyton.blueprints.site import site_blueprint

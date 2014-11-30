@@ -19,15 +19,15 @@
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         {% if remote_scripts %}
         <!-- Google Analytics -->
-        {% assets "ga" %}
+        {% assets 'ga' %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
         {% endif %}
         <!-- Whiskyton assets -->
-        {% assets "scss_style" %}
+        {% assets 'style' %}
         <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {% endassets %}
-        {% assets "js_init" %}
+        {% assets 'init' %}
         <script type="text/javascript" src="{{ ASSET_URL }}"></script>
         {% endassets %}
 

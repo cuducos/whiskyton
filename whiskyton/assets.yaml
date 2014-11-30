@@ -1,0 +1,24 @@
+style:
+  output: css/style.min.css
+  filters: pyscss, cssmin
+  contents:
+    - scss/header.scss
+    - scss/search.scss
+    - scss/whisky_card.scss
+    - scss/footer.scss
+    - scss/autocomplete.scss
+
+init:
+  output: js/init.min.js
+  filters: rjsmin
+  contents:
+    - output: js/jquery.autocomplete.min.js
+      contents: static/js/jquery.autocomplete.js
+    - output: js/init.js
+      contents: coffeescript/init.coffee
+      filters: coffeescript
+
+ga:
+  output: js/ga.min.js
+  filters: rjsmin
+  contents: static/js/ga.js

@@ -10,26 +10,22 @@
 # vagrant
 .vagrant/
 
-# Flask-Assets cache
-whiskyton/static/.webassets-cache/*
+# Flask-Assets cache and compiled
+whiskyton/static/.webassets-cache
 whiskyton/static/css
-whiskyton/static/js/init.min.js
+whiskyton/static/js/*.min.js
+
+# charts cache
+whiskyton/static/charts/*
 
 # vim
 .ropeproject
 *.swp
 *.swo
 
-# charts cache
-whiskyton/static/charts/*
-
 # logs and databases
 *.db
 *.log
-
-# virtualenv
-flask/
-venv/
 
 # os generated files
 .DS_Store
