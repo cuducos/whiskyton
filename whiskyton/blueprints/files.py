@@ -9,6 +9,7 @@ from whiskyton.helpers import charts
 
 files_blueprint = Blueprint('files', __name__)
 
+
 @files_blueprint.route('/charts/<reference_slug>-<whisky_slug>.svg')
 def create_chart(reference_slug, whisky_slug):
 
