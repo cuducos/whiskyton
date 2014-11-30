@@ -1,4 +1,12 @@
-{ "dependencies" :
-  { "coffee-script" : "1.8.x" }
+{
+
+  "engines": {
+    "node": "0.10.x"
+  },
+
+  "dependencies": {
+    "coffee-script": "1.8.x"
+  }
+
 }
 

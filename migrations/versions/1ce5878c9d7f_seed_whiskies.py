@@ -14,11 +14,10 @@ revision = '1ce5878c9d7f'
 down_revision = '17f96fb856ef'
 
 from alembic import op
-import sqlalchemy as sa
-
 import csv
 from unipath import Path
-from whiskyton.whisky import slugfy
+
+from whiskyton.helpers.whisky import slugfy
 from whiskyton.models import Whisky
 
 

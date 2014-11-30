@@ -2,7 +2,9 @@
 
 import os
 import unittest
-from whiskyton import app, charts, db, whisky
+
+from whiskyton import app, db
+from whiskyton.helpers import charts, whisky
 from whiskyton.models import Whisky
 
 
@@ -15,7 +17,7 @@ class TestCase(unittest.TestCase):
 
         # test db settings
         db_protocol = 'sqlite:///'
-        db_path = app.config['BASEDIR'].child('test.db')
+        db_path = app.config['BASEDIR'].child('whiskyton', 'tests', 'tests.db').absolute()
         app.config['SQLALCHEMY_DATABASE_URI'] = db_protocol + db_path
 
         # init
@@ -75,7 +77,7 @@ class TestCase(unittest.TestCase):
         assert charts.tastes2list(w) == l
 
     def test_cache_path(self):
-        basedir = os.path.abspath(os.path.dirname(__file__))
+        basedir = app.config['BASEDIR'].absolute()
         cache_path = basedir + '/whiskyton/static/charts'
         assert cache_path == charts.cache_path()
 
@@ -83,7 +85,7 @@ class TestCase(unittest.TestCase):
         # test data
         tastes_1 = ['2', '2', '3', '1', '0', '2', '2', '1', '1', '1', '1', '2']
         tastes_2 = ['2', '3', '1', '1', '1', '1', '1', '2', '0', '2', '0', '1']
-        basedir = os.path.abspath(os.path.dirname(__file__))
+        basedir = app.config['BASEDIR'].absolute()
         path = basedir + '/whiskyton/static/charts/'
         # app values
         cache_path = charts.cache_name(tastes_1, tastes_2, True)
