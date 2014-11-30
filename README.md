@@ -45,6 +45,15 @@ Anyway, this is simple, just run:
 
 `$ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git`.
 
+Tests
+-----
+
+To run tests:
+
+```
+$ python -m whiskyton.tests.tests
+```
+
 Thanks
 ------
 
