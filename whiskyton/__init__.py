@@ -1,10 +1,11 @@
 # coding: utf-8
 
 from flask import Flask
+from flask.ext.assets import Environment, Bundle
+from flask.ext.compress import Compress
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.assets import Environment, Bundle
 
 # init whiskyton
 app = Flask('whiskyton')
@@ -12,7 +13,8 @@ app.config.from_object('config')
 app.jinja_env.trim_blocks = True
 app.jinja_env.lstrip_blocks = True
 
-# init db
+
+# init db and migration manager
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -21,6 +23,9 @@ manager.add_command('db', MigrateCommand)
 # add commands to manage chart cache
 from whiskyton.managers.charts import ChartsCommand
 manager.add_command('charts', ChartsCommand)
+
+# enable gzip compression
+Compress(app)
 
 # scss
 assets = Environment(app)
