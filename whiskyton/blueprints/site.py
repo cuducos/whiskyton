@@ -2,6 +2,7 @@
 
 import whiskyton.helpers.whisky as whisky
 from flask import abort, Blueprint, redirect, render_template, request
+from htmlmin.minify import html_minify
 from sqlalchemy import desc
 from sqlalchemy.sql.expression import func
 from whiskyton import app, models
@@ -11,7 +12,7 @@ site_blueprint = Blueprint('site', __name__)
 
 @site_blueprint.route('/')
 def index():
-    return render_template('home.html')
+    return html_minify(render_template('home.html'))
 
 
 @site_blueprint.route('/search', methods=['GET', 'POST'])
@@ -19,7 +20,7 @@ def search():
     slug = whisky.slugfy(request.args['s'])
     w = models.Whisky.query.filter_by(slug=slug).first()
     if w is None:
-        return render_template('404.html', slug=slug)
+        return html_minify(render_template('404.html', slug=slug))
     else:
         return redirect('/' + str(w.slug))
 
@@ -55,13 +56,14 @@ def whisky_page(whisky_slug):
             # build result
             title = 'Whiskies for %s lovers | %s' % (reference.distillery,
                                                      app.config['MAIN_TITLE'])
-            return render_template(
+            return html_minify(render_template(
                 'whiskies.html',
                 main_title=title,
                 whiskies=whiskies,
                 reference=reference,
                 count=whiskies.count(),
-                result_page=True)
+                result_page=True
+            ))
 
         # if queries fail, return 404
         else:
@@ -79,7 +81,7 @@ def search_id(whisky_id):
 
 @site_blueprint.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html', error=error), 404
+    return html_minify(render_template('404.html', error=error)), 404
 
 
 @site_blueprint.context_processor
