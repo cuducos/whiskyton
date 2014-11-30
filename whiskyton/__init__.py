@@ -53,6 +53,10 @@ js = Bundle(
     output='js/init.min.js')
 assets.register('js_init', js)
 
+# compress ga
+ga = Bundle('ga.js', filters='rjsmin', output='js/ga.min.js')
+assets.register('ga', ga)
+
 # register blueprints
 from whiskyton.blueprints.site import site_blueprint
 from whiskyton.blueprints.files import files_blueprint

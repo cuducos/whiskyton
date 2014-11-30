@@ -19,8 +19,9 @@
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
         {% if remote_scripts %}
         <!-- Google Analytics -->
-        <script type="text/javascript" src="{{ url_for('static', filename='js/ga.js') }}"></script>
-
+        {% assets "ga" %}
+        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
         {% endif %}
         <!-- Whiskyton assets -->
         {% assets "scss_style" %}
