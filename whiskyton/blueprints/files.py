@@ -1,9 +1,8 @@
 # coding: utf-8
 
-import json
 import whiskyton.helpers.whisky as whisky
 import whiskyton.helpers.sitemap as whiskyton_sitemap
-from flask import abort, Blueprint, redirect, render_template, Response, request, send_from_directory
+from flask import abort, Blueprint, jsonify, redirect, render_template, Response, request, send_from_directory
 from whiskyton import app, models
 from whiskyton.helpers import charts
 
@@ -51,12 +50,7 @@ def bootstrap_fonts(extension=None):
 @files_blueprint.route('/whiskyton.json')
 def whisky_json():
     whiskies = models.Whisky.query.all()
-    distilleries = json.dumps([w.distillery for w in whiskies])
-    resp = Response(
-        response=distilleries,
-        status=200,
-        mimetype='application/json')
-    return resp
+    return jsonify(whiskies=[w.distillery for w in whiskies])
 
 
 @files_blueprint.route('/robots.txt')
