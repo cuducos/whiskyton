@@ -2,7 +2,7 @@
 
 import math
 from whiskyton import app
-from flask import render_template
+from jinja2 import Template
 from slimmer import xhtml_slimmer
 from unipath import Path
 
@@ -52,21 +52,24 @@ def create(reference, comparison):
         height,
         polygon_coordinates)
 
-    # gen)rate the svg
-    svg_image = render_template(
-        'chart.svg',
-        polygon_coordinates=polygon_coordinates,
-        text_coordinates=text_coordinates,
-        reference_coordinates=reference_coordinates,
-        whisky_coordinates=whisky_coordinates,
-        center_x=(width / 2),
-        center_y=(height / 2))
-    svg_compressed = xhtml_slimmer(svg_image)
+    # generate the svg
+    print app.config['BASEDIR']
+    template_file = app.config['BASEDIR'].child('whiskyton', 'templates', 'chart.svg')
+    with open(template_file, 'r') as file_handler:
+        svg_template = Template(file_handler.read())
+        svg_image = svg_template.render(
+            polygon_coordinates=polygon_coordinates,
+            text_coordinates=text_coordinates,
+            reference_coordinates=reference_coordinates,
+            whisky_coordinates=whisky_coordinates,
+            center_x=(width / 2),
+            center_y=(height / 2))
+        svg_compressed = xhtml_slimmer(svg_image)
 
-    # save the file
-    Path(cache_path()).mkdir()
-    filepath = cache_name(reference, comparison, True)
-    filepath.write_file(svg_compressed)
+        # save the file
+        Path(cache_path()).mkdir()
+        file_path = cache_name(reference, comparison, True)
+        file_path.write_file(svg_compressed)
 
 
 def pol_coordinates(width, height, sides, scales, margin):
