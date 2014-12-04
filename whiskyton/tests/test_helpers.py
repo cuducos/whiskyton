@@ -19,8 +19,10 @@ class TestHelpers(unittest.TestCase):
             app.config['BASEDIR'] = app.config['TESTS_DIR']
 
             # copy chart.svg template
-            templates_dir = app.config['TESTS_DIR'].child('whiskyton', 'templates')
-            chart_svg = app.config['BASEDIR_BKP'].child('whiskyton', 'templates', 'chart.svg')
+            test_dir = app.config['TESTS_DIR']
+            prod_dir = app.config['BASEDIR_BKP']
+            templates_dir = test_dir.child('whiskyton', 'templates')
+            chart_svg = prod_dir.child('whiskyton', 'templates', 'chart.svg')
             templates_dir.mkdir(True)
             chart_svg.copy(templates_dir.child(chart_svg.name))
 
@@ -71,19 +73,19 @@ class TestHelpers(unittest.TestCase):
     def test_slug(self):
         assert whisky.slugfy('Glen Deveron / MacDuff') == 'glendeveronmacduff'
 
-    # test functions of whiskyton/helpers/charts.py
-
-    def test_tastes2list(self):
+    def test_get_tastes(self):
         assertion = ['2', '2', '0', '1', '3', '2', '2', '2', '1', '1', '1', '1']
-        assert charts.tastes2list(self.whisky_1) == assertion
+        assert whisky.get_tastes(self.whisky_1) == assertion
+
+    # test functions of whiskyton/helpers/charts.py
 
     def test_cache_path(self):
         cache_path = app.config['BASEDIR'] + '/whiskyton/static/charts'
         assert cache_path == charts.cache_path()
 
     def test_cache_name(self):
-        tastes_1 = charts.tastes2list(self.whisky_1)
-        tastes_2 = charts.tastes2list(self.whisky_2)
+        tastes_1 = whisky.get_tastes(self.whisky_1)
+        tastes_2 = whisky.get_tastes(self.whisky_2)
         cache_dir_path = charts.cache_path()
         cache_path = charts.cache_name(tastes_1, tastes_2, True)
         cache_name_1 = charts.cache_name(tastes_1, tastes_2, False)
@@ -96,8 +98,8 @@ class TestHelpers(unittest.TestCase):
         assert cache_path == cache_dir_path.child(cache_name_1).absolute()
 
     def test_create(self):
-        tastes_1 = charts.tastes2list(self.whisky_1)
-        tastes_2 = charts.tastes2list(self.whisky_2)
+        tastes_1 = whisky.get_tastes(self.whisky_1)
+        tastes_2 = whisky.get_tastes(self.whisky_2)
         slug_1 = whisky.slugfy(self.whisky_1.distillery)
         slug_2 = whisky.slugfy(self.whisky_2.distillery)
         charts.create(tastes_1, tastes_2)

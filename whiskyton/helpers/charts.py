@@ -1,14 +1,10 @@
 # coding: utf-8
 
 import math
-from whiskyton import app
 from jinja2 import Template
 from slimmer import xhtml_slimmer
 from unipath import Path
-
-
-def tastes2list(whisky):
-    return [str(getattr(whisky, taste)) for taste in app.config['TASTES']]
+from whiskyton import app
 
 
 def cache_name(reference, comparison, full_path=False):

@@ -1,10 +1,12 @@
 # coding: utf-8
 
-import whiskyton.helpers.whisky as whisky
 import whiskyton.helpers.sitemap as whiskyton_sitemap
-from flask import abort, Blueprint, jsonify, redirect, render_template, Response, request, send_from_directory
+from flask import (
+    abort, Blueprint, jsonify, redirect, render_template,
+    request, Response, send_from_directory
+)
 from whiskyton import app, models
-from whiskyton.helpers import charts
+from whiskyton.helpers import charts, whisky
 
 files_blueprint = Blueprint('files', __name__)
 
@@ -27,8 +29,8 @@ def create_chart(reference_slug, whisky_slug):
         return abort(404)
 
     # if file does not exists, create it
-    reference = charts.tastes2list(reference_obj)
-    comparison = charts.tastes2list(whisky_obj)
+    reference = whisky.get_tastes(reference_obj)
+    comparison = whisky.get_tastes(whisky_obj)
     filename = charts.cache_name(reference, comparison, True)
     if not filename.exists():
         charts.create(reference, comparison)
@@ -39,7 +41,8 @@ def create_chart(reference_slug, whisky_slug):
 
 @files_blueprint.route('/static/fonts/glyphicons-halflings-regular.<extension>')
 def bootstrap_fonts(extension=None):
-    path = app.config['BASEDIR'].child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
+    basedir = app.config['BASEDIR']
+    path = basedir.child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
     filename = 'glyphicons-halflings-regular.{}'.format(extension)
     if path.child(filename).exists():
         return send_from_directory(path, filename)
@@ -55,12 +58,20 @@ def whisky_json():
 
 @files_blueprint.route('/robots.txt')
 def robots():
-    return send_from_directory(app.config['BASEDIR'].child('whiskyton', 'static'), 'robots.txt')
+    basedir = app.config['BASEDIR']
+    return send_from_directory(
+        basedir.child('whiskyton', 'static'),
+        'robots.txt'
+    )
 
 
 @files_blueprint.route('/favicon.ico')
 def favicon():
-    return send_from_directory(app.config['BASEDIR'].child('whiskyton', 'static'), 'favicon.ico')
+    basedir = app.config['BASEDIR']
+    return send_from_directory(
+        basedir.child('whiskyton', 'static'),
+        'favicon.ico'
+    )
 
 
 @files_blueprint.route('/sitemap.xml')
