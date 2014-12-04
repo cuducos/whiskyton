@@ -17,7 +17,7 @@ def recursive_listdir(path):
 
 
 def most_recent_update():
-    files = recursive_listdir(app.config['BASEDIR'])
+    files = recursive_listdir(app.config['BASEDIR'].child('whiskyton'))
     last_change = 0
     for f in files:
         f_last_change = Path(f).atime()
