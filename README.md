@@ -41,7 +41,7 @@ To run tests:
 $ nosetests
 ```
 
-[Nose](https://nose.readthedocs.org/en/latest/) does not run tests in executable files. If that is the case, run:
+[Nose](https://nose.readthedocs.org/en/latest/) has serious difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files:
 
 ```
 $ chmod -x $(find whiskyton/tests/ -name '*.py')
