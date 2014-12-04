@@ -41,7 +41,7 @@ To run tests:
 $ nosetests
 ```
 
-Nose does not run tests in in executable files. If that is the case, run:
+[Nose](https://nose.readthedocs.org/en/latest/) does not run tests in executable files. If that is the case, run:
 
 ```
 $ chmod -x $(find whiskyton/tests/ -name '*.py')
