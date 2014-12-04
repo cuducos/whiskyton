@@ -8,8 +8,9 @@ from unipath import Path
 
 
 def tastes2list(whisky):
+    whisky_attributes = vars(whisky)
     tastes = app.config['TASTES']
-    return [str(eval('whisky.' + taste)) for taste in tastes]
+    return [str(whisky_attributes[taste]) for taste in tastes]
 
 
 def cache_name(reference, comparison, full_path=False):
