@@ -8,9 +8,7 @@ from unipath import Path
 
 
 def tastes2list(whisky):
-    whisky_attributes = vars(whisky)
-    tastes = app.config['TASTES']
-    return [str(whisky_attributes[taste]) for taste in tastes]
+    return [str(getattr(whisky, taste)) for taste in app.config['TASTES']]
 
 
 def cache_name(reference, comparison, full_path=False):
@@ -53,9 +51,9 @@ def create(reference, comparison):
         polygon_coordinates)
 
     # generate the svg
-    print app.config['BASEDIR']
-    template_file = app.config['BASEDIR'].child('whiskyton', 'templates', 'chart.svg')
-    with open(template_file, 'r') as file_handler:
+    basedir = app.config['BASEDIR']
+    template = basedir.child('whiskyton', 'templates', 'chart.svg')
+    with open(template, 'r') as file_handler:
         svg_template = Template(file_handler.read())
         svg_image = svg_template.render(
             polygon_coordinates=polygon_coordinates,
