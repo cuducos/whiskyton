@@ -1,30 +1,16 @@
 # coding: utf-8
 
 import unittest
+from datetime import datetime
+from unipath import Path
 from whiskyton import app
-from whiskyton.helpers import charts, whisky
+from whiskyton.helpers import charts, sitemap, whisky
 from whiskyton.models import Whisky
 
 
 class TestHelpers(unittest.TestCase):
 
     def setUp(self):
-
-        if 'BASEDIR_BKP' not in app.config:
-
-            # replace config['BASEDIR'] with a directory for tests
-            app.config['BASEDIR_BKP'] = app.config['BASEDIR']
-            app.config['TESTS_DIR'] = app.config['BASEDIR'].child('tests')
-            app.config['TESTS_DIR'].mkdir()
-            app.config['BASEDIR'] = app.config['TESTS_DIR']
-
-            # copy chart.svg template
-            test_dir = app.config['TESTS_DIR']
-            prod_dir = app.config['BASEDIR_BKP']
-            templates_dir = test_dir.child('whiskyton', 'templates')
-            chart_svg = prod_dir.child('whiskyton', 'templates', 'chart.svg')
-            templates_dir.mkdir(True)
-            chart_svg.copy(templates_dir.child(chart_svg.name))
 
         # init
         app.config['TESTING'] = True
@@ -45,7 +31,8 @@ class TestHelpers(unittest.TestCase):
             floral=2,
             postcode='PA43 7GS',
             latitude=131330,
-            longitude=659720)
+            longitude=659720
+        )
         self.whisky_2 = Whisky(
             distillery='Glen Deveron / MacDuff',
             body=2,
@@ -62,11 +49,11 @@ class TestHelpers(unittest.TestCase):
             floral=1,
             postcode='AB4 3JT',
             latitude=372120,
-            longitude=860400)
+            longitude=860400
+        )
 
     def tearDown(self):
-        app.config['BASEDIR'] = app.config['BASEDIR_BKP']
-        app.config['TESTS_DIR'].rmtree()
+        pass
 
     # test functions of whiskyton/helpers/whisky.py
 
@@ -93,15 +80,31 @@ class TestHelpers(unittest.TestCase):
         assertion = '220132221111x111113210202.svg'
         assert cache_name_1 == assertion
         assert cache_name_2 == assertion
-        print cache_path
-        print cache_dir_path + cache_name_1
         assert cache_path == cache_dir_path.child(cache_name_1).absolute()
 
     def test_create(self):
         tastes_1 = whisky.get_tastes(self.whisky_1)
         tastes_2 = whisky.get_tastes(self.whisky_2)
+        cache_name = charts.cache_name(tastes_1, tastes_2, True)
+        if cache_name.exists():
+            cache_name.remove()
         slug_1 = whisky.slugfy(self.whisky_1.distillery)
         slug_2 = whisky.slugfy(self.whisky_2.distillery)
         charts.create(tastes_1, tastes_2)
         resp = self.app.get('/charts/{}-{}.svg'.format(slug_1, slug_2))
         assert resp.status_code == 200
+
+    # test functions of whiskyton/helpers/sitemap.py
+
+    def test_recursive_listdir(self):
+        sample_dir = app.config['BASEDIR'].child('whiskyton')
+        files = sitemap.recursive_listdir(sample_dir)
+        self.assertIsInstance(files, list)
+        for file_path in files:
+            assert Path(file_path).exists()
+            assert Path(file_path).isfile()
+
+    def test_most_recent_update(self):
+        output = sitemap.most_recent_update()
+        dt = datetime.strptime(output, '%Y-%m-%d')
+        self.assertIsInstance(dt, datetime)
