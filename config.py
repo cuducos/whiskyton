@@ -22,4 +22,5 @@ TASTES = (
     'fruity',
     'malty',
     'nutty',
-    'winey')
+    'winey'
+)

@@ -6,17 +6,16 @@ from whiskyton.models import Whisky, Correlation
 from whiskyton.helpers import whisky, charts
 
 
-class TestHelpers(unittest.TestCase):
+class TestRoutes(unittest.TestCase):
 
     def setUp(self):
 
         # test db settings
-        db_protocol = 'sqlite:///'
-        db_path = app.config['BASEDIR'].child('tests.db')
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_protocol + db_path
+        db_uri = 'sqlite:///' + app.config['BASEDIR'].child('tests.db')
+        app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
         # init
-        app.config['TESTING'] = True
+        app.testing = True
         self.app = app.test_client()
         db.create_all()
 

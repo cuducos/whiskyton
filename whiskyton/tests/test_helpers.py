@@ -13,7 +13,7 @@ class TestHelpers(unittest.TestCase):
     def setUp(self):
 
         # init
-        app.config['TESTING'] = True
+        app.testing = True
         self.app = app.test_client()
         self.whisky_1 = Whisky(
             distillery='Bowmore',
@@ -55,7 +55,7 @@ class TestHelpers(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # test functions of whiskyton/helpers/whisky.py
+    # test methods from whiskyton/helpers/whisky.py
 
     def test_slug(self):
         assert whisky.slugfy('Glen Deveron / MacDuff') == 'glendeveronmacduff'
@@ -64,7 +64,7 @@ class TestHelpers(unittest.TestCase):
         assertion = ['2', '2', '0', '1', '3', '2', '2', '2', '1', '1', '1', '1']
         assert whisky.get_tastes(self.whisky_1) == assertion
 
-    # test functions of whiskyton/helpers/charts.py
+    # test methods from whiskyton/helpers/charts.py
 
     def test_cache_path(self):
         cache_path = app.config['BASEDIR'] + '/whiskyton/static/charts'
@@ -94,7 +94,7 @@ class TestHelpers(unittest.TestCase):
         resp = self.app.get('/charts/{}-{}.svg'.format(slug_1, slug_2))
         assert resp.status_code == 200
 
-    # test functions of whiskyton/helpers/sitemap.py
+    # test methods from whiskyton/helpers/sitemap.py
 
     def test_recursive_listdir(self):
         sample_dir = app.config['BASEDIR'].child('whiskyton')
