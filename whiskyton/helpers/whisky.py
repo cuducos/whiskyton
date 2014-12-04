@@ -9,21 +9,38 @@ def get_tastes(whisky, integers=False):
 
 
 def slugfy(string):
-    regex = re.compile('[^a-zA-Z]+')
-    string = regex.sub('', string)
-    return string.lower()
+    """
+    Returns a slug, a lower case string with only letters.
+    string: (string) any given text
+    return: (string) the inputed string converted to lower case and deleting any
+        non-letter character
+    """
+    regex = re.compile('[^a-z]+')
+    return regex.sub('', string.lower())
 
 
 def get_correlation(reference, whisky):
-    r = pearsonr(get_tastes(reference), get_tastes(whisky))
-    row = {
+    """
+    Returns the id of the two whiskies and the index of correlation
+    reference: (whiskyton.models.Whisky) object of the reference whisky
+    whisky: (whiskyton.models.Whisky) object of the comparison whisky
+    return: (dictionary) contains the id (int) of each whisky (whisky and reference)
+        and the index of correlation (r) between them (float)
+    """
+    return {
         'reference': reference.id,
         'whisky': whisky.id,
-        'r': r}
-    return row
+        'r': pearsonr(get_tastes(reference), get_tastes(whisky))
+    }
 
 
 def pearsonr(x, y):
+    """
+    Returns the index of correlation between two whiskies.
+    x: (list of strings) tastes of a whisky
+    y: (list of strings) tastes of a whisky
+    return: (float) index of correlation
+    """
     x = [float(n) for n in x]
     y = [float(n) for n in y]
     n = len(x)

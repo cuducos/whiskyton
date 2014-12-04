@@ -10,8 +10,8 @@
     {% endfor %}
   </g>
   <g id="label" font-size="11px" font-family="sans-serif" fill="#606060">
-    {% for coordinates in text_coordinates %}
-    <text x="{{coordinates[0]}}" y="{{coordinates[1]}}" text-anchor="{{coordinates[2]}}">{{coordinates[3]}}</text>
+    {% for label in text_coordinates %}
+    <text x="{{label['coordinates'][0]}}" y="{{label['coordinates'][1]}}" text-anchor="{{label['align']}}">{{label['content']}}</text>
     {% endfor %}
   </g>
   <g id="reference" fill="rgba(185,185,185,0.8)" stroke="#b9b9b9">
