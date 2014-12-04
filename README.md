@@ -38,9 +38,11 @@ Tests
 To run tests:
 
 ```
-$ python -m whiskyton.tests.tests
+$ nosetests
 
 ```
+
+Nose does not run tests in in executable files. If that is the case, run `$ chmod -x $(find whiskyton/tests/ -name '*.py')`.
 
 Managing the charts cache
 -------------------------
