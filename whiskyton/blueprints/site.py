@@ -20,7 +20,7 @@ def search():
     slug = whisky.slugfy(request.args['s'])
     w = models.Whisky.query.filter_by(slug=slug).first()
     if w is None:
-        return html_minify(render_template('404.html', slug=slug))
+        return render_template('404.html', slug=slug)
     else:
         return redirect('/' + str(w.slug))
 
