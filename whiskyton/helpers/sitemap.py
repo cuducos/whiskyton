@@ -8,8 +8,8 @@ from whiskyton import app
 def recursive_listdir(path):
     """
     Lists recursively all files inside a given directory and its subdirectories.
-    path: (unipath.Path or string) path to the directory
-    return: (list of unipath.Path) list containing the path to all the files
+    :param path: (unipath.Path or string) path to the directory
+    :return: (list of unipath.Path) list containing the path to all the files
         inside the given directory
     """
     folder = Path(path)
@@ -25,7 +25,7 @@ def recursive_listdir(path):
 def most_recent_update():
     """
     Returns the date of the most recent file update within the app.
-    return: (string) date in the format YYYY-MM-DD
+    :return: (string) date in the format YYYY-MM-DD
     """
     files = recursive_listdir(app.config['BASEDIR'].child('whiskyton'))
     last_change = 0

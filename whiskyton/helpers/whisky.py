@@ -4,28 +4,28 @@ import re
 from whiskyton import app
 
 
-def get_tastes(whisky, integers=False):
+def get_tastes(whisky):
     return [str(getattr(whisky, taste)) for taste in app.config['TASTES']]
 
 
-def slugfy(string):
+def slugfy(s):
     """
     Returns a slug, a lower case string with only letters.
-    string: (string) any given text
-    return: (string) the inputed string converted to lower case and deleting any
-        non-letter character
+    :param s: (string) any given text
+    :return: (string) the inputted string converted to lower case and deleting
+    any non-letter character
     """
     regex = re.compile('[^a-z]+')
-    return regex.sub('', string.lower())
+    return regex.sub('', s.lower())
 
 
 def get_correlation(reference, whisky):
     """
     Returns the id of the two whiskies and the index of correlation
-    reference: (whiskyton.models.Whisky) object of the reference whisky
-    whisky: (whiskyton.models.Whisky) object of the comparison whisky
-    return: (dictionary) contains the id (int) of each whisky (whisky and reference)
-        and the index of correlation (r) between them (float)
+    :param reference: (whiskyton.models.Whisky) object of the reference whisky
+    :param whisky: (whiskyton.models.Whisky) object of the comparison whisky
+    :return: (dictionary) contains the id (int) of each whisky (whisky and
+    reference) and the index of correlation (r) between them (float)
     """
     return {
         'reference': reference.id,
@@ -37,9 +37,9 @@ def get_correlation(reference, whisky):
 def pearsonr(x, y):
     """
     Returns the index of correlation between two whiskies.
-    x: (list of strings) tastes of a whisky
-    y: (list of strings) tastes of a whisky
-    return: (float) index of correlation
+    :param x: (list of strings) tastes of a whisky
+    :param y: (list of strings) tastes of a whisky
+    :return: (float) index of correlation
     """
     x = [float(n) for n in x]
     y = [float(n) for n in y]

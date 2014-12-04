@@ -28,9 +28,9 @@ def search():
 @site_blueprint.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
 
-    slugfied = whisky.slugfy(whisky_slug)
-    if whisky_slug != slugfied:
-        return redirect('/' + slugfied)
+    slug = whisky.slugfy(whisky_slug)
+    if whisky_slug != slug:
+        return redirect('/' + slug)
 
     reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
 
