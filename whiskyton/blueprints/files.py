@@ -2,23 +2,17 @@
 
 import whiskyton.helpers.sitemap as whiskyton_sitemap
 from flask import (
-    abort, Blueprint, jsonify, redirect, render_template,
+    abort, Blueprint, jsonify, render_template,
     request, Response, send_from_directory
 )
 from whiskyton import app, models
-from whiskyton.helpers import charts, whisky
+from whiskyton.helpers.charts import Chart
 
 files_blueprint = Blueprint('files', __name__)
 
 
 @files_blueprint.route('/charts/<reference_slug>-<whisky_slug>.svg')
 def create_chart(reference_slug, whisky_slug):
-
-    # URL check
-    slug1 = whisky.slugfy(whisky_slug)
-    slug2 = whisky.slugfy(reference_slug)
-    if slug1 != whisky_slug or slug2 != reference_slug:
-        return redirect('/charts/%s-%s.svg' % (slug1, slug2))
 
     # get whisky objects form db
     reference_obj = models.Whisky.query.filter_by(slug=reference_slug).first()
@@ -29,11 +23,10 @@ def create_chart(reference_slug, whisky_slug):
         return abort(404)
 
     # if file does not exists, create it
-    reference = whisky.get_tastes(reference_obj)
-    comparison = whisky.get_tastes(whisky_obj)
-    filename = charts.cache_name(reference, comparison, True)
+    chart = Chart(reference=reference_obj, comparison=whisky_obj)
+    filename = chart.cache_name(True)
     if not filename.exists():
-        charts.create(reference, comparison)
+        chart.cache()
 
     # return the chart to the user
     return Response(filename.read_file(), mimetype='image/svg+xml')
