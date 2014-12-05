@@ -13,7 +13,7 @@ def recursive_listdir(path):
         inside the given directory
     """
     folder = Path(path)
-    files = []
+    files = list()
     for f in folder.listdir():
         if f.isdir():
             files.extend(recursive_listdir(f))
@@ -30,7 +30,7 @@ def most_recent_update():
     files = recursive_listdir(app.config['BASEDIR'].child('whiskyton'))
     last_change = 0
     for f in files:
-        f_last_change = Path(f).atime()
+        f_last_change = f.atime()
         if f_last_change > last_change:
             last_change = f_last_change
     return datetime.fromtimestamp(last_change).strftime('%Y-%m-%d')
