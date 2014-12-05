@@ -13,24 +13,24 @@ Create Date: 2014-08-28 13:08:02.243929
 revision = '1ce5878c9d7f'
 down_revision = '17f96fb856ef'
 
-from alembic import op
 import csv
+from alembic import op
 from unipath import Path
-
-from whiskyton.helpers.whisky import slugfy
 from whiskyton.models import Whisky
 
 
 def upgrade():
-    fname = Path('migrations', 'csv', 'whisky.csv')
-    reader = csv.reader(open(fname, 'r'))
+
+    file_name = Path('migrations', 'csv', 'whisky.csv')
+    reader = csv.reader(open(file_name, 'r'))
 
     lines = list(reader)
     headers = lines.pop(0)
 
     headers.append('slug')
     for line in lines:
-        line.append(slugfy(line[0]))
+        whisky = Whisky(distillery=line[0])
+        line.append(whisky.get_slug())
 
     data = [dict(zip(headers, line)) for line in lines]
 

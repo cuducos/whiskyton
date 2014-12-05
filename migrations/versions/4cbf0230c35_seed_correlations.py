@@ -13,11 +13,8 @@ revision = '4cbf0230c35'
 down_revision = '1ce5878c9d7f'
 
 from alembic import op
-import sqlalchemy as sa
-
 from whiskyton import app
 from whiskyton.models import Whisky, Correlation
-from whiskyton.helpers.whisky import get_correlation
 
 
 def upgrade():
@@ -34,7 +31,7 @@ def upgrade():
             # add correlation if it does not already exists
             item = (whisky.id, reference.id)
             if item not in correlations and whisky.id != reference.id:
-                data.append(get_correlation(reference, whisky))
+                data.append(reference.get_correlation(whisky))
                 correlations.append(item)
 
     # bulk insert

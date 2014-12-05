@@ -1,6 +1,5 @@
 # coding: utf-8
 
-import whiskyton.helpers.whisky as whisky
 from flask import abort, Blueprint, redirect, render_template, request
 from htmlmin.minify import html_minify
 from sqlalchemy import desc
@@ -17,24 +16,19 @@ def index():
 
 @site_blueprint.route('/search', methods=['GET', 'POST'])
 def search():
-    slug = whisky.slugfy(request.args['s'])
-    w = models.Whisky.query.filter_by(slug=slug).first()
-    if w is None:
-        return render_template('404.html', slug=slug)
+    whisky = models.Whisky(distillery=request.args['s'])
+    row = models.Whisky.query.filter_by(slug=whisky.get_slug()).first()
+    if row is None:
+        return render_template('404.html', slug=whisky)
     else:
-        return redirect('/' + str(w.slug))
+        return redirect('/' + str(row.slug))
 
 
 @site_blueprint.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
 
-    slug = whisky.slugfy(whisky_slug)
-    if whisky_slug != slug:
-        return redirect('/' + slug)
-
-    reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
-
     # error page if whisky doesn't exist
+    reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
     if reference is None:
         return abort(404)
 
