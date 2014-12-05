@@ -2,9 +2,9 @@
 
 import unittest
 from datetime import datetime
-from unipath import Path
 from whiskyton import app
-from whiskyton.helpers import charts, sitemap, whisky
+from whiskyton.helpers import sitemap
+from whiskyton.helpers.charts import Chart
 from whiskyton.models import Whisky
 
 
@@ -55,44 +55,35 @@ class TestHelpers(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # test methods from whiskyton/helpers/whisky.py
+    # test methods from Whisky (whiskyton/models.py)
 
     def test_slug(self):
-        assert whisky.slugfy('Glen Deveron / MacDuff') == 'glendeveronmacduff'
+        assert self.whisky_2.get_slug() == 'glendeveronmacduff'
 
     def test_get_tastes(self):
         assertion = ['2', '2', '0', '1', '3', '2', '2', '2', '1', '1', '1', '1']
-        assert whisky.get_tastes(self.whisky_1) == assertion
+        assert self.whisky_1.get_tastes() == assertion
 
-    # test methods from whiskyton/helpers/charts.py
+    # test methods from Chart (whiskyton/helpers/charts.py)
 
     def test_cache_path(self):
         cache_path = app.config['BASEDIR'] + '/whiskyton/static/charts'
-        assert cache_path == charts.cache_path()
+        assert cache_path == (Chart()).cache_path()
 
     def test_cache_name(self):
-        tastes_1 = whisky.get_tastes(self.whisky_1)
-        tastes_2 = whisky.get_tastes(self.whisky_2)
-        cache_dir_path = charts.cache_path()
-        cache_path = charts.cache_name(tastes_1, tastes_2, True)
-        cache_name_1 = charts.cache_name(tastes_1, tastes_2, False)
-        cache_name_2 = charts.cache_name(tastes_1, tastes_2)
+        chart = Chart(reference=self.whisky_1, comparison=self.whisky_2)
+        cache_dir_path = chart.cache_path()
+        cache_file_path = chart.cache_name(True)
+        cache_name = chart.cache_name()
         assertion = '220132221111x111113210202.svg'
-        assert cache_name_1 == assertion
-        assert cache_name_2 == assertion
-        assert cache_path == cache_dir_path.child(cache_name_1).absolute()
+        assert cache_name == assertion
+        assert cache_file_path == cache_dir_path.child(cache_name).absolute()
 
-    def test_create(self):
-        tastes_1 = whisky.get_tastes(self.whisky_1)
-        tastes_2 = whisky.get_tastes(self.whisky_2)
-        cache_name = charts.cache_name(tastes_1, tastes_2, True)
-        if cache_name.exists():
-            cache_name.remove()
-        slug_1 = whisky.slugfy(self.whisky_1.distillery)
-        slug_2 = whisky.slugfy(self.whisky_2.distillery)
-        charts.create(tastes_1, tastes_2)
-        resp = self.app.get('/charts/{}-{}.svg'.format(slug_1, slug_2))
-        assert resp.status_code == 200
+    def test_create_and_cache(self):
+        chart = Chart(reference=self.whisky_1, comparison=self.whisky_2)
+        contents = chart.create()
+        cached = chart.cache()
+        assert contents == cached.read_file()
 
     # test methods from whiskyton/helpers/sitemap.py
 
@@ -101,8 +92,8 @@ class TestHelpers(unittest.TestCase):
         files = sitemap.recursive_listdir(sample_dir)
         self.assertIsInstance(files, list)
         for file_path in files:
-            assert Path(file_path).exists()
-            assert Path(file_path).isfile()
+            assert file_path.exists()
+            assert file_path.isfile()
 
     def test_most_recent_update(self):
         output = sitemap.most_recent_update()

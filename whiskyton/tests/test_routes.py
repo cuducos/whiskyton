@@ -1,9 +1,9 @@
 # coding: utf-8
-
+import tempfile
 import unittest
 from whiskyton import app, db
 from whiskyton.models import Whisky, Correlation
-from whiskyton.helpers import whisky, charts
+from whiskyton.helpers.charts import Chart
 
 
 class TestRoutes(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestRoutes(unittest.TestCase):
     def setUp(self):
 
         # test db settings
-        db_uri = 'sqlite:///' + app.config['BASEDIR'].child('tests.db')
+        db_uri = 'sqlite:///' + tempfile.mkstemp()[1]
         app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 
         # init
@@ -20,7 +20,7 @@ class TestRoutes(unittest.TestCase):
         db.create_all()
 
         # feed db: whiskies
-        whisky_1 = Whisky(
+        self.whisky_1 = Whisky(
             distillery='Bowmore',
             body=2,
             sweetness=2,
@@ -39,7 +39,7 @@ class TestRoutes(unittest.TestCase):
             longitude=659720,
             slug='bowmore'
         )
-        whisky_2 = Whisky(
+        self.whisky_2 = Whisky(
             distillery='Glen Deveron / MacDuff',
             body=2,
             sweetness=3,
@@ -58,17 +58,10 @@ class TestRoutes(unittest.TestCase):
             longitude=860400,
             slug='glendeveronmacduff'
         )
-        db.session.add(whisky_1)
-        db.session.add(whisky_2)
-        db.session.commit()
-
-        # feed db: correlations
-        self.whisky_1 = Whisky.query.get(1)
-        self.whisky_2 = Whisky.query.get(2)
-        row_1 = whisky.get_correlation(self.whisky_1, self.whisky_2)
-        row_2 = whisky.get_correlation(self.whisky_2, self.whisky_1)
-        db.session.add(Correlation(**row_1))
-        db.session.add(Correlation(**row_2))
+        correlation_1 = self.whisky_1.get_correlation(self.whisky_2)
+        correlation_2 = self.whisky_2.get_correlation(self.whisky_1)
+        self.correlation_1 = Correlation(**correlation_1)
+        self.correlation_2 = Correlation(**correlation_2)
 
     def tearDown(self):
         db.session.remove()
@@ -77,25 +70,36 @@ class TestRoutes(unittest.TestCase):
     # test routes from whiskyton/blueprint/site.py
 
     def test_index(self):
+        db.session.add(self.whisky_1)
+        db.session.commit()
         resp = self.app.get('/')
         assert resp.status_code == 200
 
     def test_search(self):
+        db.session.add(self.whisky_1)
+        db.session.commit()
         resp_1 = self.app.get('/search?s={}'.format(self.whisky_1.distillery))
         resp_2 = self.app.get('/search?s=Bowm')
         assert resp_1.status_code == 302
         assert resp_2.status_code == 200
 
     def test_whisky_page(self):
-        resp_1 = self.app.get('/{}'.format(self.whisky_1.slug))
-        resp_2 = self.app.get('/{}'.format(self.whisky_2.slug))
-        resp_3 = self.app.get('/jackdaniels')
-        assert resp_1.status_code == 200
-        assert resp_2.status_code == 200
-        assert resp_3.status_code == 404
+        db.session.add(self.whisky_1)
+        db.session.add(self.whisky_2)
+        db.session.add(self.correlation_1)
+        db.session.add(self.correlation_2)
+        db.session.commit()
+        for row in Whisky.query.all():
+            resp = self.app.get('/{}'.format(row.slug))
+            assert resp.status_code == 200
+        fake = self.app.get('/jackdaniels')
+        assert fake.status_code == 404
 
     def test_search_id(self):
-        resp_1 = self.app.get('/w/{}'.format(self.whisky_1.id))
+        db.session.add(self.whisky_1)
+        db.session.commit()
+        row = Whisky.query.first()
+        resp_1 = self.app.get('/w/{}'.format(row.id))
         resp_2 = self.app.get('/w/{}'.format(6.02e+23))
         assert resp_1.status_code == 302
         assert resp_2.status_code == 404
@@ -103,9 +107,13 @@ class TestRoutes(unittest.TestCase):
     # test routes from whiskyton/blueprints/files.py
 
     def test_create_chart(self):
-        tastes_1 = whisky.get_tastes(self.whisky_1)
-        tastes_2 = whisky.get_tastes(self.whisky_2)
-        cache_name = charts.cache_name(tastes_1, tastes_2, True)
+        db.session.add(self.whisky_1)
+        db.session.add(self.whisky_2)
+        db.session.add(self.correlation_1)
+        db.session.add(self.correlation_2)
+        db.session.commit()
+        chart = Chart(reference=self.whisky_1, comparison=self.whisky_2)
+        cache_name = chart.cache_name(True)
         if cache_name.exists():
             cache_name.remove()
         svg_1 = '{}-{}.svg'.format(self.whisky_1.slug, self.whisky_2.slug)
@@ -126,6 +134,9 @@ class TestRoutes(unittest.TestCase):
                 assert resp.status_code == 404
 
     def test_whisky_json(self):
+        db.session.add(self.whisky_1)
+        db.session.add(self.whisky_2)
+        db.session.commit()
         resp = self.app.get('/whiskyton.json')
         assert resp.status_code == 200
 
@@ -138,5 +149,8 @@ class TestRoutes(unittest.TestCase):
         assert resp.status_code in [200, 304]
 
     def test_sitemap(self):
+        db.session.add(self.whisky_1)
+        db.session.add(self.whisky_2)
+        db.session.commit()
         resp = self.app.get('/sitemap.xml')
         assert resp.status_code == 200
