@@ -1,6 +1,6 @@
 # coding: utf-8
 
-"""seed_correlations
+"""Seed correlations
 
 Revision ID: 4cbf0230c35
 Revises: 1ce5878c9d7f
@@ -13,14 +13,26 @@ revision = '4cbf0230c35'
 down_revision = '1ce5878c9d7f'
 
 from alembic import op
-from whiskyton import app
+from whiskyton import app, db
 from whiskyton.models import Whisky, Correlation
 
 
 def upgrade():
 
     # create basic vars
-    whiskies = Whisky.query.all()
+    whiskies = db.session.query(Whisky.id,
+                                Whisky.body,
+                                Whisky.sweetness,
+                                Whisky.smoky,
+                                Whisky.medicinal,
+                                Whisky.tobacco,
+                                Whisky.honey,
+                                Whisky.spicy,
+                                Whisky.winey,
+                                Whisky.nutty,
+                                Whisky.malty,
+                                Whisky.fruity,
+                                Whisky.floral).all()
     correlations = list()
     data = list()
 
@@ -31,7 +43,33 @@ def upgrade():
             # add correlation if it does not already exists
             item = (whisky.id, reference.id)
             if item not in correlations and whisky.id != reference.id:
-                data.append(reference.get_correlation(whisky))
+                whisky_obj = Whisky(id=whisky.id,
+                                    body=whisky.body,
+                                    sweetness=whisky.sweetness,
+                                    smoky=whisky.smoky,
+                                    medicinal=whisky.medicinal,
+                                    tobacco=whisky.tobacco,
+                                    honey=whisky.honey,
+                                    spicy=whisky.spicy,
+                                    winey=whisky.winey,
+                                    nutty=whisky.nutty,
+                                    malty=whisky.malty,
+                                    fruity=whisky.fruity,
+                                    floral=whisky.floral)
+                reference_obj = Whisky(id=reference.id,
+                                       body=reference.body,
+                                       sweetness=reference.sweetness,
+                                       smoky=reference.smoky,
+                                       medicinal=reference.medicinal,
+                                       tobacco=reference.tobacco,
+                                       honey=reference.honey,
+                                       spicy=reference.spicy,
+                                       winey=reference.winey,
+                                       nutty=reference.nutty,
+                                       malty=reference.malty,
+                                       fruity=reference.fruity,
+                                       floral=reference.floral)
+                data.append(reference_obj.get_correlation(whisky_obj))
                 correlations.append(item)
 
     # bulk insert

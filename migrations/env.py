@@ -55,11 +55,9 @@ def run_migrations_online():
                 poolclass=pool.NullPool)
 
     connection = engine.connect()
-    context.configure(
-                connection=connection,
-                target_metadata=target_metadata,
-                transaction_per_migration=True
-                )
+    context.configure(connection=connection,
+                      target_metadata=target_metadata,
+                      transaction_per_migration=True)
 
     try:
         with context.begin_transaction():
