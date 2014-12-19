@@ -48,6 +48,11 @@ def whisky_page(whisky_slug):
         # if query succeeded
         if whiskies is not None:
 
+            # page views count
+            reference.views += 1
+            db.session.add(reference)
+            db.session.commit()
+
             # build result
             title = 'Whiskies for %s lovers | %s' % (reference.distillery,
                                                      app.config['MAIN_TITLE'])
@@ -86,7 +91,6 @@ def inject_main_vars():
     whisky_ids = list()
     for whisky in db.session.query(Whisky.id, Whisky.views).all():
         whisky_ids.extend([whisky.id] * whisky.views)
-    print whisky_ids
     random_whisky = choice(whisky_ids)
 
     # return useful variables
