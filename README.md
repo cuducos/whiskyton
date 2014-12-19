@@ -1,21 +1,17 @@
-Whiskython
-==========
+# Whiskython
 
 * **Official page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
 * **Authors**: [Eduardo Cuducos](http://cuducos.me) and [Gabriel Vicente](http://about.me/gabrielvicente)
 
-About
------
+## About
 
 This web based app uses [an open database about whisky](https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html) to help you find whiskys you'd probably like. It uses mathematics to run through the tastes classified in that database, and to find the best matches. We were inspired by [this data visualization shared on Reddit](http://www.reddit.com/r/dataisbeautiful/comments/1u747v/flavor_profiles_for_86_scotch_whiskies/).
 
-What really matters
--------------------
+## What really matters
 
 This is our very first project in Python (and we are not professional coders) -- so all feedback is important to help us through our learning process. **Don't hesitate to criticize our code and software design!** To be true, that is what we are expecting :)
 
-Installation
-------------
+## Installation
 
 1. Clone the repository: `$ git clone git@github.com:cuducos/whiskyton.git`.
 
@@ -32,8 +28,7 @@ Installation
 If you wanna deploy to [Heroku](http://heroku.com), you need to use [heroku-buildpack-multi](https://github.com/heroku/heroku-buildpack-multi).
 
 
-Tests
------
+## Tests
 
 To run tests:
 
@@ -47,13 +42,17 @@ $ nosetests
 $ chmod -x $(find whiskyton/tests/ -name '*.py')
 ```
 
-Managing the charts cache
--------------------------
+## Managing the application
+
+### Charts cache
 
 If you want to get rid of all the cached SVG charts: `$ python manage.py charts delete`.
 
 If you want to create all possible charts and cache the SVG files: `$ python manage.py charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
 
+### Page views data
+
+If you want to export analytics data (date, whisky and page views) as a CSV file to an external FTP server, you will need to set these `ENV` variables: `FTP_SERVER`, `FTP_USER` and `FTP_PASSWORD`. Once you have these variables, just run: `$ python manage.py analytics save`.
 
 Thanks
 ------
