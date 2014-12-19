@@ -2,9 +2,10 @@
 
 from flask import abort, Blueprint, redirect, render_template, request
 from htmlmin.minify import html_minify
+from random import choice
 from sqlalchemy import desc
-from sqlalchemy.sql.expression import func
-from whiskyton import app, models
+from whiskyton import app, db, models
+from whiskyton.models import Whisky, Correlation
 
 site_blueprint = Blueprint('site', __name__)
 
@@ -16,8 +17,8 @@ def index():
 
 @site_blueprint.route('/search', methods=['GET', 'POST'])
 def search():
-    whisky = models.Whisky(distillery=request.args['s'])
-    row = models.Whisky.query.filter_by(slug=whisky.get_slug()).first()
+    whisky = Whisky(distillery=request.args['s'])
+    row = Whisky.query.filter_by(slug=whisky.get_slug()).first()
     if row is None:
         return render_template('404.html', slug=whisky)
     else:
@@ -28,7 +29,7 @@ def search():
 def whisky_page(whisky_slug):
 
     # error page if whisky doesn't exist
-    reference = models.Whisky.query.filter_by(slug=whisky_slug).first()
+    reference = Whisky.query.filter_by(slug=whisky_slug).first()
     if reference is None:
         return abort(404)
 
@@ -36,12 +37,12 @@ def whisky_page(whisky_slug):
     else:
 
         # query
-        whiskies = models.Correlation.query\
-            .add_entity(models.Whisky)\
-            .filter(models.Correlation.reference == reference.id)\
-            .filter(models.Correlation.r > 0.5)\
-            .join(models.Whisky, models.Correlation.whisky == models.Whisky.id)\
-            .order_by(desc(models.Correlation.r))\
+        whiskies = Correlation.query\
+            .add_entity(Whisky)\
+            .filter(Correlation.reference == reference.id)\
+            .filter(Correlation.r > 0.5)\
+            .join(Whisky, Correlation.whisky == Whisky.id)\
+            .order_by(desc(Correlation.r))\
             .limit(9)
 
         # if query succeeded
@@ -66,7 +67,7 @@ def whisky_page(whisky_slug):
 
 @site_blueprint.route('/w/<whisky_id>')
 def search_id(whisky_id):
-    reference = models.Whisky.query.filter_by(id=whisky_id).first()
+    reference = Whisky.query.filter_by(id=whisky_id).first()
     if reference is None:
         return abort(404)
     else:
@@ -80,9 +81,18 @@ def page_not_found(error):
 
 @site_blueprint.context_processor
 def inject_main_vars():
+
+    # get a random whisky (proportional to the page views)
+    whisky_ids = list()
+    for whisky in db.session.query(Whisky.id, Whisky.views).all():
+        whisky_ids.extend([whisky.id] * whisky.views)
+    print whisky_ids
+    random_whisky = choice(whisky_ids)
+
+    # return useful variables
     return {
         'main_title': app.config['MAIN_TITLE'],
         'headline': app.config['HEADLINE'],
         'remote_scripts': app.config['GOOGLE_ANALYTICS'],
-        'random_one': models.Whisky.query.order_by(func.random()).first()
+        'random_one': Whisky.query.get(random_whisky)
     }
