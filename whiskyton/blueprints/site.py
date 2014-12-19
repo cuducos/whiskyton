@@ -4,7 +4,7 @@ from flask import abort, Blueprint, redirect, render_template, request
 from htmlmin.minify import html_minify
 from random import choice
 from sqlalchemy import desc
-from whiskyton import app, db, models
+from whiskyton import app, db
 from whiskyton.models import Whisky, Correlation
 
 site_blueprint = Blueprint('site', __name__)
