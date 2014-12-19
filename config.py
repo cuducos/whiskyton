@@ -8,6 +8,10 @@ SQLALCHEMY_DATABASE_URI = config('DATABASE_URL',
                                  default='sqlite:///' + BASEDIR.child('app.db'))
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+FTP_SERVER = config('FTP_SERVER', default=False)
+FTP_USER = config('FTP_USER', default=False)
+FTP_PASSWORD = config('FTP_PASSWORD', default=False)
+
 MAIN_TITLE = 'Whiskyton'
 HEADLINE = 'Find whiskies that you like!'
 TASTES = (

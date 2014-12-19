@@ -25,6 +25,10 @@ manager.add_command('db', MigrateCommand)
 from whiskyton.managers.charts import ChartsCommand
 manager.add_command('charts', ChartsCommand)
 
+# add command to save analytics data via FTP
+from whiskyton.managers.anaytics import AnalyticsCommand
+manager.add_command('analytics', AnalyticsCommand)
+
 # enable gzip compression
 Compress(app)
 
