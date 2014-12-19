@@ -24,6 +24,7 @@ class Whisky(db.Model):
     postcode = db.Column(db.String(16))
     latitude = db.Column(db.Integer)
     longitude = db.Column(db.Integer)
+    views = db.Column(db.Integer)
 
     def __repr__(self):
         return '<Distillery: {}>'.format(self.distillery)
