@@ -1,14 +1,14 @@
-"""Add current page views values
+"""Seed: page views by 2014-12-18
 
-Revision ID: 9787751eccd
-Revises: 1a00deb0edba
-Create Date: 2014-12-19 15:36:38.398561
+Revision ID: 544f5ee76f59
+Revises: 447b2802474f
+Create Date: 2014-12-19 18:34:24.364088
 
 """
 
 # revision identifiers, used by Alembic.
-revision = '9787751eccd'
-down_revision = '1a00deb0edba'
+revision = '544f5ee76f59'
+down_revision = '447b2802474f'
 
 from alembic import op
 import sqlalchemy as sa
