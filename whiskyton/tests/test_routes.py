@@ -1,71 +1,22 @@
 # coding: utf-8
-import tempfile
-import unittest
+
+from json import loads
+from pyquery import PyQuery
+from unittest import TestCase
 from whiskyton import app, db
-from whiskyton.models import Whisky, Correlation
 from whiskyton.helpers.charts import Chart
+from whiskyton.models import Whisky
+from whiskyton.tests.config import WhiskytonTest
 
 
-class TestRoutes(unittest.TestCase):
+class TestRoutes(TestCase):
 
     def setUp(self):
-
-        # test db settings
-        db_uri = 'sqlite:///' + tempfile.mkstemp()[1]
-        app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-
-        # init
-        app.testing = True
-        self.app = app.test_client()
-        db.create_all()
-
-        # feed db: whiskies
-        self.whisky_1 = Whisky(
-            distillery='Bowmore',
-            body=2,
-            sweetness=2,
-            smoky=3,
-            medicinal=1,
-            tobacco=0,
-            honey=2,
-            spicy=2,
-            winey=1,
-            nutty=1,
-            malty=1,
-            fruity=1,
-            floral=2,
-            postcode='PA43 7GS',
-            latitude=131330,
-            longitude=659720,
-            slug='bowmore'
-        )
-        self.whisky_2 = Whisky(
-            distillery='Glen Deveron / MacDuff',
-            body=2,
-            sweetness=3,
-            smoky=1,
-            medicinal=1,
-            tobacco=1,
-            honey=1,
-            spicy=1,
-            winey=2,
-            nutty=0,
-            malty=2,
-            fruity=0,
-            floral=1,
-            postcode='AB4 3JT',
-            latitude=372120,
-            longitude=860400,
-            slug='glendeveronmacduff'
-        )
-        correlation_1 = self.whisky_1.get_correlation(self.whisky_2)
-        correlation_2 = self.whisky_2.get_correlation(self.whisky_1)
-        self.correlation_1 = Correlation(**correlation_1)
-        self.correlation_2 = Correlation(**correlation_2)
+        self.test_suite = WhiskytonTest()
+        self.app = self.test_suite.set_app(app, db)
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
+        self.test_suite.unset_app(db)
 
     # test routes from whiskyton/blueprint/site.py
 

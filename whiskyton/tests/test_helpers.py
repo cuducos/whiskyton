@@ -5,55 +5,17 @@ from datetime import datetime
 from whiskyton import app
 from whiskyton.helpers import sitemap
 from whiskyton.helpers.charts import Chart
-from whiskyton.models import Whisky
+from whiskyton.tests.config import WhiskytonTest
 
 
 class TestHelpers(unittest.TestCase):
 
     def setUp(self):
-
-        # init
-        app.testing = True
-        self.app = app.test_client()
-        self.whisky_1 = Whisky(
-            distillery='Bowmore',
-            body=2,
-            sweetness=2,
-            smoky=3,
-            medicinal=1,
-            tobacco=0,
-            honey=2,
-            spicy=2,
-            winey=1,
-            nutty=1,
-            malty=1,
-            fruity=1,
-            floral=2,
-            postcode='PA43 7GS',
-            latitude=131330,
-            longitude=659720
-        )
-        self.whisky_2 = Whisky(
-            distillery='Glen Deveron / MacDuff',
-            body=2,
-            sweetness=3,
-            smoky=1,
-            medicinal=1,
-            tobacco=1,
-            honey=1,
-            spicy=1,
-            winey=2,
-            nutty=0,
-            malty=2,
-            fruity=0,
-            floral=1,
-            postcode='AB4 3JT',
-            latitude=372120,
-            longitude=860400
-        )
+        self.test_suite = WhiskytonTest()
+        self.app = self.test_suite.set_app(app)
 
     def tearDown(self):
-        pass
+        self.test_suite.unset_app()
 
     # test methods from Whisky (whiskyton/models.py)
 
