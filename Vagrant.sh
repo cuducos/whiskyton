@@ -3,6 +3,7 @@
 # Python
 apt-get update
 apt-get install -y python-setuptools git
+apt-get install -y python-dev zlib1g-dev libxml2-dev libxslt-dev # required by pyquery
 easy_install pip
 
 # Node.js and CoffeeScript
@@ -17,4 +18,4 @@ pip install -r /vagrant/requirements.txt
 
 # install dev tools
 apt-get install -y sqlite3
-pip install ipython rednose
+pip install ipython
