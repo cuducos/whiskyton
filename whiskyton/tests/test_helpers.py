@@ -20,29 +20,35 @@ class TestHelpers(unittest.TestCase):
     # test methods from Whisky (whiskyton/models.py)
 
     def test_slug(self):
-        assert self.whisky_2.get_slug() == 'glendeveronmacduff'
+        whisky = self.test_suite.get_whisky(2)
+        assert whisky.get_slug() == 'glendeveronmacduff'
 
     def test_get_tastes(self):
-        assertion = ['2', '2', '0', '1', '3', '2', '2', '2', '1', '1', '1', '1']
-        assert self.whisky_1.get_tastes() == assertion
+        whisky = self.test_suite.get_whisky(2)
+        tastes = ['1', '1', '1', '1', '1', '3', '2', '1', '0', '2', '0', '2']
+        assert whisky.get_tastes() == tastes
 
     # test methods from Chart (whiskyton/helpers/charts.py)
 
     def test_cache_path(self):
-        cache_path = app.config['BASEDIR'] + '/whiskyton/static/charts'
-        assert cache_path == (Chart()).cache_path()
+        cache_path = app.config['BASEDIR'].child('whiskyton',
+                                                 'static',
+                                                 'charts')
+        assert str(cache_path) == (Chart()).cache_path()
 
     def test_cache_name(self):
-        chart = Chart(reference=self.whisky_1, comparison=self.whisky_2)
+        whisky_1, whisky_2 = self.test_suite.get_whiskies()
+        chart = Chart(reference=whisky_1, comparison=whisky_2)
         cache_dir_path = chart.cache_path()
         cache_file_path = chart.cache_name(True)
         cache_name = chart.cache_name()
-        assertion = '220132221111x111113210202.svg'
+        assertion = '110113221101x111113210202.svg'
         assert cache_name == assertion
         assert cache_file_path == cache_dir_path.child(cache_name).absolute()
 
     def test_create_and_cache(self):
-        chart = Chart(reference=self.whisky_1, comparison=self.whisky_2)
+        whisky_1, whisky_2 = self.test_suite.get_whiskies()
+        chart = Chart(reference=whisky_1, comparison=whisky_2)
         contents = chart.create()
         cached = chart.cache()
         assert contents == cached.read_file()
