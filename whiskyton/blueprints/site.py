@@ -20,7 +20,7 @@ def search():
     whisky = Whisky(distillery=request.args['s'])
     row = Whisky.query.filter_by(slug=whisky.get_slug()).first()
     if row is None:
-        return render_template('404.html', slug=whisky)
+        return render_template('404.html', slug=request.args['s'])
     else:
         return redirect('/' + str(row.slug))
 
@@ -90,6 +90,7 @@ def inject_main_vars():
     # get a random whisky (proportional to the page views)
     whisky_ids = list()
     for whisky in db.session.query(Whisky.id, Whisky.views).all():
+        whisky.views = whisky.views if whisky.views else 1
         whisky_ids.extend([whisky.id] * whisky.views)
     random_whisky = choice(whisky_ids)
 
