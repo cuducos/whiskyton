@@ -69,6 +69,6 @@ In sum, we had the best teachers of the world in Python. Any mistake here is com
 
 License
 -------
-Copyright (c) 2014 Eduardo Cuducos and Gabriel Vicente
+Copyright (c) 2015 Eduardo Cuducos and Gabriel Vicente
 
 Licensed under the MIT license (see [MIT-LICENSE file](https://github.com/cuducos/whiskyton/raw/master/MIT-LICENSE))
