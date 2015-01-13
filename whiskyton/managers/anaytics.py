@@ -37,7 +37,9 @@ def save():
     with open(temp_file[1], 'w') as file_handler:
         csv = writer(file_handler)
         query = Whisky.query.all()
-        data = [[timestamp, w.id, w.slug, w.distillery, w.views] for w in query]
+        data = list()
+        for w in query:
+            data.append([timestamp, w.id, w.slug, w.distillery, w.views])
         headers = ['date', 'id', 'slug', 'distillery', 'views']
         csv.writerows([headers] + data)
 

@@ -7,15 +7,15 @@ from sqlalchemy import desc
 from whiskyton import app, db
 from whiskyton.models import Whisky, Correlation
 
-site_blueprint = Blueprint('site', __name__)
+site = Blueprint('site', __name__)
 
 
-@site_blueprint.route('/')
+@site.route('/')
 def index():
     return html_minify(render_template('home.html'))
 
 
-@site_blueprint.route('/search', methods=['GET', 'POST'])
+@site.route('/search', methods=['GET', 'POST'])
 def search():
     whisky = Whisky(distillery=request.args['s'])
     row = Whisky.query.filter_by(slug=whisky.get_slug()).first()
@@ -25,7 +25,7 @@ def search():
         return redirect('/' + str(row.slug))
 
 
-@site_blueprint.route('/<whisky_slug>')
+@site.route('/<whisky_slug>')
 def whisky_page(whisky_slug):
 
     # error page if whisky doesn't exist
@@ -70,7 +70,7 @@ def whisky_page(whisky_slug):
             return abort(404)
 
 
-@site_blueprint.route('/w/<whisky_id>')
+@site.route('/w/<whisky_id>')
 def search_id(whisky_id):
     reference = Whisky.query.filter_by(id=whisky_id).first()
     if reference is None:
@@ -79,12 +79,12 @@ def search_id(whisky_id):
         return redirect('/' + reference.slug)
 
 
-@site_blueprint.errorhandler(404)
+@site.errorhandler(404)
 def page_not_found(error):
     return html_minify(render_template('404.html', error=error)), 404
 
 
-@site_blueprint.context_processor
+@site.context_processor
 def inject_main_vars():
 
     # get a random whisky (proportional to the page views)

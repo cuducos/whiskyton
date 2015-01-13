@@ -8,10 +8,10 @@ from flask import (
 from whiskyton import app, models
 from whiskyton.helpers.charts import Chart
 
-files_blueprint = Blueprint('files', __name__)
+files = Blueprint('files', __name__)
 
 
-@files_blueprint.route('/charts/<reference_slug>-<whisky_slug>.svg')
+@files.route('/charts/<reference_slug>-<whisky_slug>.svg')
 def create_chart(reference_slug, whisky_slug):
 
     # get whisky objects form db
@@ -32,7 +32,7 @@ def create_chart(reference_slug, whisky_slug):
     return Response(filename.read_file(), mimetype='image/svg+xml')
 
 
-@files_blueprint.route('/static/fonts/glyphicons-halflings-regular.<extension>')
+@files.route('/static/fonts/glyphicons-halflings-regular.<extension>')
 def bootstrap_fonts(extension=None):
     basedir = app.config['BASEDIR']
     path = basedir.child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
@@ -43,13 +43,13 @@ def bootstrap_fonts(extension=None):
         abort(404)
 
 
-@files_blueprint.route('/whiskyton.json')
+@files.route('/whiskyton.json')
 def whisky_json():
     whiskies = models.Whisky.query.all()
     return jsonify(whiskies=[w.distillery for w in whiskies])
 
 
-@files_blueprint.route('/robots.txt')
+@files.route('/robots.txt')
 def robots():
     basedir = app.config['BASEDIR']
     return send_from_directory(
@@ -58,7 +58,7 @@ def robots():
     )
 
 
-@files_blueprint.route('/favicon.ico')
+@files.route('/favicon.ico')
 def favicon():
     basedir = app.config['BASEDIR']
     return send_from_directory(
@@ -67,7 +67,7 @@ def favicon():
     )
 
 
-@files_blueprint.route('/sitemap.xml')
+@files.route('/sitemap.xml')
 def sitemap():
     whiskies = models.Whisky.query.all()
     last_change = whiskyton_sitemap.most_recent_update()

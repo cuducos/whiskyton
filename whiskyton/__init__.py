@@ -38,7 +38,7 @@ assets.load_path = [app.config['BASEDIR'].child('whiskyton')]
 assets.from_yaml(app.config['BASEDIR'].child('whiskyton', 'assets.yaml'))
 
 # register blueprints
-from whiskyton.blueprints.site import site_blueprint
-from whiskyton.blueprints.files import files_blueprint
-app.register_blueprint(site_blueprint)
-app.register_blueprint(files_blueprint)
+from whiskyton.blueprints.site import site
+from whiskyton.blueprints.files import files
+app.register_blueprint(site)
+app.register_blueprint(files)

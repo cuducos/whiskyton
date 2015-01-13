@@ -7,7 +7,7 @@ from whiskyton import app
 
 def recursive_listdir(path):
     """
-    Lists recursively all files inside a given directory and its subdirectories.
+    Lists recursively all files inside a given directory and its subdirectories
     :param path: (unipath.Path or string) path to the directory
     :return: (list of unipath.Path) list containing the path to all the files
         inside the given directory

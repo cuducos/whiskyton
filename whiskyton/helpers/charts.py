@@ -142,12 +142,12 @@ class Chart(object):
     def __txt_coordinates(self, grid):
         """
         Returns a map for drawing the text labels of a chart.
-        :param grid: (list of lists of tuples of integers) list containing lists
-        of tuples with the x, y coordinates of the grid of the chart
+        :param grid: (list of lists of tuples of integers) list containing
+        lists of tuples with the x, y coordinates of the grid of the chart
         :return: (list of dictionaries) list containing a dictionary for each
-        label; the keys are 'coordinates' (tuple of integers - x, y position of
-        the label), 'align' (string - value for the text align attribute) and
-        'content' (string - content of the text of the label)
+        label; the keys are 'coordinates' (tuple of integers - x, y position
+        of the label), 'align' (string - value for the text align attribute)
+        and 'content' (string - content of the text of the label)
         """
 
         # support
@@ -180,10 +180,10 @@ class Chart(object):
     def __text_position(self, x, y, count, position):
         """
         Returns the position of labels adjusted for a better visual harmony.
-        :param x: (int) x coordinate of the original position for the text label
-        :param y: (int) y coordinate of the original position for the text label
+        :param x: (int) x coordinate of the original text label position
+        :param y: (int) y coordinate of the original text label position
         :param count: (int) sequential position count
-        :param position: (dictionary of lists) map of position sequential counts
+        :param position: (dictionary of lists) map of position sequential count
         to position class (string; e.g. right, bottom...)
         :return: (tuple of floats) adjusted x and y coordinates for a better
         placing of the text label
@@ -209,7 +209,7 @@ class Chart(object):
         """
         Returns the alignment attribute for the text label.
         :param count: (int) sequential position count
-        :param position: (dictionary of lists) map of position sequential counts
+        :param position: (dictionary of lists) map of position sequential count
         to position class (string; e.g. right, bottom, etc.)
         :return: (string) attribute for aligning the label (e.g. start, end...)
         """
@@ -223,7 +223,7 @@ class Chart(object):
     @staticmethod
     def __text_content(count):
         """
-        Return the name of the taste according to the position sequential count.
+        Return the name of the taste according to their position count.
         :param count: (int) sequential position count
         :return: (string) taste label
         """
@@ -234,8 +234,8 @@ class Chart(object):
         """
         Returns the coordinates of the chart representing a whisky.
         :param tastes: (list of strings) tastes of a whisky
-        :param grid: (list of lists of tuples of integers) list containing lists
-        of tuples with the x, y coordinates of the grid of the chart
+        :param grid: (list of lists of tuples of integers) list containing
+        lists of tuples with the x, y coordinates of the grid of the chart
         :return: (list of tuples of integers) sequence of x, y coordinates for
         drawing the area inside the chart representing the given whisky
         """
