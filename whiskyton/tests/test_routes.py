@@ -24,21 +24,21 @@ class TestRoutes(TestCase):
         resp = self.app.get('/')
         pq = PyQuery(resp.data)
         random = pq('.jumbotron strong').html()
-        assert resp.status_code == 200
-        assert random == 'Isle of Arran' or random == 'Glen Deveron / MacDuff'
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn(random, ['Isle of Arran', 'Glen Deveron / MacDuff'])
 
     def test_successful_search(self):
         resp = self.app.get('/search?s=Glen+Deveron+%2F+MacDuff')
-        assert resp.status_code == 302
+        self.assertEqual(resp.status_code, 302)
 
     def test_unsuccessful_search(self):
         resp = self.app.get('/search?s=Bowm')
         pq = PyQuery(resp.data)
         title = pq('#whiskies h2').html()
         random = pq('#whiskies p a.label').html()
-        assert resp.status_code == 200
-        assert 'Bowm' in title
-        assert random == 'Isle of Arran' or random == 'Glen Deveron / MacDuff'
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Bowm', title)
+        self.assertIn(random, ['Isle of Arran', 'Glen Deveron / MacDuff'])
 
     def test_valid_whisky_page(self):
         resp = self.app.get('/isleofarran')
@@ -46,28 +46,28 @@ class TestRoutes(TestCase):
         title = pq('#header h1').html()
         subtitle = pq('#whiskies h2 span.label').html()
         charts = pq('div.chart')
-        assert resp.status_code == 200
-        assert 'Isle of Arran' in title
-        assert 'Isle of Arran' in subtitle
-        assert charts
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('Isle of Arran', title)
+        self.assertIn('Isle of Arran', subtitle)
+        self.assertTrue(charts)
 
     def test_invalid_whisky_page(self):
         resp = self.app.get('/jackdaniels')
         pq = PyQuery(resp.data)
         form = pq('form')
         error_message = pq('#whiskies').html()
-        assert resp.status_code == 404
-        assert '404' in error_message
-        assert len(form) > 0
+        self.assertEqual(resp.status_code, 404)
+        self.assertIn('404', error_message)
+        self.assertGreater(len(form), 0)
 
     def test_successful_search_id(self):
         whisky = Whisky.query.first()
         resp = self.app.get('/w/{}'.format(whisky.id))
-        assert resp.status_code == 302
+        self.assertEqual(resp.status_code, 302)
 
     def test_unsuccessful_search_id(self):
-        resp_2 = self.app.get('/w/{}'.format(6.02e+23))
-        assert resp_2.status_code == 404
+        resp = self.app.get('/w/{}'.format(6.02e+23))
+        self.assertEqual(resp.status_code, 404)
 
     # test routes from whiskyton/blueprints/files.py
 
@@ -79,18 +79,18 @@ class TestRoutes(TestCase):
             cache_name.remove()
         svg = '{}-{}.svg'.format(whisky_1.slug, whisky_2.slug)
         resp = self.app.get('/charts/{}'.format(svg))
-        assert resp.status_code == 200
-        assert resp.data.count('<polygon ') == 6
-        assert resp.data.count('<text ') == 12
-        assert resp.data.count('<g ') == 4
-        assert resp.data.count('id="grid"') == 1
-        assert resp.data.count('id="label"') == 1
-        assert resp.data.count('id="reference"') == 1
-        assert resp.data.count('id="whisky"') == 1
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp.data.count('<polygon '), 6)
+        self.assertEqual(resp.data.count('<text '), 12)
+        self.assertEqual(resp.data.count('<g '), 4)
+        self.assertEqual(resp.data.count('id="grid"'), 1)
+        self.assertEqual(resp.data.count('id="label"'), 1)
+        self.assertEqual(resp.data.count('id="reference"'), 1)
+        self.assertEqual(resp.data.count('id="whisky"'), 1)
 
     def test_invalid_chart(self):
         resp = self.app.get('/charts/jackdaniels-jameson.svg')
-        assert resp.status_code == 404
+        self.assertEqual(resp.status_code, 404)
 
     def test_bootstrap_fonts(self):
         base_url = '/static/fonts/glyphicons-halflings-regular.'
@@ -98,27 +98,27 @@ class TestRoutes(TestCase):
         for ext in extensions:
             resp = self.app.get(base_url + ext)
             if ext is not 'py':
-                assert resp.status_code == 200
+                self.assertEqual(resp.status_code, 200)
             else:
-                assert resp.status_code == 404
+                self.assertEqual(resp.status_code, 404)
 
     def test_whisky_json(self):
         whisky_1, whisky_2 = self.test_suite.get_whiskies()
         resp = self.app.get('/whiskyton.json')
         json_data = loads(resp.data)
-        assert resp.status_code == 200
-        assert 'whiskies' in json_data.keys()
-        assert whisky_1.distillery in json_data['whiskies']
-        assert whisky_2.distillery in json_data['whiskies']
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('whiskies', json_data.keys())
+        self.assertIn(whisky_1.distillery, json_data['whiskies'])
+        self.assertIn(whisky_2.distillery, json_data['whiskies'])
 
     def test_robots(self):
         resp = self.app.get('/robots.txt')
-        assert resp.status_code in [200, 304]
+        self.assertIn(resp.status_code, [200, 304])
 
     def test_favicon(self):
         resp = self.app.get('/favicon.ico')
-        assert resp.status_code in [200, 304]
+        self.assertIn(resp.status_code, [200, 304])
 
     def test_sitemap(self):
         resp = self.app.get('/sitemap.xml')
-        assert resp.status_code in [200, 304]
+        self.assertIn(resp.status_code, [200, 304])
