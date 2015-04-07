@@ -67,7 +67,7 @@ We had a lot of Python teachers, we are so glad we could count on you, guys:
 
 In sum, we had the best teachers of the world in Python. Any mistake here is completely our fault.
 
-Also we are glad to have the [contributons](http://github.com/cuducos/whiskyton/pulls?q=is%3Apr) from [Henrique Bastos](http://github.com/henriquebastos), [Lucretiel](http://github.com/Lucretiel), [Justin Velluppillai](http://github.com/justinvelluppillai) and [Chris Loverchio](http://github.com/cloverchio).
+Also we are glad to have contributions from [Henrique Bastos](http://github.com/henriquebastos), [Lucretiel](http://github.com/Lucretiel), [Justin Velluppillai](http://github.com/justinvelluppillai) and [Chris Loverchio](http://github.com/cloverchio).
 
 License
 -------
