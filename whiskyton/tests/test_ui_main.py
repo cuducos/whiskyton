@@ -10,17 +10,18 @@ https://github.com/cloverchio
 """
 
 from selenium import webdriver
-import unittest
+from unittest import TestCase
 
 
-class TitleTest(unittest.TestCase):
+
+class TestTitle(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testTitle(self):
+    def test_title(self):
         self.assertEqual(self.driver.title, "Whiskyton")
 
     @classmethod
@@ -28,14 +29,14 @@ class TitleTest(unittest.TestCase):
         cls.driver.quit()
 
 
-class ContentTest(unittest.TestCase):
+class TestContent(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testContent(self):
+    def test_content(self):
         page_content = self.driver.page_source
         welcome_message = "Welcome, whisky lover!"
         self.assertTrue(welcome_message in page_content)
@@ -45,14 +46,14 @@ class ContentTest(unittest.TestCase):
         cls.driver.quit()
 
 
-class SearchBarTest(unittest.TestCase):
+class TestSearchBarTest(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testSearchVisibility(self):
+    def test_search_visibility(self):
         search_bar_text = "Tell us a whisky distillery you like"
         page_content = self.driver.page_source
         self.assertTrue(search_bar_text in page_content)
@@ -60,8 +61,3 @@ class SearchBarTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
-
-
-if __name__ == "__main__":
-    unittest.main()
-

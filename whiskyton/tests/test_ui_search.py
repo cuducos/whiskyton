@@ -10,17 +10,18 @@ https://github.com/cloverchio
 """
 
 from selenium import webdriver
-import unittest
+from unittest import TestCase
 
 
-class ValidInputTest(unittest.TestCase):
+
+class TestValidInput(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testValidInput(self):
+    def test_valid_input(self):
         search_bar = self.driver.find_element_by_id('s')
         search_bar.clear()
         search_bar.send_keys("Aberlour")
@@ -35,14 +36,14 @@ class ValidInputTest(unittest.TestCase):
         cls.driver.quit()
 
 
-class InvalidInputTest(unittest.TestCase):
+class TestInvalidInput(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testInvalidInput(self):
+    def test_invalid_input(self):
         search_bar = self.driver.find_element_by_id('s')
         search_bar.clear()
         search_bar.send_keys(" ")
@@ -57,14 +58,14 @@ class InvalidInputTest(unittest.TestCase):
         cls.driver.quit()
 
 
-class RecommendSearchTest(unittest.TestCase):
+class TestRecommendSearch(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get("http://whiskyton.herokuapp.com/")
 
-    def testOptionList(self):
+    def test_option_list(self):
         search_bar = self.driver.find_element_by_id('s')
         search_bar.clear()
         search_bar.send_keys(" ")
@@ -80,7 +81,3 @@ class RecommendSearchTest(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
-
-
-if __name__ == "__main__":
-    unittest.main()
