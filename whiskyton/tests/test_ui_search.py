@@ -9,9 +9,11 @@ https://github.com/cloverchio
 
 """
 
+from decouple import config
 from selenium import webdriver
 from unittest import TestCase
 
+url = config('LOCAL_URL', default='http://localhost:5000/')
 
 
 class TestValidInput(TestCase):
@@ -19,7 +21,7 @@ class TestValidInput(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_valid_input(self):
         search_bar = self.driver.find_element_by_id('s')
@@ -41,7 +43,7 @@ class TestInvalidInput(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_invalid_input(self):
         search_bar = self.driver.find_element_by_id('s')
@@ -63,7 +65,7 @@ class TestRecommendSearch(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_option_list(self):
         search_bar = self.driver.find_element_by_id('s')

@@ -9,9 +9,11 @@ https://github.com/cloverchio
 
 """
 
+from decouple import config
 from selenium import webdriver
 from unittest import TestCase
 
+url = config('LOCAL_URL', default='http://localhost:5000/')
 
 
 class TestTitle(TestCase):
@@ -19,7 +21,7 @@ class TestTitle(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_title(self):
         self.assertEqual(self.driver.title, "Whiskyton")
@@ -34,7 +36,7 @@ class TestContent(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_content(self):
         page_content = self.driver.page_source
@@ -51,7 +53,7 @@ class TestSearchBarTest(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
-        cls.driver.get("http://whiskyton.herokuapp.com/")
+        cls.driver.get(url)
 
     def test_search_visibility(self):
         search_bar_text = "Tell us a whisky distillery you like"
