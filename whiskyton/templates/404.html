@@ -2,13 +2,13 @@
 {% block content %}
     {% if slug %}
     <div class="col-xs-12 col-md-6">
-        <h2>Sorry, no whisky found for “{{ slug }}” :(</h2>
+        <h2>Sorry, no whisky found for “<span class="search_term">{{ slug }}</span>” :(</h2>
     </div><!-- end div.col-xs-6 -->
     <div class="col-xs-12 col-md-6">
         <h4>Why?</h4>
         <p>
             We work with <a href="https://www.mathstat.strath.ac.uk/outreach/nessie/nessie_whisky.html">
-            an open database of whiskies</a> and probably “{{ slug }}” is not on that list.
+                an open database of whiskies</a> and probably “<span class="search_term">{{ slug }}</span>” is not on that list.
         </p>
         <p>
             Unfortunately we are not in charge of this database and there is
