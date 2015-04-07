@@ -2,8 +2,8 @@ __author__ = 'cloverchio'
 
 """
 Simple selenium regression suite for the UI.
-To keep things simple for now, this suite uses a local instance of the FireFox driver
-and is not ran on the grid.
+To keep things simple for now, this suite uses a local instance of the FireFox
+driver and is not ran on the grid.
 
 https://github.com/cloverchio
 
@@ -29,7 +29,8 @@ class TestValidInput(TestCase):
         search_bar.send_keys("Aberlour")
         search_bar.submit()
         self.driver.implicitly_wait(20)
-        search_result = self.driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]")
+        xpath = "/html/body/div[1]/div[2]/div[2]"
+        search_result = self.driver.find_element_by_xpath(xpath)
         self.assertTrue(search_result.size > 0)
         self.assertFalse(search_result.size <= 0)
 
@@ -72,11 +73,13 @@ class TestRecommendSearch(TestCase):
         search_bar.clear()
         search_bar.send_keys(" ")
         self.driver.implicitly_wait(20)
-        list_option = self.driver.find_element_by_xpath("/html/body/div[2]/div[5]")
+        xpath_1 = "/html/body/div[2]/div[5]"
+        list_option = self.driver.find_element_by_xpath(xpath_1)
         list_option.click()
         search_bar.submit()
         self.driver.implicitly_wait(20)
-        search_result = self.driver.find_element_by_xpath("/html/body/div[1]/div[2]/div[2]")
+        xpath_2 = "/html/body/div[1]/div[2]/div[2]"
+        search_result = self.driver.find_element_by_xpath(xpath_2)
         self.assertTrue(search_result.size > 0)
         self.assertFalse(search_result.size <= 0)
 
