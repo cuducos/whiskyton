@@ -30,17 +30,11 @@ If you wanna deploy to [Heroku](http://heroku.com), you need to use [heroku-buil
 
 ## Tests
 
-To run tests:
+To run tests: `$ nosetests`.
 
-```
-$ nosetests
-```
+[Nose](http://nose.readthedocs.org/en/latest/) has serious difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files: `$ chmod -x $(find whiskyton/tests/ -name '*.py')`.
 
-[Nose](https://nose.readthedocs.org/en/latest/) has serious difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files:
-
-```
-$ chmod -x $(find whiskyton/tests/ -name '*.py')
-```
+Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/).
 
 ## Managing the application
 
