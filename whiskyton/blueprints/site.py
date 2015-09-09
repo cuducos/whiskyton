@@ -90,8 +90,10 @@ def inject_main_vars():
     # get a random whisky (proportional to the page views)
     whisky_ids = list()
     for whisky in db.session.query(Whisky.id, Whisky.views).all():
-        whisky.views = whisky.views if whisky.views else 1
-        whisky_ids.extend([whisky.id] * whisky.views)
+        weight = whisky.views
+        if not weight:
+            weight = 1
+        whisky_ids.extend([whisky.id] * weight)
     random_whisky = choice(whisky_ids)
 
     # return useful variables
