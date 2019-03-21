@@ -1,7 +1,7 @@
 # Whiskython
 
 * **Official page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
-* **Authors**: [Eduardo Cuducos](http://cuducos.me) and [Gabriel Vicente](http://about.me/gabrielvicente)
+* **Authors**: [Eduardo Cuducos](http://cuducos.me) and [Gabriel Vicente](https://g4brielvs.me)
 
 ## About
 
