@@ -1,21 +1,24 @@
 import math
+
 from htmlmin.minify import html_minify
 from jinja2 import Template
 from unipath import Path
+
 from whiskyton import app
 
 
 class Chart(object):
-
-    def __init__(self,
-                 reference=None,
-                 comparison=None,
-                 sides=12,
-                 width=330,
-                 height=260,
-                 margin=60,
-                 scales=4,
-                 text_line_height=11):
+    def __init__(
+        self,
+        reference=None,
+        comparison=None,
+        sides=12,
+        width=330,
+        height=260,
+        margin=60,
+        scales=4,
+        text_line_height=11,
+    ):
         """
         :param reference: whiskyton.models.Whisky or tastes (list of str)
         :param comparison: whiskyton.models.Whisky or tastes (list of str)
@@ -52,7 +55,7 @@ class Chart(object):
         :return: (unipath.Path) path of the directory where cache files are
         stored
         """
-        path = app.config['BASEDIR'].child('whiskyton', 'static', 'charts')
+        path = app.config["BASEDIR"].child("whiskyton", "static", "charts")
         if not path.exists():
             path.mkdir()
         return path.absolute()
@@ -65,9 +68,9 @@ class Chart(object):
         :return: (string or unipath.Path) the file name of the cache for the
         chart comparing these both whiskies
         """
-        reference_string = ''.join(self.reference)
-        comparison_string = ''.join(self.comparison)
-        filename = '%sx%s.svg' % (reference_string, comparison_string)
+        reference_string = "".join(self.reference)
+        comparison_string = "".join(self.comparison)
+        filename = "%sx%s.svg" % (reference_string, comparison_string)
         if full_path:
             return Path(self.cache_path(), filename).absolute()
         else:
@@ -82,22 +85,22 @@ class Chart(object):
         # variables for drawing
         grid = self.__grid_coordinates()
         objs = {
-            'grid': grid,
-            'labels': self.__txt_coordinates(grid),
-            'reference': self.area_coordinates(self.reference, grid),
-            'whisky': self.area_coordinates(self.comparison, grid),
-            'center_x': self.center_x,
-            'center_y': self.center_y
+            "grid": grid,
+            "labels": self.__txt_coordinates(grid),
+            "reference": self.area_coordinates(self.reference, grid),
+            "whisky": self.area_coordinates(self.comparison, grid),
+            "center_x": self.center_x,
+            "center_y": self.center_y,
         }
 
         # generate the svg
-        basedir = app.config['BASEDIR']
-        template = basedir.child('whiskyton', 'templates', 'chart.svg')
-        with open(template, 'r') as file_handler:
+        basedir = app.config["BASEDIR"]
+        template = basedir.child("whiskyton", "templates", "chart.svg")
+        with open(template, "r") as file_handler:
 
             # create SVG
             svg_template = Template(file_handler.read())
-            return html_minify(svg_template.render(**objs), parser='xml')
+            return html_minify(svg_template.render(**objs), parser="xml")
 
     def cache(self):
         """
@@ -154,23 +157,26 @@ class Chart(object):
 
         # adjust groups
         pos = {
-            'bottom': [0, 1],
-            'right': [2, 3, 4, 5],
-            'top': [6, 7],
-            'left': [8, 9, 10, 11],
-            'diagonal_down': [2, 11],
-            'diagonal_up': [5, 8],
-            'sub_diagonal_down': [3, 10]}
+            "bottom": [0, 1],
+            "right": [2, 3, 4, 5],
+            "top": [6, 7],
+            "left": [8, 9, 10, 11],
+            "diagonal_down": [2, 11],
+            "diagonal_up": [5, 8],
+            "sub_diagonal_down": [3, 10],
+        }
 
         # calc
         for coordinates in grid[0]:
             x = coordinates[0]
             y = coordinates[1]
-            text_info.append({
-                'coordinates': self.__text_position(x, y, count, pos),
-                'align': self.__text_alignment(count, pos),
-                'content': self.__text_content(count)
-            })
+            text_info.append(
+                {
+                    "coordinates": self.__text_position(x, y, count, pos),
+                    "align": self.__text_alignment(count, pos),
+                    "content": self.__text_content(count),
+                }
+            )
             count += 1
 
         return text_info
@@ -186,19 +192,19 @@ class Chart(object):
         :return: (tuple of floats) adjusted x and y coordinates for a better
         placing of the text label
         """
-        if count in position['top']:
+        if count in position["top"]:
             y -= self.text_line_height * 0.75
-        if count in position['right']:
+        if count in position["right"]:
             x += self.text_line_height * 0.75
-        if count in position['bottom']:
+        if count in position["bottom"]:
             y += self.text_line_height * 1.5
-        if count in position['left']:
+        if count in position["left"]:
             x -= self.text_line_height * 0.75
-        if count in position['diagonal_up']:
+        if count in position["diagonal_up"]:
             y -= self.text_line_height * 0.5
-        if count in position['diagonal_down']:
+        if count in position["diagonal_down"]:
             y += self.text_line_height * 0.75
-        if count in position['sub_diagonal_down']:
+        if count in position["sub_diagonal_down"]:
             y += self.text_line_height * 0.25
         return x, y
 
@@ -211,11 +217,11 @@ class Chart(object):
         to position class (string; e.g. right, bottom, etc.)
         :return: (string) attribute for aligning the label (e.g. start, end...)
         """
-        text_anchor = 'start'
-        if count in position['top'] or count in position['bottom']:
-            text_anchor = 'middle'
-        elif count in position['left']:
-            text_anchor = 'end'
+        text_anchor = "start"
+        if count in position["top"] or count in position["bottom"]:
+            text_anchor = "middle"
+        elif count in position["left"]:
+            text_anchor = "end"
         return text_anchor
 
     @staticmethod
@@ -225,7 +231,7 @@ class Chart(object):
         :param count: (int) sequential position count
         :return: (string) taste label
         """
-        taste = app.config['TASTES'][count]
+        taste = app.config["TASTES"][count]
         return taste.title()
 
     def area_coordinates(self, tastes, grid):

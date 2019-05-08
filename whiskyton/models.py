@@ -1,4 +1,5 @@
 from re import compile
+
 from whiskyton import app, db
 
 
@@ -25,14 +26,14 @@ class Whisky(db.Model):
     views = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Distillery: {}>'.format(self.distillery)
+        return "<Distillery: {}>".format(self.distillery)
 
     def get_tastes(self):
         """
         Return a list of tastes of the whisky.
         :return: (list of strings) tastes of the whisky
         """
-        tastes = app.config['TASTES']
+        tastes = app.config["TASTES"]
         return [str(getattr(self, taste, None)) for taste in tastes]
 
     def get_slug(self):
@@ -41,8 +42,8 @@ class Whisky(db.Model):
         :return: (string) the inputted string converted to lower case and
         deleting any non-letter character
         """
-        regex = compile('[^a-z]+')
-        return regex.sub('', self.distillery.lower())
+        regex = compile("[^a-z]+")
+        return regex.sub("", self.distillery.lower())
 
     def get_correlation(self, comparison):
         """
@@ -52,9 +53,9 @@ class Whisky(db.Model):
         reference) and the index of correlation (r) between them (float)
         """
         return {
-            'reference': self.id,
-            'whisky': comparison.id,
-            'r': self.__pearson_r(self.get_tastes(), comparison.get_tastes())
+            "reference": self.id,
+            "whisky": comparison.id,
+            "r": self.__pearson_r(self.get_tastes(), comparison.get_tastes()),
         }
 
     @staticmethod
@@ -86,8 +87,8 @@ class Whisky(db.Model):
 class Correlation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reference = db.Column(db.Integer, index=True)
-    whisky = db.Column(db.Integer, db.ForeignKey('whisky.id'))
+    whisky = db.Column(db.Integer, db.ForeignKey("whisky.id"))
     r = db.Column(db.Float, index=True)
 
     def __repr__(self):
-        return '<Correlation: {}>'.format(self.r)
+        return "<Correlation: {}>".format(self.r)

@@ -1,4 +1,4 @@
-__author__ = 'cloverchio'
+__author__ = "cloverchio"
 
 """
 Simple selenium regression suite for the UI.
@@ -9,16 +9,16 @@ https://github.com/cloverchio
 
 """
 
+from unittest import TestCase
+
 from decouple import config
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
-from unittest import TestCase
 
-url = config('LOCAL_URL', default='http://localhost:5000/')
+url = config("LOCAL_URL", default="http://localhost:5000/")
 
 
 class UrlEndsWith:
-
     def __init__(self, value):
         self.value = value
 
@@ -27,14 +27,13 @@ class UrlEndsWith:
 
 
 class TestValidInput(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get(url)
 
     def test_valid_input(self):
-        search_bar = self.driver.find_element_by_id('s')
+        search_bar = self.driver.find_element_by_id("s")
         search_bar.clear()
         search_bar.send_keys("Aberlour")
         search_bar.submit()
@@ -49,14 +48,13 @@ class TestValidInput(TestCase):
 
 
 class TestInvalidInput(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get(url)
 
     def test_invalid_input(self):
-        search_bar = self.driver.find_element_by_id('s')
+        search_bar = self.driver.find_element_by_id("s")
         search_bar.clear()
         search_bar.send_keys("foobar")
         search_bar.submit()
@@ -69,14 +67,13 @@ class TestInvalidInput(TestCase):
 
 
 class TestRecommendSearch(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
         cls.driver.get(url)
 
     def test_option_list(self):
-        search_bar = self.driver.find_element_by_id('s')
+        search_bar = self.driver.find_element_by_id("s")
         search_bar.clear()
         search_bar.send_keys(" ")
         self.driver.implicitly_wait(20)

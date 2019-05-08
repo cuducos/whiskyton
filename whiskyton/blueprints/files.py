@@ -1,15 +1,21 @@
-import whiskyton.helpers.sitemap as whiskyton_sitemap
 from flask import (
-    abort, Blueprint, jsonify, render_template,
-    request, Response, send_from_directory
+    Blueprint,
+    Response,
+    abort,
+    jsonify,
+    render_template,
+    request,
+    send_from_directory,
 )
+
+import whiskyton.helpers.sitemap as whiskyton_sitemap
 from whiskyton import app, models
 from whiskyton.helpers.charts import Chart
 
-files = Blueprint('files', __name__)
+files = Blueprint("files", __name__)
 
 
-@files.route('/charts/<reference_slug>-<whisky_slug>.svg')
+@files.route("/charts/<reference_slug>-<whisky_slug>.svg")
 def create_chart(reference_slug, whisky_slug):
 
     # get whisky objects form db
@@ -27,50 +33,45 @@ def create_chart(reference_slug, whisky_slug):
         chart.cache()
 
     # return the chart to the user
-    return Response(filename.read_file(), mimetype='image/svg+xml')
+    return Response(filename.read_file(), mimetype="image/svg+xml")
 
 
-@files.route('/static/fonts/glyphicons-halflings-regular.<extension>')
+@files.route("/static/fonts/glyphicons-halflings-regular.<extension>")
 def bootstrap_fonts(extension=None):
-    basedir = app.config['BASEDIR']
-    path = basedir.child('whiskyton', 'bower', 'bootstrap', 'dist', 'fonts')
-    filename = 'glyphicons-halflings-regular.{}'.format(extension)
+    basedir = app.config["BASEDIR"]
+    path = basedir.child("whiskyton", "bower", "bootstrap", "dist", "fonts")
+    filename = "glyphicons-halflings-regular.{}".format(extension)
     if path.child(filename).exists():
         return send_from_directory(path, filename)
     else:
         abort(404)
 
 
-@files.route('/whiskyton.json')
+@files.route("/whiskyton.json")
 def whisky_json():
     whiskies = models.Whisky.query.all()
     return jsonify(whiskies=[w.distillery for w in whiskies])
 
 
-@files.route('/robots.txt')
+@files.route("/robots.txt")
 def robots():
-    basedir = app.config['BASEDIR']
-    return send_from_directory(
-        basedir.child('whiskyton', 'static'),
-        'robots.txt'
-    )
+    basedir = app.config["BASEDIR"]
+    return send_from_directory(basedir.child("whiskyton", "static"), "robots.txt")
 
 
-@files.route('/favicon.ico')
+@files.route("/favicon.ico")
 def favicon():
-    basedir = app.config['BASEDIR']
-    return send_from_directory(
-        basedir.child('whiskyton', 'static'),
-        'favicon.ico'
-    )
+    basedir = app.config["BASEDIR"]
+    return send_from_directory(basedir.child("whiskyton", "static"), "favicon.ico")
 
 
-@files.route('/sitemap.xml')
+@files.route("/sitemap.xml")
 def sitemap():
     whiskies = models.Whisky.query.all()
     last_change = whiskyton_sitemap.most_recent_update()
     return render_template(
-        'sitemap.xml',
+        "sitemap.xml",
         whiskies=whiskies,
         last_change=last_change,
-        url_root=request.url_root)
+        url_root=request.url_root,
+    )

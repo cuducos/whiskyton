@@ -1,4 +1,4 @@
-__author__ = 'cloverchio'
+__author__ = "cloverchio"
 
 """
 Simple selenium regression suite for the UI.
@@ -9,15 +9,15 @@ https://github.com/cloverchio
 
 """
 
-from decouple import config
-from selenium import webdriver
 from unittest import TestCase
 
-url = config('LOCAL_URL', default='http://localhost:5000/')
+from decouple import config
+from selenium import webdriver
+
+url = config("LOCAL_URL", default="http://localhost:5000/")
 
 
 class TestTitle(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
@@ -32,7 +32,6 @@ class TestTitle(TestCase):
 
 
 class TestContent(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()
@@ -49,7 +48,6 @@ class TestContent(TestCase):
 
 
 class TestSearchBarTest(TestCase):
-
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Firefox()

@@ -1,33 +1,61 @@
 from decouple import config
+
 from whiskyton.models import Correlation, Whisky
 
 
 class WhiskytonTest(object):
-
     def __init__(self):
-        self.whisky_1 = Whisky(distillery='Isle of Arran', body=2, sweetness=3,
-                               smoky=1, medicinal=1, tobacco=0, honey=1,
-                               spicy=1, winey=1, nutty=0, malty=1, fruity=1,
-                               floral=2, postcode='KA27 8HJ', latitude=194050,
-                               longitude=649950, slug='isleofarran', views=0)
-        self.whisky_2 = Whisky(distillery='Glen Deveron / MacDuff', body=2,
-                               sweetness=3, smoky=1, medicinal=1, tobacco=1,
-                               honey=1, spicy=1, winey=2, nutty=0, malty=2,
-                               fruity=0, floral=1, postcode='AB4 3JT',
-                               latitude=372120, longitude=860400,
-                               slug='glendeveronmacduff', views=0)
+        self.whisky_1 = Whisky(
+            distillery="Isle of Arran",
+            body=2,
+            sweetness=3,
+            smoky=1,
+            medicinal=1,
+            tobacco=0,
+            honey=1,
+            spicy=1,
+            winey=1,
+            nutty=0,
+            malty=1,
+            fruity=1,
+            floral=2,
+            postcode="KA27 8HJ",
+            latitude=194050,
+            longitude=649950,
+            slug="isleofarran",
+            views=0,
+        )
+        self.whisky_2 = Whisky(
+            distillery="Glen Deveron / MacDuff",
+            body=2,
+            sweetness=3,
+            smoky=1,
+            medicinal=1,
+            tobacco=1,
+            honey=1,
+            spicy=1,
+            winey=2,
+            nutty=0,
+            malty=2,
+            fruity=0,
+            floral=1,
+            postcode="AB4 3JT",
+            latitude=372120,
+            longitude=860400,
+            slug="glendeveronmacduff",
+            views=0,
+        )
 
     def set_app(self, app, db=False):
 
         # basic testing vars
-        app.config['TESTING'] = True
-        app.config['WTF_CSRF_ENABLED'] = False
+        app.config["TESTING"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
 
         # set db for tests
         if db:
-            app.config['SQLALCHEMY_DATABASE_URI'] = config(
-                'DATABASE_URL_TEST',
-                default='sqlite://'
+            app.config["SQLALCHEMY_DATABASE_URI"] = config(
+                "DATABASE_URL_TEST", default="sqlite://"
             )
 
         # create test app
@@ -39,8 +67,8 @@ class WhiskytonTest(object):
             db.session.add(self.whisky_1)
             db.session.add(self.whisky_2)
             db.session.commit()
-            query_1 = Whisky.query.filter(Whisky.slug == 'isleofarran')
-            query_2 = Whisky.query.filter(Whisky.slug == 'glendeveronmacduff')
+            query_1 = Whisky.query.filter(Whisky.slug == "isleofarran")
+            query_2 = Whisky.query.filter(Whisky.slug == "glendeveronmacduff")
             calc_correlation_1 = self.whisky_1.get_correlation(query_2.first())
             calc_correlation_2 = self.whisky_2.get_correlation(query_1.first())
             correlation_1 = Correlation(**calc_correlation_1)
