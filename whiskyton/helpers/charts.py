@@ -1,8 +1,6 @@
-# coding: utf-8
-
 import math
+from htmlmin.minify import html_minify
 from jinja2 import Template
-from slimmer import xhtml_slimmer
 from unipath import Path
 from whiskyton import app
 
@@ -99,7 +97,7 @@ class Chart(object):
 
             # create SVG
             svg_template = Template(file_handler.read())
-            return xhtml_slimmer(svg_template.render(**objs))
+            return html_minify(svg_template.render(**objs), parser='xml')
 
     def cache(self):
         """

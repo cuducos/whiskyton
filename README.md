@@ -62,9 +62,3 @@ We had a lot of Python teachers, we are so glad we could count on you, guys:
 In sum, we had the best teachers of the world in Python. Any mistake here is completely our fault.
 
 Also we are glad to have contributions from [Henrique Bastos](http://github.com/henriquebastos), [Lucretiel](http://github.com/Lucretiel), [Justin Velluppillai](http://github.com/justinvelluppillai) and [Chris Loverchio](http://github.com/cloverchio).
-
-License
--------
-Copyright (c) 2015 Eduardo Cuducos and Gabriel Vicente
-
-Licensed under the MIT license (see [MIT-LICENSE file](https://github.com/cuducos/whiskyton/raw/master/MIT-LICENSE))

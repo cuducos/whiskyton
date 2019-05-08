@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from json import loads
 from pyquery import PyQuery
 from unittest import TestCase
@@ -80,13 +78,13 @@ class TestRoutes(TestCase):
         svg = '{}-{}.svg'.format(whisky_1.slug, whisky_2.slug)
         resp = self.app.get('/charts/{}'.format(svg))
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.data.count('<polygon '), 6)
-        self.assertEqual(resp.data.count('<text '), 12)
-        self.assertEqual(resp.data.count('<g '), 4)
-        self.assertEqual(resp.data.count('id="grid"'), 1)
-        self.assertEqual(resp.data.count('id="label"'), 1)
-        self.assertEqual(resp.data.count('id="reference"'), 1)
-        self.assertEqual(resp.data.count('id="whisky"'), 1)
+        self.assertEqual(resp.data.decode('utf-8').count('<polygon '), 6)
+        self.assertEqual(resp.data.decode('utf-8').count('<text '), 12)
+        self.assertEqual(resp.data.decode('utf-8').count('<g '), 4)
+        self.assertEqual(resp.data.decode('utf-8').count('id="grid"'), 1)
+        self.assertEqual(resp.data.decode('utf-8').count('id="label"'), 1)
+        self.assertEqual(resp.data.decode('utf-8').count('id="reference"'), 1)
+        self.assertEqual(resp.data.decode('utf-8').count('id="whisky"'), 1)
 
     def test_invalid_chart(self):
         resp = self.app.get('/charts/jackdaniels-jameson.svg')

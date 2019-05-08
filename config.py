@@ -1,4 +1,3 @@
-# coding: utf-8
 from unipath import Path
 from decouple import config
 

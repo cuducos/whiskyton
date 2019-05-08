@@ -1,12 +1,10 @@
-# coding: utf-8
-
 import logging
 from flask import Flask
-from flask.ext.assets import Environment
-from flask.ext.compress import Compress
-from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.script import Manager
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_assets import Environment
+from flask_compress import Compress
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+from flask_sqlalchemy import SQLAlchemy
 from logging import StreamHandler
 
 # init whiskyton

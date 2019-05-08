@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from re import compile
 from whiskyton import app, db
 

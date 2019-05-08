@@ -11,9 +11,19 @@ https://github.com/cloverchio
 
 from decouple import config
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 from unittest import TestCase
 
 url = config('LOCAL_URL', default='http://localhost:5000/')
+
+
+class UrlEndsWith:
+
+    def __init__(self, value):
+        self.value = value
+
+    def __call__(self, driver):
+        return driver.current_url.endswith(self.value)
 
 
 class TestValidInput(TestCase):
@@ -30,9 +40,8 @@ class TestValidInput(TestCase):
         search_bar.submit()
         self.driver.implicitly_wait(20)
         xpath = "/html/body/div[1]/div[2]/div[2]"
-        search_result = self.driver.find_element_by_xpath(xpath)
-        self.assertTrue(search_result.size > 0)
-        self.assertFalse(search_result.size <= 0)
+        search_result = self.driver.find_elements_by_xpath(xpath)
+        self.assertTrue(search_result)
 
     @classmethod
     def tearDownClass(cls):
@@ -49,12 +58,10 @@ class TestInvalidInput(TestCase):
     def test_invalid_input(self):
         search_bar = self.driver.find_element_by_id('s')
         search_bar.clear()
-        search_bar.send_keys(" ")
+        search_bar.send_keys("foobar")
         search_bar.submit()
-        self.driver.implicitly_wait(20)
-        page_content = self.driver.page_source
-        no_results_text = "Sorry, no whisky found"
-        self.assertTrue(no_results_text in page_content)
+        WebDriverWait(self.driver, 20).until(UrlEndsWith("/search?s=foobar"))
+        self.assertIn("Sorry, no whisky found", self.driver.page_source)
 
     @classmethod
     def tearDownClass(cls):
@@ -79,9 +86,8 @@ class TestRecommendSearch(TestCase):
         search_bar.submit()
         self.driver.implicitly_wait(20)
         xpath_2 = "/html/body/div[1]/div[2]/div[2]"
-        search_result = self.driver.find_element_by_xpath(xpath_2)
-        self.assertTrue(search_result.size > 0)
-        self.assertFalse(search_result.size <= 0)
+        search_result = self.driver.find_elements_by_xpath(xpath_2)
+        self.assertTrue(search_result)
 
     @classmethod
     def tearDownClass(cls):

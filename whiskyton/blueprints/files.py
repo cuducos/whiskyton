@@ -1,5 +1,3 @@
-# coding: utf-8
-
 import whiskyton.helpers.sitemap as whiskyton_sitemap
 from flask import (
     abort, Blueprint, jsonify, render_template,

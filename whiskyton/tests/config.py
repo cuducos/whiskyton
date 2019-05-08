@@ -1,8 +1,5 @@
-# coding: utf-8
-
 from decouple import config
 from whiskyton.models import Correlation, Whisky
-from tempfile import mkstemp
 
 
 class WhiskytonTest(object):
@@ -30,7 +27,7 @@ class WhiskytonTest(object):
         if db:
             app.config['SQLALCHEMY_DATABASE_URI'] = config(
                 'DATABASE_URL_TEST',
-                default='sqlite:///' + mkstemp()[1]
+                default='sqlite://'
             )
 
         # create test app

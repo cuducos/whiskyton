@@ -1,8 +1,6 @@
-# coding: utf-8
-
 from csv import writer
 from datetime import datetime
-from flask.ext.script import Manager
+from flask_script import Manager
 from ftplib import FTP, error_perm
 from tempfile import mkstemp
 from whiskyton import app
@@ -18,7 +16,7 @@ def save():
     # check if FTP settings are set & connect
     for i in ['server', 'user', 'password']:
         if not app.config['FTP_{}'.format(i.upper())]:
-            print '==> Error: no FTP {} set'.format(i)
+            print('==> Error: no FTP {} set'.format(i))
             return None
     try:
         ftp = FTP(app.config['FTP_SERVER'],
@@ -28,7 +26,7 @@ def save():
         info = '{}:{}@{}'.format(app.config['FTP_USER'],
                                  '*' * len(app.config['FTP_PASSWORD']),
                                  app.config['FTP_SERVER'])
-        print "==> Couldn't connect to {}".format(info)
+        print("==> Couldn't connect to {}".format(info))
         return False
 
     # create a tmp csv
@@ -49,7 +47,7 @@ def save():
     else:
         file_name = 'analytics-{}.csv'.format(timestamp)
     if not ftp.storlines('STOR {}'.format(file_name), open(temp_file[1], 'r')):
-        print "==> FTP error while saving the file"
+        print("==> FTP error while saving the file")
         return False
-    print '==> Saved as {} at {}'.format(file_name, app.config['FTP_SERVER'])
+    print('==> Saved as {} at {}'.format(file_name, app.config['FTP_SERVER']))
     return True

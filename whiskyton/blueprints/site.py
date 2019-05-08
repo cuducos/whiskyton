@@ -1,5 +1,3 @@
-# coding: utf-8
-
 from flask import abort, Blueprint, redirect, render_template, request
 from htmlmin.minify import html_minify
 from random import choice
