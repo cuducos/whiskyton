@@ -9,32 +9,23 @@ This web based app uses [an open database about whisky](https://www.mathstat.str
 
 ## What really matters
 
-This is our very first project in Python (and we are not professional coders) -- so all feedback is important to help us through our learning process. **Don't hesitate to criticize our code and software design!** To be true, that is what we are expecting :)
+This was our very first project in Python.
 
 ## Installation
 
-1. Clone the repository: `$ git clone git@github.com:cuducos/whiskyton.git`.
-
-2. Go to the repository folder: `$ cd whiskyton` (if you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there).
-
-4. Install the dependencies: `$ pip install -r requirements.txt`.
-
-5. You should have the `coffee` command line tool working: probably `$ apt-get install nodejs` and `$ npm install coffee-script` should do the job.  
-
-5. Create and feed the database: `$ python manage.py db upgrade`.
-
-6. Run the server: `$ python manage.py runserver`.
-
-If you wanna deploy to [Heroku](http://heroku.com), you need to use [heroku-buildpack-multi](https://github.com/heroku/heroku-buildpack-multi).
-
+1. Clone the repository:<br>`$ git clone git@github.com:cuducos/whiskyton.git`.
+2. Go to the repository folder:<br>`$ cd whiskyton`<br>(if you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there).
+3. Install the dependencies:<br>`$ pip install -r requirements.txt`.
+4. Create and feed the database:<br>`$ python manage.py db upgrade`.
+5. Run the server:<br>`$ python manage.py runserver`.
 
 ## Tests
 
 To run tests: `$ nosetests`.
 
-[Nose](http://nose.readthedocs.org/en/latest/) has serious difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files: `$ chmod -x $(find whiskyton/tests/ -name '*.py')`.
+[Nose](http://nose.readthedocs.org/en/latest/) has difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files: `$ chmod -x $(find whiskyton/tests/ -name '*.py')`.
 
-Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/).
+Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/). So get the server running before running tests.
 
 ## Managing the application
 

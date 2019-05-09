@@ -1,18 +1,3 @@
-libs.js:
-  output: js/libs.min.js
-  filters: rjsmin
-  contents:
-    - bower/jquery/dist/jquery.js
-    - bower/bootstrap/dist/js/bootstrap.js
-    - bower/devbridge-autocomplete/dist/jquery.autocomplete.js
-
-libs.css:
-  output: css/libs.min.css
-  filters: cssmin
-  contents:
-    - bower/bootstrap/dist/css/bootstrap.css
-    - bower/bootstrap/dist/css/bootstrap-theme.css
-
 style:
   output: css/style.min.css
   filters: pyscss, cssmin
@@ -23,13 +8,3 @@ style:
     - scss/footer.scss
     - scss/autocomplete.scss
     - scss/404.scss
-
-init:
-  output: js/init.min.js
-  filters: coffeescript, rjsmin
-  contents: coffeescript/init.coffee
-
-ga:
-  output: js/ga.min.js
-  filters: rjsmin
-  contents: static/js/ga.js

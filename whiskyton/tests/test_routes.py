@@ -91,16 +91,6 @@ class TestRoutes(TestCase):
         resp = self.app.get("/charts/jackdaniels-jameson.svg")
         self.assertEqual(resp.status_code, 404)
 
-    def test_bootstrap_fonts(self):
-        base_url = "/static/fonts/glyphicons-halflings-regular."
-        extensions = ["eot", "svg", "ttf", "woff", "py"]
-        for ext in extensions:
-            resp = self.app.get(base_url + ext)
-            if ext is not "py":
-                self.assertEqual(resp.status_code, 200)
-            else:
-                self.assertEqual(resp.status_code, 404)
-
     def test_whisky_json(self):
         whisky_1, whisky_2 = self.test_suite.get_whiskies()
         resp = self.app.get("/whiskyton.json")
