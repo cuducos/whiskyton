@@ -1,6 +1,6 @@
 cssmin==0.2.0
 django-htmlmin==0.11.0
-Flask==0.12.4
+Flask==1.0
 Flask-Assets==0.12
 Flask-Compress==1.4.0
 Flask-Migrate==2.4.0
