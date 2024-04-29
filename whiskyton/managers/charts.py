@@ -1,7 +1,7 @@
+from flask import Blueprint
+
 from whiskyton.helpers.charts import Chart
 from whiskyton.models import Whisky
-
-from flask import Blueprint
 
 charts = Blueprint("charts", __name__)
 

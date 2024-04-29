@@ -1,0 +1,105 @@
+/* search */
+
+form.search-bar {
+	margin: 0 0 2em 0;
+}
+
+form.search-bar .input-group { width: 61.8%; }
+
+
+/* whisky card */
+
+div.whisky-card {
+	margin-bottom: 3em;
+}
+
+div.whisky-card img {
+    width: 330px;
+    height: 260px;
+}
+
+div.whisky-card h3,
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
+	text-align: center;
+}
+
+div.whisky-card p.chart-label,
+div.whisky-card p.correlation {
+	color: #999;
+}
+
+div.whisky-card p.correlation {
+	margin-top: 1em;
+}
+
+div.whisky-card p.chart-label span.whisky {
+	color: #3375B4;
+}
+
+div.whisky-card p.chart-label span.reference {
+	color: #cecece;
+}
+
+
+/*404 */
+
+.search_term {
+  word-wrap: break-word;
+}
+
+
+/*autocomplete */
+
+.autocomplete-suggestions {
+  min-width: 160px;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  background-clip: padding-box;
+  overflow: hidden;
+}
+
+.autocomplete-suggestion {
+  padding: 2px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  strong { font-weight: bold; }
+}
+
+.autocomplete-selected {
+ color: #fff;
+ background-color: #0081c2;
+ background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+ background-repeat: repeat-x;
+}
+
+
+/*header */
+
+h1 a {
+color: #000;
+}
+
+h1 a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+
+
+/*footer */
+
+#footer {
+	border-top: 1px solid #efefef;
+	margin-top: 3em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+#footer h4.h5, #footer a {
+    font-weight: bold;
+}

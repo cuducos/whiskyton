@@ -3,11 +3,6 @@
 # compiled source
 *.pyc
 
-# Flask-Assets cache and compiled
-whiskyton/static/.webassets-cache
-whiskyton/static/css
-whiskyton/static/js/*.min.js
-
 # charts cache
 whiskyton/static/charts/*
 

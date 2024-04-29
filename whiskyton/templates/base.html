@@ -15,9 +15,7 @@
         <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.2.27/jquery.autocomplete.min.js" integrity="sha256-06A+ni6BhD7/h4tBwZX9WOCw+lA8qROYsNT1eW+lmkg=" crossorigin="anonymous"></script>
-        {% assets 'style' %}
-        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
-        {% endassets %}
+        <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
         <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
 
     </head>
