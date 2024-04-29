@@ -64,7 +64,7 @@ def create():
                         file_size(size),
                     )
                 )
-    print("%s charts created (%s)" % (count, file_size(total)))
+    print("%s charts created (%s)" % (count, file_size(total_size)))
 
 
 @charts.cli.command("list")
