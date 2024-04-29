@@ -2,6 +2,7 @@ from flask import (
     Blueprint,
     Response,
     abort,
+    current_app,
     jsonify,
     render_template,
     request,
@@ -9,7 +10,7 @@ from flask import (
 )
 
 import whiskyton.helpers.sitemap as whiskyton_sitemap
-from whiskyton import app, models
+from whiskyton import models
 from whiskyton.helpers.charts import Chart
 
 files = Blueprint("files", __name__)
@@ -17,7 +18,6 @@ files = Blueprint("files", __name__)
 
 @files.route("/charts/<reference_slug>-<whisky_slug>.svg")
 def create_chart(reference_slug, whisky_slug):
-
     # get whisky objects form db
     reference_obj = models.Whisky.query.filter_by(slug=reference_slug).first()
     whisky_obj = models.Whisky.query.filter_by(slug=whisky_slug).first()
@@ -33,7 +33,7 @@ def create_chart(reference_slug, whisky_slug):
         chart.cache()
 
     # return the chart to the user
-    return Response(filename.read_file(), mimetype="image/svg+xml")
+    return Response(filename.read_text(), mimetype="image/svg+xml")
 
 
 @files.route("/whiskyton.json")
@@ -44,14 +44,14 @@ def whisky_json():
 
 @files.route("/robots.txt")
 def robots():
-    basedir = app.config["BASEDIR"]
-    return send_from_directory(basedir.child("whiskyton", "static"), "robots.txt")
+    basedir = current_app.config["BASEDIR"]
+    return send_from_directory((basedir / "whiskyton" / "static"), "robots.txt")
 
 
 @files.route("/favicon.ico")
 def favicon():
-    basedir = app.config["BASEDIR"]
-    return send_from_directory(basedir.child("whiskyton", "static"), "favicon.ico")
+    basedir = current_app.config["BASEDIR"]
+    return send_from_directory((basedir / "whiskyton" / "static"), "favicon.ico")
 
 
 @files.route("/sitemap.xml")

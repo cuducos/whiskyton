@@ -1,5 +1,3 @@
-__author__ = "cloverchio"
-
 """
 Simple selenium regression suite for the UI.
 To keep things simple for now, this suite uses a local instance of the FireFox
@@ -9,13 +7,16 @@ https://github.com/cloverchio
 
 """
 
+from os import getenv
 from unittest import TestCase
 
-from decouple import config
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-url = config("LOCAL_URL", default="http://localhost:5000/")
+__author__ = "cloverchio"
+
+url = getenv("LOCAL_URL", "http://localhost:5000/")
 
 
 class UrlEndsWith:
@@ -33,13 +34,12 @@ class TestValidInput(TestCase):
         cls.driver.get(url)
 
     def test_valid_input(self):
-        search_bar = self.driver.find_element_by_id("s")
+        search_bar = self.driver.find_element(By.ID, "s")
         search_bar.clear()
         search_bar.send_keys("Aberlour")
         search_bar.submit()
-        self.driver.implicitly_wait(20)
-        xpath = "/html/body/div[1]/div[2]/div[2]"
-        search_result = self.driver.find_elements_by_xpath(xpath)
+        WebDriverWait(self.driver, 10).until(UrlEndsWith("/aberlour"))
+        search_result = self.driver.find_elements(By.CSS_SELECTOR, "div.chart")
         self.assertTrue(search_result)
 
     @classmethod
@@ -54,11 +54,11 @@ class TestInvalidInput(TestCase):
         cls.driver.get(url)
 
     def test_invalid_input(self):
-        search_bar = self.driver.find_element_by_id("s")
+        search_bar = self.driver.find_element(By.ID, "s")
         search_bar.clear()
         search_bar.send_keys("foobar")
         search_bar.submit()
-        WebDriverWait(self.driver, 20).until(UrlEndsWith("/search?s=foobar"))
+        WebDriverWait(self.driver, 10).until(UrlEndsWith("/search?s=foobar"))
         self.assertIn("Sorry, no whisky found", self.driver.page_source)
 
     @classmethod
@@ -73,17 +73,17 @@ class TestRecommendSearch(TestCase):
         cls.driver.get(url)
 
     def test_option_list(self):
-        search_bar = self.driver.find_element_by_id("s")
+        search_bar = self.driver.find_element(By.ID, "s")
         search_bar.clear()
         search_bar.send_keys(" ")
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         xpath_1 = "/html/body/div[2]/div[5]"
-        list_option = self.driver.find_element_by_xpath(xpath_1)
+        list_option = self.driver.find_element(By.XPATH, xpath_1)
         list_option.click()
         search_bar.submit()
-        self.driver.implicitly_wait(20)
+        self.driver.implicitly_wait(10)
         xpath_2 = "/html/body/div[1]/div[2]/div[2]"
-        search_result = self.driver.find_elements_by_xpath(xpath_2)
+        search_result = self.driver.find_elements(By.XPATH, xpath_2)
         self.assertTrue(search_result)
 
     @classmethod

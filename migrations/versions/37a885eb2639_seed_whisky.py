@@ -6,25 +6,25 @@ Create Date: 2014-12-19 18:29:50.951595
 
 """
 
-# revision identifiers, used by Alembic.
-revision = '37a885eb2639'
-down_revision = '8a208be6362'
+from csv import reader
+from pathlib import Path
 
 from alembic import op
-import sqlalchemy as sa
 
-from csv import reader
-from unipath import Path
 from whiskyton.models import Whisky
+
+# revision identifiers, used by Alembic.
+revision = "37a885eb2639"
+down_revision = "8a208be6362"
 
 
 def upgrade():
-
-    file_name = Path('migrations', 'csv', 'whisky.csv')
-    lines = list(reader(open(file_name, 'r')))
+    path = Path() / "migrations" / "csv" / "whisky.csv"
+    with path.open() as file:
+        lines = list(reader(file))
     headers = lines.pop(0)
 
-    headers.append('slug')
+    headers.append("slug")
     for line in lines:
         whisky = Whisky(distillery=line[0])
         line.append(whisky.get_slug())
@@ -36,4 +36,3 @@ def upgrade():
 
 def downgrade():
     op.execute(Whisky.__table__.delete())
-

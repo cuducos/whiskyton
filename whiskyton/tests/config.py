@@ -1,11 +1,43 @@
-from decouple import config
+from os import environ
+from unittest import TestCase
 
-from whiskyton.models import Correlation, Whisky
+from whiskyton import create_app
+from whiskyton.models import Correlation, Whisky, db
 
 
-class WhiskytonTest(object):
-    def __init__(self):
-        self.whisky_1 = Whisky(
+class WhiskytonTest(TestCase):
+    def setUp(self):
+        environ["DATABASE_URL"] = "sqlite:///:memory:"
+        app = create_app()
+
+        # basic testing vars
+        app.config["TESTING"] = True
+        app.config["WTF_CSRF_ENABLED"] = False
+
+        # create tables and testing db data
+        with app.app_context():
+            whisky1, whisky2 = self.whisky1, self.whisky2
+            db.create_all()
+            db.session.add(whisky1)
+            db.session.add(whisky2)
+            db.session.commit()
+
+            query1 = Whisky.query.filter(Whisky.slug == "isleofarran")
+            query2 = Whisky.query.filter(Whisky.slug == "glendeveronmacduff")
+            calc_correlation_1 = whisky1.get_correlation(query2.first())
+            calc_correlation_2 = whisky2.get_correlation(query1.first())
+            correlation1 = Correlation(**calc_correlation_1)
+            correlation2 = Correlation(**calc_correlation_2)
+            db.session.add(correlation1)
+            db.session.add(correlation2)
+            db.session.commit()
+
+        self.app = app
+        self.client = app.test_client()
+
+    @property
+    def whisky1(self):
+        return Whisky(
             distillery="Isle of Arran",
             body=2,
             sweetness=3,
@@ -23,9 +55,11 @@ class WhiskytonTest(object):
             latitude=194050,
             longitude=649950,
             slug="isleofarran",
-            views=0,
         )
-        self.whisky_2 = Whisky(
+
+    @property
+    def whisky2(self):
+        return Whisky(
             distillery="Glen Deveron / MacDuff",
             body=2,
             sweetness=3,
@@ -43,57 +77,15 @@ class WhiskytonTest(object):
             latitude=372120,
             longitude=860400,
             slug="glendeveronmacduff",
-            views=0,
         )
 
-    def set_app(self, app, db=False):
-
-        # basic testing vars
-        app.config["TESTING"] = True
-        app.config["WTF_CSRF_ENABLED"] = False
-
-        # set db for tests
-        if db:
-            app.config["SQLALCHEMY_DATABASE_URI"] = config(
-                "DATABASE_URL_TEST", default="sqlite://"
-            )
-
-        # create test app
-        test_app = app.test_client()
-
-        # create tables and testing db data
-        if db:
-            db.create_all()
-            db.session.add(self.whisky_1)
-            db.session.add(self.whisky_2)
-            db.session.commit()
-            query_1 = Whisky.query.filter(Whisky.slug == "isleofarran")
-            query_2 = Whisky.query.filter(Whisky.slug == "glendeveronmacduff")
-            calc_correlation_1 = self.whisky_1.get_correlation(query_2.first())
-            calc_correlation_2 = self.whisky_2.get_correlation(query_1.first())
-            correlation_1 = Correlation(**calc_correlation_1)
-            correlation_2 = Correlation(**calc_correlation_2)
-            db.session.add(correlation_1)
-            db.session.add(correlation_2)
-            db.session.commit()
-
-        # return the text app
-        return test_app
-
-    @staticmethod
-    def unset_app(db=False):
-
-        # clean the db
-        if db:
+    def tearDown(self):
+        with self.app.app_context():
             db.session.remove()
             db.drop_all()
 
-        return True
-
     def get_whisky(self, whisky_id=1):
-        if whisky_id == 2:
-            return self.whisky_2
-        return self.whisky_1
+        return self.get_whiskies()[whisky_id - 1]
 
     def get_whiskies(self):
-        return self.whisky_1, self.whisky_2
+        return self.whisky1, self.whisky2

@@ -6,19 +6,16 @@ Create Date: 2014-12-19 18:32:11.305999
 
 """
 
-# revision identifiers, used by Alembic.
-revision = '447b2802474f'
-down_revision = '37a885eb2639'
-
 from alembic import op
-import sqlalchemy as sa
 
-from whiskyton import db
-from whiskyton.models import Whisky, Correlation
+from whiskyton.models import Correlation, Whisky
+
+# revision identifiers, used by Alembic.
+revision = "447b2802474f"
+down_revision = "37a885eb2639"
 
 
 def upgrade():
-
     # create basic vars
     whiskies = Whisky.query.all()
     correlations = list()
@@ -27,7 +24,6 @@ def upgrade():
     # loop twice to compare all whiskies
     for reference in whiskies:
         for whisky in whiskies:
-
             # add correlation if it does not already exists
             item = (whisky.id, reference.id)
             if item not in correlations and whisky.id != reference.id:
@@ -40,4 +36,3 @@ def upgrade():
 
 def downgrade():
     op.execute(Correlation.__table__.delete())
-

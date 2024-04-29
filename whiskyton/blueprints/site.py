@@ -1,18 +1,16 @@
 from random import choice
 
-from flask import Blueprint, abort, redirect, render_template, request
-from htmlmin.minify import html_minify
+from flask import Blueprint, abort, current_app, redirect, render_template, request
 from sqlalchemy import desc
 
-from whiskyton import app, db
-from whiskyton.models import Correlation, Whisky
+from whiskyton.models import Correlation, Whisky, db
 
 site = Blueprint("site", __name__)
 
 
 @site.route("/")
 def index():
-    return html_minify(render_template("home.html"))
+    return render_template("home.html")
 
 
 @site.route("/search", methods=["GET", "POST"])
@@ -27,7 +25,6 @@ def search():
 
 @site.route("/<whisky_slug>")
 def whisky_page(whisky_slug):
-
     # error page if whisky doesn't exist
     reference = Whisky.query.filter_by(slug=whisky_slug).first()
     if reference is None:
@@ -35,7 +32,6 @@ def whisky_page(whisky_slug):
 
     # load correlations
     else:
-
         # query
         whiskies = (
             Correlation.query.add_entity(Whisky)
@@ -48,26 +44,17 @@ def whisky_page(whisky_slug):
 
         # if query succeeded
         if whiskies is not None:
-
-            # page views count
-            reference.views += 1
-            db.session.add(reference)
-            db.session.commit()
-
-            # build result
             title = "Whiskies for %s lovers | %s" % (
                 reference.distillery,
-                app.config["MAIN_TITLE"],
+                current_app.config["MAIN_TITLE"],
             )
-            return html_minify(
-                render_template(
-                    "whiskies.html",
-                    main_title=title,
-                    whiskies=whiskies,
-                    reference=reference,
-                    count=whiskies.count(),
-                    result_page=True,
-                )
+            return render_template(
+                "whiskies.html",
+                main_title=title,
+                whiskies=whiskies,
+                reference=reference,
+                count=whiskies.count(),
+                result_page=True,
             )
 
         # if queries fail, return 404
@@ -86,25 +73,13 @@ def search_id(whisky_id):
 
 @site.errorhandler(404)
 def page_not_found(error):
-    return html_minify(render_template("404.html", error=error)), 404
+    return render_template("404.html", error=error), 404
 
 
 @site.context_processor
 def inject_main_vars():
-
-    # get a random whisky (proportional to the page views)
-    whisky_ids = list()
-    for whisky in db.session.query(Whisky.id, Whisky.views).all():
-        weight = whisky.views
-        if not weight:
-            weight = 1
-        whisky_ids.extend([whisky.id] * weight)
-    random_whisky = choice(whisky_ids)
-
-    # return useful variables
     return {
-        "main_title": app.config["MAIN_TITLE"],
-        "headline": app.config["HEADLINE"],
-        "remote_scripts": app.config["GOOGLE_ANALYTICS"],
-        "random_one": Whisky.query.get(random_whisky),
+        "main_title": current_app.config["MAIN_TITLE"],
+        "headline": current_app.config["HEADLINE"],
+        "random_one": choice(db.session.query(Whisky).all()),
     }

@@ -1,43 +1,16 @@
+.env
+
 # compiled source
 *.pyc
-
-# env
-.env
-.floo
-.flooignore
-.idea
-
-# vagrant
-.vagrant/
 
 # Flask-Assets cache and compiled
 whiskyton/static/.webassets-cache
 whiskyton/static/css
 whiskyton/static/js/*.min.js
 
-# NodeJS and Bower
-node_modules
-whiskyton/bower
-
 # charts cache
 whiskyton/static/charts/*
 
-# vim
-.ropeproject
-*.swp
-*.swo
-
 # logs and databases
-*.db
 *.log
-
-# os generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-*.*~
-*~
+*.db

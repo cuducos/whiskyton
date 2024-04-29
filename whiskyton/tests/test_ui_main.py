@@ -1,5 +1,3 @@
-__author__ = "cloverchio"
-
 """
 Simple selenium regression suite for the UI.
 To keep things simple, for now this suite uses a local instance of the FireFox
@@ -9,12 +7,14 @@ https://github.com/cloverchio
 
 """
 
+from os import getenv
 from unittest import TestCase
 
-from decouple import config
 from selenium import webdriver
 
-url = config("LOCAL_URL", default="http://localhost:5000/")
+__author__ = "cloverchio"
+
+url = getenv("LOCAL_URL", "http://localhost:5000/")
 
 
 class TestTitle(TestCase):

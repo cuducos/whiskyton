@@ -1,6 +1,6 @@
 # Whiskython
 
-* **Official page**: [http://whiskyton.herokuapp.com/](http://whiskyton.herokuapp.com/)
+* **Official page**: [http://whiskyton.herokuapp.com/](http://whiskyton.meiaduzia.com.br/)
 * **Authors**: [Eduardo Cuducos](http://cuducos.me) and [Gabriel Vicente](https://g4brielvs.me)
 
 ## About
@@ -14,16 +14,14 @@ This was our very first project in Python.
 ## Installation
 
 1. Clone the repository:<br>`$ git clone git@github.com:cuducos/whiskyton.git`.
-2. Go to the repository folder:<br>`$ cd whiskyton`<br>(if you want, get your [virtualenv](https://pypi.python.org/pypi/virtualenv) running there).
-3. Install the dependencies:<br>`$ pip install -r requirements.txt`.
-4. Create and feed the database:<br>`$ python manage.py db upgrade`.
-5. Run the server:<br>`$ python manage.py runserver`.
+2. Go to the repository folder:<br>`$ cd whiskyton`
+3. Install the dependencies:<br>`$ poetry install`.
+4. Create and feed the database:<br>`$ poetry run flask --app whiskyton db upgrade`.
+5. Run the server:<br>`$ poetry run flask --app whiskyton run`
 
 ## Tests
 
-To run tests: `$ nosetests`.
-
-[Nose](http://nose.readthedocs.org/en/latest/) has difficulties in finding tests in executable files. That said, you might wanna change the permissions of the tests files: `$ chmod -x $(find whiskyton/tests/ -name '*.py')`.
+To run tests: `$ poetry tun pytest`.
 
 Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/). So get the server running before running tests.
 
@@ -31,13 +29,9 @@ Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Seleni
 
 ### Charts cache
 
-If you want to get rid of all the cached SVG charts: `$ python manage.py charts delete`.
+If you want to get rid of all the cached SVG charts: `$ poetry run flask --app whiskyton charts delete`.
 
-If you want to create all possible charts and cache the SVG files: `$ python manage.py charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
-
-### Page views data
-
-If you want to export analytics data (date, whisky and page views) as a CSV file to an external FTP server, you will need to set these `ENV` variables: `FTP_SERVER`, `FTP_USER` and `FTP_PASSWORD`. Once you have these variables, just run: `$ python manage.py analytics save`.
+If you want to create all possible charts and cache the SVG files: `$ poetry run flask --app whiskyton charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
 
 Thanks
 ------

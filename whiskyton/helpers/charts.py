@@ -1,10 +1,8 @@
 import math
+from pathlib import Path
 
-from htmlmin.minify import html_minify
+from flask import current_app
 from jinja2 import Template
-from unipath import Path
-
-from whiskyton import app
 
 
 class Chart(object):
@@ -26,13 +24,13 @@ class Chart(object):
         :param height: (int) width of the SVG chart
         :param sides: (int) number of sides the grid (polygon)
         :param scales: (int) number of steps (internal lines of the grid)
-        :param margin: (int) margin between tha edge of the SVG and the grid
+        :param margin: (int) margin between that edge of the SVG and the grid
         """
 
         # set whisky data
-        if not isinstance(reference, list) and reference is not None:
+        if not isinstance(reference, (list, tuple)) and reference is not None:
             reference = reference.get_tastes()
-        if not isinstance(comparison, list) and comparison is not None:
+        if not isinstance(comparison, (list, tuple)) and comparison is not None:
             comparison = comparison.get_tastes()
 
         self.reference = reference
@@ -52,10 +50,10 @@ class Chart(object):
     def cache_path():
         """
         Returns the directory where cached charts are saved.
-        :return: (unipath.Path) path of the directory where cache files are
+        :return: (pathlib.Path) path of the directory where cache files are
         stored
         """
-        path = app.config["BASEDIR"].child("whiskyton", "static", "charts")
+        path = current_app.config["BASEDIR"] / "whiskyton" / "static" / "charts"
         if not path.exists():
             path.mkdir()
         return path.absolute()
@@ -65,7 +63,7 @@ class Chart(object):
         Returns the name of a cache file for a given chart.
         :param full_path: (boolean) return the file name only if True, or the
         full path with file name if false
-        :return: (string or unipath.Path) the file name of the cache for the
+        :return: (string or pathlib.Path) the file name of the cache for the
         chart comparing these both whiskies
         """
         reference_string = "".join(self.reference)
@@ -94,24 +92,23 @@ class Chart(object):
         }
 
         # generate the svg
-        basedir = app.config["BASEDIR"]
-        template = basedir.child("whiskyton", "templates", "chart.svg")
+        basedir = current_app.config["BASEDIR"]
+        template = basedir / "whiskyton" / "templates" / "chart.svg"
         with open(template, "r") as file_handler:
-
             # create SVG
             svg_template = Template(file_handler.read())
-            return html_minify(svg_template.render(**objs), parser="xml")
+            return svg_template.render(**objs)
 
     def cache(self):
         """
         This method saves a SVG chart in the cache directory.
-        :return: (unipath.Path) the path of the cache file
+        :return: (pathlib.Path) the path of the cache file
         """
-        svg_compressed = self.create()
+        svg = self.create()
         file_path = self.cache_name(True)
         if file_path.exists():
-            file_path.remove()
-        file_path.write_file(svg_compressed)
+            file_path.unlink()
+        file_path.write_text(svg)
         return file_path
 
     def __grid_coordinates(self):
@@ -231,7 +228,7 @@ class Chart(object):
         :param count: (int) sequential position count
         :return: (string) taste label
         """
-        taste = app.config["TASTES"][count]
+        taste = current_app.config["TASTES"][count]
         return taste.title()
 
     def area_coordinates(self, tastes, grid):

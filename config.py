@@ -1,15 +1,9 @@
-from decouple import config
-from unipath import Path
+from os import getenv
+from pathlib import Path
 
 BASEDIR = Path(__file__).parent
-GOOGLE_ANALYTICS = config("GOOGLE_ANALYTICS", default=True, cast=bool)
-default_db = "sqlite:///" + BASEDIR.child("app.db")
-SQLALCHEMY_DATABASE_URI = config("DATABASE_URL", default=default_db)
-DEBUG = config("DEBUG", default=False, cast=bool)
-
-FTP_SERVER = config("FTP_SERVER", default=False)
-FTP_USER = config("FTP_USER", default=False)
-FTP_PASSWORD = config("FTP_PASSWORD", default=False)
+SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL", f"sqlite:///{BASEDIR}/app.db")
+DEBUG = bool(getenv("DEBUG", False))
 
 MAIN_TITLE = "Whiskyton"
 HEADLINE = "Find whiskies that you like!"

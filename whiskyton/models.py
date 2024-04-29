@@ -1,10 +1,20 @@
 from re import compile
 
-from whiskyton import app, db
+from flask import current_app
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
+NON_LETTER = compile("[^a-z]+")
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
 
 
 class Whisky(db.Model):
-
     id = db.Column(db.Integer, primary_key=True)
     distillery = db.Column(db.String(64), index=True, unique=True)
     slug = db.Column(db.String(64), index=True, unique=True)
@@ -23,7 +33,6 @@ class Whisky(db.Model):
     postcode = db.Column(db.String(16))
     latitude = db.Column(db.Integer)
     longitude = db.Column(db.Integer)
-    views = db.Column(db.Integer)
 
     def __repr__(self):
         return "<Distillery: {}>".format(self.distillery)
@@ -33,7 +42,7 @@ class Whisky(db.Model):
         Return a list of tastes of the whisky.
         :return: (list of strings) tastes of the whisky
         """
-        tastes = app.config["TASTES"]
+        tastes = current_app.config["TASTES"]
         return [str(getattr(self, taste, None)) for taste in tastes]
 
     def get_slug(self):
@@ -42,8 +51,7 @@ class Whisky(db.Model):
         :return: (string) the inputted string converted to lower case and
         deleting any non-letter character
         """
-        regex = compile("[^a-z]+")
-        return regex.sub("", self.distillery.lower())
+        return NON_LETTER.sub("", self.distillery.lower())
 
     def get_correlation(self, comparison):
         """
@@ -71,12 +79,12 @@ class Whisky(db.Model):
         n = len(x)
         sum_x = sum(x)
         sum_y = sum(y)
-        sum_x_sq = sum(i ** 2 for i in x)
-        sum_y_sq = sum(i ** 2 for i in y)
+        sum_x_sq = sum(i**2 for i in x)
+        sum_y_sq = sum(i**2 for i in y)
         p_sum = sum(i * j for i, j in zip(x, y))
         num = p_sum - ((sum_x * sum_y) / n)
-        multiplier_1 = sum_x_sq - ((sum_x ** 2) / n)
-        multiplier_2 = sum_y_sq - ((sum_y ** 2) / n)
+        multiplier_1 = sum_x_sq - ((sum_x**2) / n)
+        multiplier_2 = sum_y_sq - ((sum_y**2) / n)
         den = (multiplier_1 * multiplier_2) ** 0.5
         try:
             return num / den

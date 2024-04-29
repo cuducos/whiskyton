@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "whiskyton"
+version = "0.0.1"
+description = "Whiskyton, find whiskies that you like!"
+authors = ["Eduardo Cuducos <4732915+cuducos@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Flask = "^3.0.3"
+Flask-Assets = "^2.1.0"
+Flask-Migrate = "^4.0.7"
+Flask-SQLAlchemy = "^3.1.1"
+gunicorn = "^22.0.0"
+psycopg2-binary = "^2.9.9"
+pyScss = "^1.4.0"
+SQLAlchemy = "^2.0.29"
+
+[tool.poetry.group.dev.dependencies]
+pyquery = "^2.0.0"
+pytest-ruff = "^0.3.1"
+selenium = "^4.20.0"
+
+[tool.pytest.ini_options]
+addopts = "--ruff --ruff-format"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

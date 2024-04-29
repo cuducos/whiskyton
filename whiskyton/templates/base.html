@@ -19,9 +19,6 @@
         <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {% endassets %}
         <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
-        {% if remote_scripts %}
-        <script type="text/javascript" src="{{ ASSET_URL }}"></script>
-        {% endif %}
 
     </head>
     <body>
