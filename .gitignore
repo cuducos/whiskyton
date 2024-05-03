@@ -9,3 +9,6 @@ whiskyton/static/charts/*
 # logs and databases
 *.log
 *.db
+
+# crates
+target/

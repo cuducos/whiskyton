@@ -20,12 +20,13 @@ def recursive_listdir(path):
     return files
 
 
-def most_recent_update():
+def most_recent_update(dir=None):
     """
     Returns the date of the most recent file update within the app.
     :return: (string) date in the format YYYY-MM-DD
     """
-    files = recursive_listdir(current_app.config["BASEDIR"] / "whiskyton")
+    dir = dir or current_app.config["BASEDIR"] / "whiskyton"
+    files = recursive_listdir(dir)
     last_change = 0
     for f in files:
         f_last_change = f.stat().st_atime
