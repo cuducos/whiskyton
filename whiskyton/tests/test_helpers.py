@@ -1,6 +1,3 @@
-from datetime import datetime
-
-from whiskyton.helpers import sitemap
 from whiskyton.helpers.charts import Chart
 from whiskyton.tests.config import WhiskytonTest
 
@@ -48,19 +45,3 @@ class TestHelpers(WhiskytonTest):
             sample = base_dir / "whiskyton" / "tests" / "chart_sample.svg"
             self.assertEqual(contents, cached.read_text())
             self.assertEqual(contents, sample.read_text())
-
-    # test methods from whiskyton/helpers/sitemap.py
-
-    def test_recursive_listdir(self):
-        sample_dir = self.app.config["BASEDIR"] / "whiskyton"
-        files = sitemap.recursive_listdir(sample_dir)
-        self.assertIsInstance(files, list)
-        for file_path in files:
-            self.assertTrue(file_path.exists())
-            self.assertTrue(file_path.is_file())
-
-    def test_most_recent_update(self):
-        with self.app.app_context():
-            output = sitemap.most_recent_update()
-            dt = datetime.strptime(output, "%Y-%m-%d")
-            self.assertIsInstance(dt, datetime)

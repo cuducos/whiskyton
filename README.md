@@ -21,7 +21,12 @@ This was our very first project in Python.
 
 ## Tests
 
-To run tests: `$ poetry tun pytest`.
+To run tests:
+
+```console
+$ cargo test --no-default-features
+$ poetry run pytest
+```
 
 Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/). So get the server running before running tests.
 

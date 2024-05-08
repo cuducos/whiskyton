@@ -1,3 +1,4 @@
+from crates import latest_changed_at
 from flask import (
     Blueprint,
     Response,
@@ -9,7 +10,6 @@ from flask import (
     send_from_directory,
 )
 
-import whiskyton.helpers.sitemap as whiskyton_sitemap
 from whiskyton import models
 from whiskyton.helpers.charts import Chart
 
@@ -57,10 +57,9 @@ def favicon():
 @files.route("/sitemap.xml")
 def sitemap():
     whiskies = models.Whisky.query.all()
-    last_change = whiskyton_sitemap.most_recent_update()
     return render_template(
         "sitemap.xml",
         whiskies=whiskies,
-        last_change=last_change,
+        last_change=latest_changed_at(str(current_app.config["BASEDIR"])),
         url_root=request.url_root,
     )
