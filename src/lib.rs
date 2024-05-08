@@ -28,3 +28,20 @@ fn crates(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(latest_changed_at, m)?)?;
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test_latest_changed_at() {
+        let tmp = tempfile::tempdir().unwrap();
+        let pth = tmp.path().join("answer.txt");
+        fs::write(pth, "42").unwrap();
+        let today = SystemTime::now();
+        let expected: DateTime<Utc> = today.into();
+        let got = latest_changed_at(tmp.path().to_string_lossy().to_string());
+        assert_eq!(got.unwrap(), expected.format("%Y-%m-%d").to_string());
+    }
+}
