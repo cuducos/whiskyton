@@ -1,0 +1,20 @@
+[package]
+name = "crates"
+version = "0.0.1"
+edition = "2021"
+
+[lib]
+name = "crates"
+crate-type = ["cdylib"]
+
+[dependencies]
+chrono = "0.4.38"
+pyo3 = { version = "0.18", features = ["abi3-py311"] }
+walkdir = "2.5.0"
+
+[dev-dependencies]
+tempfile = "3.10.1"
+
+[features]
+extension-module = ["pyo3/extension-module"]
+default = ["extension-module"]

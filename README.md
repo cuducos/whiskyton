@@ -16,12 +16,18 @@ This was our very first project in Python.
 1. Clone the repository:<br>`$ git clone git@github.com:cuducos/whiskyton.git`.
 2. Go to the repository folder:<br>`$ cd whiskyton`
 3. Install the dependencies:<br>`$ poetry install`.
-4. Create and feed the database:<br>`$ poetry run flask --app whiskyton db upgrade`.
-5. Run the server:<br>`$ poetry run flask --app whiskyton run`
+4. Install the Rust crates:<br>`$ poetry run pip install .`
+5. Create and feed the database:<br>`$ poetry run flask --app whiskyton db upgrade`.
+6. Run the server:<br>`$ poetry run flask --app whiskyton run`
 
 ## Tests
 
-To run tests: `$ poetry tun pytest`.
+To run tests:
+
+```console
+$ cargo test --no-default-features
+$ poetry run pytest
+```
 
 Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/). So get the server running before running tests.
 
