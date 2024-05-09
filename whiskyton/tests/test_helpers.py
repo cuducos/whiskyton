@@ -13,7 +13,7 @@ class TestHelpers(WhiskytonTest):
     def test_get_tastes(self):
         with self.app.app_context():
             whisky = self.get_whisky(2)
-            tastes = ["1", "1", "1", "1", "1", "3", "2", "1", "0", "2", "0", "2"]
+            tastes = (1, 1, 1, 1, 1, 3, 2, 1, 0, 2, 0, 2)
             self.assertEqual(whisky.get_tastes(), tastes)
 
     # test methods from Chart (whiskyton/helpers/charts.py)

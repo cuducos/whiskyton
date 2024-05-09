@@ -1,5 +1,6 @@
 from re import compile
 
+from crates import pearson_r
 from flask import current_app
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
@@ -40,10 +41,10 @@ class Whisky(db.Model):
     def get_tastes(self):
         """
         Return a list of tastes of the whisky.
-        :return: (list of strings) tastes of the whisky
+        :return: (tuple of integers) tastes of the whisky
         """
         tastes = current_app.config["TASTES"]
-        return [str(getattr(self, taste, None)) for taste in tastes]
+        return tuple(getattr(self, taste) for taste in tastes)
 
     def get_slug(self):
         """
@@ -63,7 +64,7 @@ class Whisky(db.Model):
         return {
             "reference": self.id,
             "whisky": comparison.id,
-            "r": self.__pearson_r(self.get_tastes(), comparison.get_tastes()),
+            "r": pearson_r(self.get_tastes(), comparison.get_tastes()),
         }
 
     @staticmethod

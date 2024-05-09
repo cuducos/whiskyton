@@ -18,8 +18,8 @@ class Chart(object):
         text_line_height=11,
     ):
         """
-        :param reference: whiskyton.models.Whisky or tastes (list of str)
-        :param comparison: whiskyton.models.Whisky or tastes (list of str)
+        :param reference: whiskyton.models.Whisky or tastes (tuple of integers)
+        :param comparison: whiskyton.models.Whisky or tastes (tuple of integers)
         :param width: (int) width of the SVG chart
         :param height: (int) width of the SVG chart
         :param sides: (int) number of sides the grid (polygon)
@@ -29,9 +29,9 @@ class Chart(object):
 
         # set whisky data
         if not isinstance(reference, (list, tuple)) and reference is not None:
-            reference = reference.get_tastes()
+            reference = tuple(str(taste) for taste in reference.get_tastes())
         if not isinstance(comparison, (list, tuple)) and comparison is not None:
-            comparison = comparison.get_tastes()
+            comparison = tuple(str(taste) for taste in comparison.get_tastes())
 
         self.reference = reference
         self.comparison = comparison
