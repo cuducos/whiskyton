@@ -1,4 +1,4 @@
-# This Dockerfile is used for a deploy Heroku-style (not for development)
+# This Dockerfile is used for a deploy (not for development)
 
 FROM python:3.12-slim-bookworm AS crates
 ADD src/ src/
@@ -9,7 +9,12 @@ RUN apt update && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y && \
     export PATH="$HOME/.cargo/bin:$PATH" && \
     pip install maturin>=1.5.1 && \
-    maturin build -o /wheels/
+    maturin build -o /wheels/ && \
+    pip uninstall -y maturin && \
+    cargo clean && \
+    rustup self uninstall -y && \
+    apt purge -y curl build-essential && \
+    rm -rf /var/lib/apt/lists/*
 
 FROM python:3.12-slim-bookworm
 ARG PORT
