@@ -8,7 +8,7 @@
     </url>
     {% for whisky in whiskies %}
     <url>
-        <loc>{{ url_root }}{{ whisky.slug }}</loc>
+        <loc>{{ url_root }}{{ whisky }}</loc>
         <lastmod>{{ last_change }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>

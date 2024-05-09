@@ -20,7 +20,5 @@ RUN pip install poetry>=1.8.0 && \
     poetry install --no-dev && \
     poetry run pip install /wheels/*
 
-ADD migrations/ migrations/
 ADD whiskyton/ whiskyton/
-
 CMD poetry run gunicorn --bind 0.0.0.0:$PORT whiskyton.wsgi:app
