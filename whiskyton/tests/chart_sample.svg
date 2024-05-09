@@ -1,5 +1,3 @@
-<?xml version="1.0"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="330" height="260">
   <g id="grid" fill="transparent" stroke="#cecece">
     
@@ -39,85 +37,85 @@
   </g>
   <g id="label" font-size="11px" font-family="sans-serif" fill="#606060">
     
-    <text x="137" y="247.5" text-anchor="middle">Spicy</text>
+    <text x="137" y="247.5" text-anchor="middle">Body</text>
     
-    <text x="192" y="247.5" text-anchor="middle">Honey</text>
+    <text x="192" y="247.5" text-anchor="middle">Sweetness</text>
     
-    <text x="247.25" y="212.25" text-anchor="start">Tobacco</text>
+    <text x="247.25" y="212.25" text-anchor="start">Smoky</text>
     
     <text x="274.25" y="159.75" text-anchor="start">Medicinal</text>
     
-    <text x="274.25" y="102" text-anchor="start">Smoky</text>
+    <text x="274.25" y="102" text-anchor="start">Tobacco</text>
     
-    <text x="247.25" y="49.5" text-anchor="start">Sweetness</text>
+    <text x="247.25" y="49.5" text-anchor="start">Honey</text>
     
-    <text x="192" y="19.75" text-anchor="middle">Body</text>
+    <text x="192" y="19.75" text-anchor="middle">Spicy</text>
     
-    <text x="137" y="19.75" text-anchor="middle">Floral</text>
+    <text x="137" y="19.75" text-anchor="middle">Winey</text>
     
-    <text x="81.75" y="49.5" text-anchor="end">Fruity</text>
+    <text x="81.75" y="49.5" text-anchor="end">Nutty</text>
     
     <text x="54.75" y="102" text-anchor="end">Malty</text>
     
-    <text x="54.75" y="159.75" text-anchor="end">Nutty</text>
+    <text x="54.75" y="159.75" text-anchor="end">Fruity</text>
     
-    <text x="81.75" y="212.25" text-anchor="end">Winey</text>
+    <text x="81.75" y="212.25" text-anchor="end">Floral</text>
     
   </g>
   <g id="reference" fill="rgba(185,185,185,0.8)" stroke="#b9b9b9">
-    <polygon points="158,155 171,155 165.0,130.0 190,136 190,123 220,74 178,79 151,79 146,111 139,123 165.0,130.0 146,148 " />
+    <polygon points="151,180 178,180 220,185 190,136 165.0,130.0 202,92 178,79 158,104 146,111 139,123 139,136 127,167 " />
     
-    <circle cx="158" cy="155" r="1" fill="#b9b9b9" />
+    <circle cx="151" cy="180" r="1" fill="#b9b9b9" />
     
-    <circle cx="171" cy="155" r="1" fill="#b9b9b9" />
+    <circle cx="178" cy="180" r="1" fill="#b9b9b9" />
     
-    <circle cx="165.0" cy="130.0" r="1" fill="#b9b9b9" />
+    <circle cx="220" cy="185" r="1" fill="#b9b9b9" />
     
     <circle cx="190" cy="136" r="1" fill="#b9b9b9" />
     
-    <circle cx="190" cy="123" r="1" fill="#b9b9b9" />
+    <circle cx="165.0" cy="130.0" r="1" fill="#b9b9b9" />
     
-    <circle cx="220" cy="74" r="1" fill="#b9b9b9" />
+    <circle cx="202" cy="92" r="1" fill="#b9b9b9" />
     
     <circle cx="178" cy="79" r="1" fill="#b9b9b9" />
     
-    <circle cx="151" cy="79" r="1" fill="#b9b9b9" />
+    <circle cx="158" cy="104" r="1" fill="#b9b9b9" />
     
     <circle cx="146" cy="111" r="1" fill="#b9b9b9" />
     
     <circle cx="139" cy="123" r="1" fill="#b9b9b9" />
     
-    <circle cx="165.0" cy="130.0" r="1" fill="#b9b9b9" />
+    <circle cx="139" cy="136" r="1" fill="#b9b9b9" />
     
-    <circle cx="146" cy="148" r="1" fill="#b9b9b9" />
+    <circle cx="127" cy="167" r="1" fill="#b9b9b9" />
     
   </g>
   <g id="whisky" fill="rgba(51,117,118,0.1)" stroke="#3375b4">
-    <polygon points="158,155 171,155 183,148 190,136 190,123 220,74 178,79 158,104 165.0,130.0 114,116 165.0,130.0 127,167 " />
+    <polygon points="151,180 178,180 220,185 190,136 165.0,130.0 202,92 171,104 158,104 146,111 114,116 139,136 146,148 " />
     
-    <circle cx="158" cy="155" r="1" fill="#3375b4" />
+    <circle cx="151" cy="180" r="1" fill="#3375b4" />
     
-    <circle cx="171" cy="155" r="1" fill="#3375b4" />
+    <circle cx="178" cy="180" r="1" fill="#3375b4" />
     
-    <circle cx="183" cy="148" r="1" fill="#3375b4" />
+    <circle cx="220" cy="185" r="1" fill="#3375b4" />
     
     <circle cx="190" cy="136" r="1" fill="#3375b4" />
     
-    <circle cx="190" cy="123" r="1" fill="#3375b4" />
+    <circle cx="165.0" cy="130.0" r="1" fill="#3375b4" />
     
-    <circle cx="220" cy="74" r="1" fill="#3375b4" />
+    <circle cx="202" cy="92" r="1" fill="#3375b4" />
     
-    <circle cx="178" cy="79" r="1" fill="#3375b4" />
+    <circle cx="171" cy="104" r="1" fill="#3375b4" />
     
     <circle cx="158" cy="104" r="1" fill="#3375b4" />
     
-    <circle cx="165.0" cy="130.0" r="1" fill="#3375b4" />
+    <circle cx="146" cy="111" r="1" fill="#3375b4" />
     
     <circle cx="114" cy="116" r="1" fill="#3375b4" />
     
-    <circle cx="165.0" cy="130.0" r="1" fill="#3375b4" />
+    <circle cx="139" cy="136" r="1" fill="#3375b4" />
     
-    <circle cx="127" cy="167" r="1" fill="#3375b4" />
+    <circle cx="146" cy="148" r="1" fill="#3375b4" />
     
   </g>
 </svg>

@@ -1,11 +1,19 @@
-from random import choice
+from functools import lru_cache
 
+from crates import random_whisky, recommendations_for
 from flask import Blueprint, abort, current_app, redirect, render_template, request
-from sqlalchemy import desc
 
-from whiskyton.models import Correlation, Whisky, db
+from whiskyton.models import Correlation, Whisky
 
 site = Blueprint("site", __name__)
+
+
+@lru_cache(maxsize=128)
+def whiskies_for(slug):
+    try:
+        return tuple(Correlation(*args) for args in recommendations_for(slug))
+    except ValueError:
+        pass
 
 
 @site.route("/")
@@ -13,62 +21,32 @@ def index():
     return render_template("home.html")
 
 
-@site.route("/search", methods=["GET", "POST"])
+@site.route("/search")
 def search():
-    whisky = Whisky(distillery=request.args["s"])
-    row = Whisky.query.filter_by(slug=whisky.get_slug()).first()
-    if row is None:
-        return render_template("404.html", slug=request.args["s"])
-    else:
-        return redirect("/" + str(row.slug))
+    name = request.args["s"]
+    correlations = whiskies_for(name)
+    if not correlations:
+        return render_template("404.html", slug=name)
+
+    return redirect(f"/{correlations[0].reference.slug}")
 
 
-@site.route("/<whisky_slug>")
-def whisky_page(whisky_slug):
-    # error page if whisky doesn't exist
-    reference = Whisky.query.filter_by(slug=whisky_slug).first()
-    if reference is None:
+@site.route("/<slug>")
+def whisky_page(slug):
+    correlations = whiskies_for(slug)
+    if not correlations:
         return abort(404)
 
-    # load correlations
-    else:
-        # query
-        whiskies = (
-            Correlation.query.add_entity(Whisky)
-            .filter(Correlation.reference == reference.id)
-            .filter(Correlation.r > 0.5)
-            .join(Whisky, Correlation.whisky == Whisky.id)
-            .order_by(desc(Correlation.r))
-            .limit(9)
-        )
-
-        # if query succeeded
-        if whiskies is not None:
-            title = "Whiskies for %s lovers | %s" % (
-                reference.distillery,
-                current_app.config["MAIN_TITLE"],
-            )
-            return render_template(
-                "whiskies.html",
-                main_title=title,
-                whiskies=whiskies,
-                reference=reference,
-                count=whiskies.count(),
-                result_page=True,
-            )
-
-        # if queries fail, return 404
-        else:
-            return abort(404)
-
-
-@site.route("/w/<whisky_id>")
-def search_id(whisky_id):
-    reference = Whisky.query.filter_by(id=whisky_id).first()
-    if reference is None:
-        return abort(404)
-    else:
-        return redirect("/" + reference.slug)
+    reference = correlations[0].reference.distillery
+    title = f"Whiskies for {reference} lovers | {current_app.config['MAIN_TITLE']}"
+    return render_template(
+        "whiskies.html",
+        main_title=title,
+        correlations=correlations,
+        reference=reference,
+        count=len(correlations),
+        result_page=True,
+    )
 
 
 @site.errorhandler(404)
@@ -78,8 +56,9 @@ def page_not_found(error):
 
 @site.context_processor
 def inject_main_vars():
+    whisky = Whisky(*random_whisky())
     return {
         "main_title": current_app.config["MAIN_TITLE"],
         "headline": current_app.config["HEADLINE"],
-        "random_one": choice(db.session.query(Whisky).all()),
+        "random_one": whisky,
     }

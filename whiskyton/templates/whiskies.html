@@ -1,41 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-		
-					<div class="col-xs-12">
-					
-						<h2 class="h3">
-							{{ count }} whiskies for 
-							<span class="label label-default">{{ reference.distillery }}</span> 
-							lovers:
-						</h2>        
-					
-					</div><!-- div.col-xs-12 -->
-					
-					{% for whisky in whiskies %}
-				
-					<div class="chart col-xs-12 col-md-4 whisky-card">
-				
-						<h3 class="h4">{{ whisky.Whisky.distillery }}</h3>
-												
-						<p class="chart-label">
-							<span class="glyphicon glyphicon-unchecked whisky"></span>
-							{{ whisky.Whisky.distillery }}
-							<span class="glyphicon glyphicon-unchecked reference"></span>
-							{{ reference.distillery }}
-						</p>
-						
-						<img src="/charts/{{ reference.slug }}-{{ whisky.Whisky.slug }}.svg" alt="{{ reference.distillery }} x {{ whisky.Whisky.distillery }}">
-						
-						<p class="correlation">
-							<span class="glyphicon glyphicon-thumbs-up"></span> 
-							You have a
-							<span class="label label-default">{{ '{0:.0f}'.format(whisky.Correlation.r * 100) + '%' }}</span> 
-							chance <br>
-							of liking <strong>{{ whisky.Whisky.distillery }}</strong>!
-						</p>
-					
-					</div><!-- end div.whisky-card -->
-				
-					{% endfor %}
-				
+    <div class="col-xs-12">
+        <h2 class="h3">
+            {{ count }} whiskies for
+            <span class="label label-default">{{ reference }}</span>
+            lovers:
+        </h2>
+    </div><!-- div.col-xs-12 -->
+    {% for c in correlations %}
+        <div class="chart col-xs-12 col-md-4 whisky-card">
+            <h3 class="h4">{{ c.other.distillery }}</h3>
+            <p class="chart-label">
+                <span class="glyphicon glyphicon-unchecked whisky"></span>
+                {{ c.reference.distillery }}
+                <span class="glyphicon glyphicon-unchecked reference"></span>
+                {{ c.other.distillery }}
+            </p>
+            {{ c.chart|safe }}
+            <p class="correlation">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                You have a
+                <span class="label label-default">{{ '{0:.0f}'.format(c.value * 100) + '%' }}</span>
+                chance <br>
+                of liking <strong>{{ c.other.distillery }}</strong>!
+            </p>
+        </div><!-- end div.whisky-card -->
+    {% endfor %}
 {% endblock %}

@@ -17,7 +17,6 @@ This was our very first project in Python.
 2. Go to the repository folder:<br>`$ cd whiskyton`
 3. Install the dependencies:<br>`$ poetry install`.
 4. Install the Rust crates:<br>`$ poetry run pip install .`
-5. Create and feed the database:<br>`$ poetry run flask --app whiskyton db upgrade`.
 6. Run the server:<br>`$ poetry run flask --app whiskyton run`
 
 ## Tests
@@ -30,14 +29,6 @@ $ poetry run pytest
 ```
 
 Some tests use your local [Firefox](http://mozilla.org/firefox/) through [Selenium](http://www.seleniumhq.org/). So get the server running before running tests.
-
-## Managing the application
-
-### Charts cache
-
-If you want to get rid of all the cached SVG charts: `$ poetry run flask --app whiskyton charts delete`.
-
-If you want to create all possible charts and cache the SVG files: `$ poetry run flask --app whiskyton charts create` (it is not necessary, the app creates and caches them on the fly; however pre-caching them can optimize page loading time).
 
 Thanks
 ------

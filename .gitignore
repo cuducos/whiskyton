@@ -1,14 +1,4 @@
 .env
-
-# compiled source
 *.pyc
-
-# charts cache
-whiskyton/static/charts/*
-
-# logs and databases
 *.log
-*.db
-
-# crates
 target/
