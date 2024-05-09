@@ -4,6 +4,7 @@ use anyhow::{anyhow, Result};
 use csv::{ReaderBuilder, StringRecord};
 use rand::seq::SliceRandom;
 use rand::thread_rng;
+use rayon::iter::{ParallelIterator, IntoParallelRefIterator};
 use regex::Regex;
 
 use crate::correlation::Correlation;
@@ -125,7 +126,7 @@ pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)
     }
     let reference = whisky.ok_or(anyhow!("Whisky {} not found", name))?;
     let mut correlations: Vec<Correlation> = others
-        .iter()
+        .par_iter()
         .map(|w| Correlation::new(&reference, w))
         .collect();
 
