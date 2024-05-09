@@ -10,7 +10,7 @@ from whiskyton.models import db
 def create_app():
     # init whiskyton
     app = Flask("whiskyton")
-    app.config.from_object("config")
+    app.config.from_object("whiskyton.config")
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
 

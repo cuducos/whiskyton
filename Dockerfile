@@ -20,7 +20,6 @@ RUN pip install poetry>=1.8.0 && \
     poetry install --no-dev && \
     poetry run pip install /wheels/*
 
-ADD config.py config.py
 ADD migrations/ migrations/
 ADD whiskyton/ whiskyton/
 

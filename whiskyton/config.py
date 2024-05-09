@@ -1,7 +1,7 @@
 from os import getenv
 from pathlib import Path
 
-BASEDIR = Path(__file__).parent
+BASEDIR = Path(__file__).parent.parent
 LOCAL_DEV_DATABASE = f"sqlite:///{BASEDIR}/app.db"
 SQLALCHEMY_DATABASE_URI = getenv("DATABASE_URL", LOCAL_DEV_DATABASE).replace(
     "postgres://", "postgresql://"
