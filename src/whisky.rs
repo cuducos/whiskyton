@@ -2,25 +2,27 @@ use std::cmp::Ordering;
 
 use anyhow::{anyhow, Result};
 use csv::{ReaderBuilder, StringRecord};
-use rand::seq::SliceRandom;
-use rand::thread_rng;
-use rayon::iter::{ParallelIterator, IntoParallelRefIterator};
+use lazy_static::lazy_static;
+use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 
 use crate::correlation::Correlation;
 
 const DATA: &str = include_str!("data/whisky.csv");
 
-fn load_whiskies() -> Result<Vec<Whisky>> {
-    let mut reader = ReaderBuilder::new()
-        .has_headers(true)
-        .from_reader(DATA.as_bytes());
-    let mut whiskies: Vec<Whisky> = vec![];
-    for row in reader.records() {
-        let record = Whisky::from_csv_row(&row?)?;
-        whiskies.push(record);
-    }
-    Ok(whiskies)
+lazy_static! {
+    pub static ref WHISKIES: Vec<Whisky> = {
+        let mut reader = ReaderBuilder::new()
+            .has_headers(true)
+            .from_reader(DATA.as_bytes());
+
+        let mut whiskies: Vec<Whisky> = vec![];
+        for row in reader.records() {
+            let record = Whisky::from_csv_row(&row.unwrap()).unwrap();
+            whiskies.push(record);
+        }
+        whiskies
+    };
 }
 
 fn distillery(row: &StringRecord) -> Result<String> {
@@ -100,24 +102,10 @@ impl Whisky {
     }
 }
 
-pub fn random_whisky() -> Result<PyWhisky> {
-    let whiskies = load_whiskies()?;
-    let mut rng = thread_rng();
-    whiskies
-        .choose(&mut rng)
-        .map(|w| w.py())
-        .ok_or(anyhow!("No whiskies found"))
-}
-
-pub fn all_whiskies() -> Result<Vec<PyWhisky>> {
-    let whiskies = load_whiskies()?;
-    Ok(whiskies.iter().map(|w| w.py()).collect())
-}
-
 pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)>> {
-    let mut whisky: Option<Whisky> = None;
-    let mut others: Vec<Whisky> = vec![];
-    for w in load_whiskies()? {
+    let mut whisky: Option<&Whisky> = None;
+    let mut others: Vec<&Whisky> = vec![];
+    for w in WHISKIES.iter() {
         if w.distillery == name || w.slug() == name {
             whisky = Some(w);
         } else {
@@ -127,7 +115,7 @@ pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)
     let reference = whisky.ok_or(anyhow!("Whisky {} not found", name))?;
     let mut correlations: Vec<Correlation> = others
         .par_iter()
-        .map(|w| Correlation::new(&reference, w))
+        .map(|w| Correlation::new(reference, w))
         .collect();
 
     correlations.sort_by(|a, b| {
@@ -147,4 +135,15 @@ pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)
         .collect::<Vec<(PyWhisky, PyWhisky, f64)>>();
 
     Ok(best)
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test_all_whiskies_are_loaded() {
+        assert_eq!(WHISKIES.len(), 86);
+    }
 }

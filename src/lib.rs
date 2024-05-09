@@ -5,6 +5,7 @@ use pyo3::{
     exceptions::PyValueError, pyfunction, pymodule, types::PyModule, wrap_pyfunction, PyResult,
     Python,
 };
+use rand::Rng;
 use walkdir::WalkDir;
 
 mod correlation;
@@ -40,13 +41,15 @@ fn recommendations_for(name: String) -> PyResult<Vec<(whisky::PyWhisky, whisky::
 }
 
 #[pyfunction]
-fn random_whisky() -> PyResult<whisky::PyWhisky> {
-    whisky::random_whisky().map_err(|e| PyValueError::new_err(e.to_string()))
+fn all_whiskies() -> PyResult<Vec<whisky::PyWhisky>> {
+    Ok(whisky::WHISKIES.iter().map(|w| w.py()).collect())
 }
 
 #[pyfunction]
-fn all_whiskies() -> PyResult<Vec<whisky::PyWhisky>> {
-    whisky::all_whiskies().map_err(|e| PyValueError::new_err(e.to_string()))
+fn random_whisky() -> PyResult<whisky::PyWhisky> {
+    let mut rng = rand::thread_rng();
+    let idx = rng.gen_range(0..whisky::WHISKIES.len());
+    Ok(whisky::WHISKIES[idx].py())
 }
 
 #[pymodule]
