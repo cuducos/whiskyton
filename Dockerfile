@@ -17,7 +17,7 @@ ADD poetry.lock poetry.lock
 ADD pyproject.toml pyproject.toml
 COPY --from=crates /wheels /wheels
 RUN pip install poetry>=1.8.0 && \
-    poetry install && \
+    poetry install --no-dev && \
     poetry run pip install /wheels/*
 
 ADD config.py config.py
