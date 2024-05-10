@@ -1,31 +1,30 @@
-from crates import all_whiskies, latest_changed_at
+from io import BytesIO
+
+from crates import all_whiskies, asset, latest_changed_at
 from flask import (
     Blueprint,
+    abort,
     current_app,
-    jsonify,
     render_template,
     request,
-    send_from_directory,
+    send_file,
 )
 
 files = Blueprint("files", __name__)
 
 
+@files.route("/style.css")
+@files.route("/app.js")
 @files.route("/whiskyton.json")
-def whisky_json():
-    return jsonify(whiskies=tuple(distillery for distillery, _, _ in all_whiskies()))
-
-
 @files.route("/robots.txt")
-def robots():
-    basedir = current_app.config["BASEDIR"]
-    return send_from_directory((basedir / "whiskyton" / "static"), "robots.txt")
-
-
 @files.route("/favicon.ico")
-def favicon():
-    basedir = current_app.config["BASEDIR"]
-    return send_from_directory((basedir / "whiskyton" / "static"), "favicon.ico")
+def assets():
+    try:
+        contents, mime = asset(request.path.removeprefix("/"))
+    except ValueError:
+        abort(404)
+
+    return send_file(BytesIO(contents), mimetype=mime)
 
 
 @files.route("/sitemap.xml")

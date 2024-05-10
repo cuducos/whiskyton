@@ -6,9 +6,10 @@ use lazy_static::lazy_static;
 use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
 use regex::Regex;
 
+use crate::assets::AutocompleteData;
 use crate::correlation::Correlation;
 
-const DATA: &str = include_str!("data/whisky.csv");
+const DATA: &str = include_str!("static/whisky.csv");
 
 lazy_static! {
     pub static ref WHISKIES: Vec<Whisky> = {
@@ -23,6 +24,7 @@ lazy_static! {
         }
         whiskies
     };
+    pub static ref AUTOCOMPLETE: Vec<u8> = AutocompleteData::new().as_json().unwrap().into_bytes();
 }
 
 fn distillery(row: &StringRecord) -> Result<String> {
