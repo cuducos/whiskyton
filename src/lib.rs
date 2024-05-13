@@ -12,6 +12,7 @@ use rand::Rng;
 use walkdir::WalkDir;
 
 mod assets;
+mod chart;
 mod correlation;
 mod whisky;
 
@@ -40,7 +41,9 @@ fn latest_changed_at(dir: String) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn recommendations_for(name: String) -> PyResult<Vec<(whisky::PyWhisky, whisky::PyWhisky, f64)>> {
+fn recommendations_for(
+    name: String,
+) -> PyResult<Vec<(whisky::PyWhisky, whisky::PyWhisky, f64, String)>> {
     whisky::recommendations_for(name).map_err(|e| PyValueError::new_err(e.to_string()))
 }
 
@@ -68,9 +71,13 @@ fn asset(py: Python, name: &str) -> PyResult<(PyObject, String)> {
     if bytes.is_empty() {
         return PyResult::Err(PyValueError::new_err(format!("Asset {name} not found")));
     }
-    let mime = from_path(name).first().map(|m| m.to_string()).ok_or(PyValueError::new_err(format!("No mimetype found for {name}")))?;
-    Ok((
-        PyBytes::new(py, bytes).to_object(py), mime))
+    let mime = from_path(name)
+        .first()
+        .map(|m| m.to_string())
+        .ok_or(PyValueError::new_err(format!(
+            "No mimetype found for {name}"
+        )))?;
+    Ok((PyBytes::new(py, bytes).to_object(py), mime))
 }
 
 #[pymodule]

@@ -40,6 +40,7 @@ fn taste(row: &StringRecord, idx: usize) -> Result<u32> {
 
 pub type PyWhisky = (String, String, [u32; 12]);
 
+#[derive(Clone)]
 pub struct Whisky {
     pub distillery: String,
     pub body: u32,
@@ -104,7 +105,7 @@ impl Whisky {
     }
 }
 
-pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)>> {
+pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64, String)>> {
     let mut whisky: Option<&Whisky> = None;
     let mut others: Vec<&Whisky> = vec![];
     for w in WHISKIES.iter() {
@@ -133,8 +134,14 @@ pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64)
     let best = correlations
         .iter()
         .take(9)
-        .map(|c| (c.whisky.py(), c.other.py(), c.value))
-        .collect::<Vec<(PyWhisky, PyWhisky, f64)>>();
+        .cloned()
+        .collect::<Vec<Correlation>>()
+        .par_iter()
+        .map(|c| match c.chart() {
+            Ok(svg) => Ok((c.whisky.py(), c.other.py(), c.value, svg)),
+            Err(e) => Err(e),
+        })
+        .collect::<Result<Vec<(PyWhisky, PyWhisky, f64, String)>>>()?;
 
     Ok(best)
 }

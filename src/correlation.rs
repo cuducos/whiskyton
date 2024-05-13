@@ -1,4 +1,6 @@
-use crate::whisky::Whisky;
+use anyhow::Result;
+
+use crate::{chart::Chart, whisky::Whisky};
 
 pub fn pearson_r(x: [u32; 12], y: [u32; 12]) -> f64 {
     let n = x.len() as f64;
@@ -18,6 +20,7 @@ pub fn pearson_r(x: [u32; 12], y: [u32; 12]) -> f64 {
     }
 }
 
+#[derive(Clone)]
 pub struct Correlation<'a> {
     pub whisky: &'a Whisky,
     pub other: &'a Whisky,
@@ -31,6 +34,11 @@ impl<'a> Correlation<'a> {
             other,
             value: pearson_r(whisky.tastes(), other.tastes()),
         }
+    }
+
+    pub fn chart(&self) -> Result<String> {
+        let chart = Chart::new(self.whisky.tastes(), self.other.tastes());
+        chart.svg()
     }
 }
 

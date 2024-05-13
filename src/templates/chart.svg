@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="330" height="260">
+  <g id="grid" fill="transparent" stroke="#cecece">
+    {% for area in grid %}
+    <polygon points="{% for point in area %}{{ point.x }},{{ point.y }} {% endfor %}" />
+    {% endfor %}
+    {% for point in grid[0] %}
+    <line x1="{{ center.x }}" y1="{{ center.y }}" x2="{{ point.x }}" y2="{{ point.y }}" />
+    {% endfor %}
+  </g>
+  <g id="label" font-size="11px" font-family="sans-serif" fill="#606060">
+    {% for label in labels %}
+    <text x="{{ label.position.x }}" y="{{ label.position.y }}" text-anchor="{{ label.align }}">{{ label.text }}</text>
+    {% endfor %}
+  </g>
+  <g id="reference" fill="rgba(185,185,185,0.8)" stroke="#b9b9b9">
+    <polygon points="{% for point in reference %}{{ point.x }},{{ point.y }} {% endfor %}" />
+    {% for point in reference %}
+    <circle cx="{{ point.x }}" cy="{{ point.y }}" r="1" fill="#b9b9b9" />
+    {% endfor %}
+  </g>
+  <g id="whisky" fill="rgba(51,117,118,0.1)" stroke="#3375b4">
+    <polygon points="{% for point in other %}{{ point.x }},{{ point.y }} {% endfor %}" />
+    {% for point in other %}
+    <circle cx="{{ point.x }}" cy="{{ point.y }}" r="1" fill="#3375b4" />
+    {% endfor %}
+  </g>
+</svg>
