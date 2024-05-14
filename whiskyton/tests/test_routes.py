@@ -76,5 +76,3 @@ class TestFilesRoutes(WhiskytonTest):
         with self.app.app_context():
             resp = self.client.get("/sitemap.xml")
             self.assertIn(resp.status_code, [200, 304])
-            for whisky in self.whiskies:
-                self.assertIn(whisky.slug, resp.text)

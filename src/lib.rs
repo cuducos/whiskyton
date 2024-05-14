@@ -1,6 +1,3 @@
-use std::{fs, time::SystemTime};
-
-use chrono::{DateTime, Utc};
 use mime_guess::from_path;
 use pyo3::{
     exceptions::PyValueError,
@@ -9,31 +6,12 @@ use pyo3::{
     wrap_pyfunction, PyObject, PyResult, Python, ToPyObject,
 };
 use rand::Rng;
-use walkdir::WalkDir;
 
 mod assets;
 mod chart;
 mod correlation;
+mod sitemap;
 mod whisky;
-
-#[pyfunction]
-fn latest_changed_at(dir: String) -> PyResult<String> {
-    let mut latest = SystemTime::UNIX_EPOCH;
-    for pth in WalkDir::new(dir).into_iter().filter_map(|p| p.ok()) {
-        if !pth.file_type().is_file() {
-            continue;
-        }
-        if let Ok(meta) = fs::metadata(pth.path()) {
-            if let Ok(modified) = meta.modified() {
-                if modified > latest {
-                    latest = modified;
-                }
-            }
-        }
-    }
-    let as_date: DateTime<Utc> = latest.into();
-    Ok(as_date.format("%Y-%m-%d").to_string())
-}
 
 #[pyfunction]
 fn recommendations_for(name: String) -> PyResult<whisky::PyWhisky> {
@@ -73,13 +51,20 @@ fn asset(py: Python, name: &str) -> PyResult<(PyObject, String)> {
     Ok((PyBytes::new(py, bytes).to_object(py), mime))
 }
 
+#[pyfunction]
+fn render_sitemap(py: Python, root_url: String, root_dir: String) -> PyResult<PyObject> {
+    let contents =
+        sitemap::sitemap(root_url, root_dir).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    Ok(PyBytes::new(py, &contents.into_bytes()).to_object(py))
+}
+
 #[pymodule]
 fn crates(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(latest_changed_at, m)?)?;
     m.add_function(wrap_pyfunction!(recommendations_for, m)?)?;
     m.add_function(wrap_pyfunction!(random_whisky, m)?)?;
     m.add_function(wrap_pyfunction!(all_whiskies, m)?)?;
     m.add_function(wrap_pyfunction!(asset, m)?)?;
+    m.add_function(wrap_pyfunction!(render_sitemap, m)?)?;
     Ok(())
 }
 
@@ -87,17 +72,6 @@ fn crates(_py: Python, m: &PyModule) -> PyResult<()> {
 mod tests {
 
     use super::*;
-
-    #[test]
-    fn test_latest_changed_at() {
-        let tmp = tempfile::tempdir().unwrap();
-        let pth = tmp.path().join("answer.txt");
-        fs::write(pth, "42").unwrap();
-        let today = SystemTime::now();
-        let expected: DateTime<Utc> = today.into();
-        let got = latest_changed_at(tmp.path().to_string_lossy().to_string());
-        assert_eq!(got.unwrap(), expected.format("%Y-%m-%d").to_string());
-    }
 
     #[test]
     fn test_asset_mimetype() {

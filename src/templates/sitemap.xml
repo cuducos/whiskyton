@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>{{ url_root }}</loc>
+        <loc>{{ root }}</loc>
         <lastmod>{{ last_change }}</lastmod>
         <priority>1.0</priority>
         <changefreq>monthly</changefreq>
     </url>
     {% for whisky in whiskies %}
     <url>
-        <loc>{{ url_root }}{{ whisky }}</loc>
+        <loc>{{ root }}{{ whisky }}/</loc>
         <lastmod>{{ last_change }}</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
