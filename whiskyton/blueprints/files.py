@@ -31,7 +31,7 @@ def assets():
 def sitemap():
     return render_template(
         "sitemap.xml",
-        whiskies=(slug for _, slug, _ in all_whiskies()),
+        whiskies=(slug for _, slug, _, _ in all_whiskies()),
         last_change=latest_changed_at(str(current_app.config["BASEDIR"])),
         url_root=request.url_root,
     )

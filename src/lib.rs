@@ -17,11 +17,6 @@ mod correlation;
 mod whisky;
 
 #[pyfunction]
-fn pearson_r(x: [u32; 12], y: [u32; 12]) -> PyResult<f64> {
-    Ok(correlation::pearson_r(x, y))
-}
-
-#[pyfunction]
 fn latest_changed_at(dir: String) -> PyResult<String> {
     let mut latest = SystemTime::UNIX_EPOCH;
     for pth in WalkDir::new(dir).into_iter().filter_map(|p| p.ok()) {
@@ -41,9 +36,7 @@ fn latest_changed_at(dir: String) -> PyResult<String> {
 }
 
 #[pyfunction]
-fn recommendations_for(
-    name: String,
-) -> PyResult<Vec<(whisky::PyWhisky, whisky::PyWhisky, f64, String)>> {
+fn recommendations_for(name: String) -> PyResult<whisky::PyWhisky> {
     whisky::recommendations_for(name).map_err(|e| PyValueError::new_err(e.to_string()))
 }
 
@@ -83,7 +76,6 @@ fn asset(py: Python, name: &str) -> PyResult<(PyObject, String)> {
 #[pymodule]
 fn crates(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(latest_changed_at, m)?)?;
-    m.add_function(wrap_pyfunction!(pearson_r, m)?)?;
     m.add_function(wrap_pyfunction!(recommendations_for, m)?)?;
     m.add_function(wrap_pyfunction!(random_whisky, m)?)?;
     m.add_function(wrap_pyfunction!(all_whiskies, m)?)?;

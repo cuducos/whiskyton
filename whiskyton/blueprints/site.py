@@ -3,7 +3,7 @@ from functools import lru_cache
 from crates import random_whisky, recommendations_for
 from flask import Blueprint, abort, current_app, redirect, render_template, request
 
-from whiskyton.models import Correlation, Whisky
+from whiskyton.models import Whisky
 
 site = Blueprint("site", __name__)
 
@@ -11,9 +11,10 @@ site = Blueprint("site", __name__)
 @lru_cache(maxsize=128)
 def whiskies_for(slug):
     try:
-        return tuple(Correlation(*args) for args in recommendations_for(slug))
+        data = recommendations_for(slug)
     except ValueError:
-        pass
+        return
+    return Whisky(*data)
 
 
 @site.route("/")
@@ -24,29 +25,18 @@ def index():
 @site.route("/search")
 def search():
     name = request.args["s"]
-    correlations = whiskies_for(name)
-    if not correlations:
+    whisky = whiskies_for(name)
+    if not whisky:
         return render_template("404.html", slug=name)
-
-    return redirect(f"/{correlations[0].reference.slug}")
+    return redirect(f"/{whisky.slug}")
 
 
 @site.route("/<slug>")
 def whisky_page(slug):
-    correlations = whiskies_for(slug)
-    if not correlations:
+    whisky = whiskies_for(slug)
+    if not whisky:
         return abort(404)
-
-    reference = correlations[0].reference.distillery
-    title = f"Whiskies for {reference} lovers | {current_app.config['MAIN_TITLE']}"
-    return render_template(
-        "whiskies.html",
-        main_title=title,
-        correlations=correlations,
-        reference=reference,
-        count=len(correlations),
-        result_page=True,
-    )
+    return render_template("whiskies.html", whisky=whisky, result_page=True)
 
 
 @site.errorhandler(404)

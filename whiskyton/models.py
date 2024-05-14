@@ -1,13 +1,13 @@
+from collections import namedtuple
+
+Correlation = namedtuple("Correlation", "value distillery chart")
+
+
 class Whisky:
-    def __init__(self, distillery, slug, tastes):
+    def __init__(self, distillery, slug, tastes, correlations):
         self.distillery = distillery
         self.slug = slug
         self.tastes = tastes
 
-
-class Correlation:
-    def __init__(self, reference, other, value, chart):
-        self.reference = Whisky(*reference)
-        self.other = Whisky(*other)
-        self.value = value
-        self.chart = chart
+        correlations = correlations or tuple()
+        self.correlations = tuple(Correlation(*args) for args in correlations)

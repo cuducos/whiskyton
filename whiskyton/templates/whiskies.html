@@ -2,27 +2,27 @@
 {% block content %}
     <div class="col-xs-12">
         <h2 class="h3">
-            {{ count }} whiskies for
-            <span class="label label-default">{{ reference }}</span>
+            {{ whisky.correlations|count }} whiskies for
+            <span class="label label-default">{{ whisky.distillery }}</span>
             lovers:
         </h2>
     </div><!-- div.col-xs-12 -->
-    {% for c in correlations %}
+    {% for correlation in whisky.correlations %}
         <div class="chart col-xs-12 col-md-4 whisky-card">
-            <h3 class="h4">{{ c.other.distillery }}</h3>
+            <h3 class="h4">{{ correlation.distillery }}</h3>
             <p class="chart-label">
                 <span class="glyphicon glyphicon-unchecked whisky"></span>
-                {{ c.reference.distillery }}
+                {{ correlation.distillery }}
                 <span class="glyphicon glyphicon-unchecked reference"></span>
-                {{ c.other.distillery }}
+                {{ whisky.distillery }}
             </p>
-            {{ c.chart|safe }}
+            {{ correlation.chart|safe }}
             <p class="correlation">
                 <span class="glyphicon glyphicon-thumbs-up"></span>
                 You have a
-                <span class="label label-default">{{ '{0:.0f}'.format(c.value * 100) + '%' }}</span>
+                <span class="label label-default">{{ '{0:.0f}'.format(correlation.value * 100) + '%' }}</span>
                 chance <br>
-                of liking <strong>{{ c.other.distillery }}</strong>!
+                of liking <strong>{{ correlation.distillery }}</strong>!
             </p>
         </div><!-- end div.whisky-card -->
     {% endfor %}

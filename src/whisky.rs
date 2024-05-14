@@ -3,11 +3,12 @@ use std::cmp::Ordering;
 use anyhow::{anyhow, Result};
 use csv::{ReaderBuilder, StringRecord};
 use lazy_static::lazy_static;
-use rayon::iter::{IntoParallelRefIterator, ParallelIterator};
+use rayon::iter::{IntoParallelRefIterator, IntoParallelRefMutIterator, ParallelIterator};
+use rayon::slice::ParallelSliceMut;
 use regex::Regex;
 
 use crate::assets::AutocompleteData;
-use crate::correlation::Correlation;
+use crate::correlation::{Correlation, PyCorrelation};
 
 const DATA: &str = include_str!("static/whisky.csv");
 
@@ -38,11 +39,15 @@ fn taste(row: &StringRecord, idx: usize) -> Result<u32> {
     Ok(val.parse::<u32>()?)
 }
 
-pub type PyWhisky = (String, String, [u32; 12]);
+pub type PyWhisky = (
+    String,                                     // distillery
+    String,                                     // slug
+    [u32; 12],                                  // tastes
+    Option<Vec<(f64, String, Option<String>)>>, // correlations
+);
 
 #[derive(Clone)]
-pub struct Whisky {
-    pub distillery: String,
+pub struct Tastes {
     pub body: u32,
     pub sweetness: u32,
     pub smoky: u32,
@@ -57,33 +62,8 @@ pub struct Whisky {
     pub floral: u32,
 }
 
-impl Whisky {
-    fn from_csv_row(row: &StringRecord) -> Result<Self> {
-        Ok(Self {
-            distillery: distillery(row)?,
-            body: taste(row, 1)?,
-            sweetness: taste(row, 2)?,
-            smoky: taste(row, 3)?,
-            medicinal: taste(row, 4)?,
-            tobacco: taste(row, 5)?,
-            honey: taste(row, 6)?,
-            spicy: taste(row, 7)?,
-            winey: taste(row, 8)?,
-            nutty: taste(row, 9)?,
-            malty: taste(row, 10)?,
-            fruity: taste(row, 11)?,
-            floral: taste(row, 12)?,
-        })
-    }
-
-    fn slug(&self) -> String {
-        Regex::new(r"[^a-z]+")
-            .unwrap()
-            .replace_all(self.distillery.to_lowercase().as_str(), "")
-            .to_string()
-    }
-
-    pub fn tastes(&self) -> [u32; 12] {
+impl Tastes {
+    pub fn as_array(&self) -> [u32; 12] {
         [
             self.body,
             self.sweetness,
@@ -99,51 +79,101 @@ impl Whisky {
             self.floral,
         ]
     }
+}
+
+#[derive(Clone)]
+pub struct Whisky {
+    pub distillery: String,
+    pub slug: String,
+    pub tastes: Tastes,
+    pub correlations: Option<[Correlation; 9]>,
+}
+
+impl Whisky {
+    fn from_csv_row(row: &StringRecord) -> Result<Self> {
+        let distillery = distillery(row)?;
+        let slug = Regex::new(r"[^a-z]+")
+            .unwrap()
+            .replace_all(distillery.to_lowercase().as_str(), "")
+            .to_string();
+
+        Ok(Self {
+            distillery,
+            slug,
+            tastes: Tastes {
+                body: taste(row, 1)?,
+                sweetness: taste(row, 2)?,
+                smoky: taste(row, 3)?,
+                medicinal: taste(row, 4)?,
+                tobacco: taste(row, 5)?,
+                honey: taste(row, 6)?,
+                spicy: taste(row, 7)?,
+                winey: taste(row, 8)?,
+                nutty: taste(row, 9)?,
+                malty: taste(row, 10)?,
+                fruity: taste(row, 11)?,
+                floral: taste(row, 12)?,
+            },
+            correlations: None,
+        })
+    }
+
+    pub fn calculate_correlations(&mut self) -> Result<()> {
+        let mut correlations: Vec<Correlation> = WHISKIES
+            .par_iter()
+            .filter(|w| w.distillery != self.distillery)
+            .map(|w| Correlation::new(self, w))
+            .collect::<Vec<Correlation>>();
+        correlations.par_sort_by(|a, b| {
+            if a.value > b.value {
+                Ordering::Less
+            } else if a.value < b.value {
+                Ordering::Greater
+            } else {
+                Ordering::Equal
+            }
+        });
+        let mut best = [
+            correlations[0].clone(),
+            correlations[1].clone(),
+            correlations[2].clone(),
+            correlations[3].clone(),
+            correlations[4].clone(),
+            correlations[5].clone(),
+            correlations[6].clone(),
+            correlations[7].clone(),
+            correlations[8].clone(),
+        ];
+        best.par_iter_mut().try_for_each(|c| c.render_chart())?;
+        self.correlations = Some(best);
+        Ok(())
+    }
 
     pub fn py(&self) -> PyWhisky {
-        (self.distillery.clone(), self.slug(), self.tastes())
+        (
+            self.distillery.clone(),
+            self.slug.clone(),
+            self.tastes.as_array(),
+            self.correlations
+                .clone()
+                .map(|cs| cs.iter().map(|c| c.py()).collect::<Vec<PyCorrelation>>()),
+        )
     }
 }
 
-pub fn recommendations_for(name: String) -> Result<Vec<(PyWhisky, PyWhisky, f64, String)>> {
-    let mut whisky: Option<&Whisky> = None;
-    let mut others: Vec<&Whisky> = vec![];
+fn whisky_by_name(name: String) -> Result<Whisky> {
     for w in WHISKIES.iter() {
-        if w.distillery == name || w.slug() == name {
-            whisky = Some(w);
-        } else {
-            others.push(w);
+        if w.distillery == name || w.slug == name {
+            return Ok(w.clone());
         }
     }
-    let reference = whisky.ok_or(anyhow!("Whisky {} not found", name))?;
-    let mut correlations: Vec<Correlation> = others
-        .par_iter()
-        .map(|w| Correlation::new(reference, w))
-        .collect();
+    Err(anyhow!("Whisky {} not found", name))
+}
 
-    correlations.sort_by(|a, b| {
-        if a.value > b.value {
-            Ordering::Less
-        } else if a.value < b.value {
-            Ordering::Greater
-        } else {
-            Ordering::Equal
-        }
-    });
-
-    let best = correlations
-        .iter()
-        .take(9)
-        .cloned()
-        .collect::<Vec<Correlation>>()
-        .par_iter()
-        .map(|c| match c.chart() {
-            Ok(svg) => Ok((c.whisky.py(), c.other.py(), c.value, svg)),
-            Err(e) => Err(e),
-        })
-        .collect::<Result<Vec<(PyWhisky, PyWhisky, f64, String)>>>()?;
-
-    Ok(best)
+pub fn recommendations_for(name: String) -> Result<PyWhisky> {
+    let mut whisky = whisky_by_name(name)?;
+    whisky.calculate_correlations()?;
+    Ok(whisky.py())
 }
 
 #[cfg(test)]

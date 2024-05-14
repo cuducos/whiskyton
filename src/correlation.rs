@@ -20,25 +20,44 @@ pub fn pearson_r(x: [u32; 12], y: [u32; 12]) -> f64 {
     }
 }
 
+pub type PyCorrelation = (f64, String, Option<String>);
+
 #[derive(Clone)]
-pub struct Correlation<'a> {
-    pub whisky: &'a Whisky,
-    pub other: &'a Whisky,
+pub struct Correlation {
     pub value: f64,
+    pub whisky: String,
+    pub chart: Option<String>,
+
+    reference: [u32; 12],
+    other: [u32; 12],
 }
 
-impl<'a> Correlation<'a> {
-    pub fn new(whisky: &'a Whisky, other: &'a Whisky) -> Self {
+impl Correlation {
+    pub fn new(whisky: &Whisky, other_whisky: &Whisky) -> Self {
+        let reference = whisky.tastes.as_array();
+        let other = other_whisky.tastes.as_array();
+
         Self {
-            whisky,
+            value: pearson_r(reference, other),
+            whisky: other_whisky.distillery.clone(),
+            chart: None,
+            reference,
             other,
-            value: pearson_r(whisky.tastes(), other.tastes()),
         }
     }
 
-    pub fn chart(&self) -> Result<String> {
-        let chart = Chart::new(self.whisky.tastes(), self.other.tastes());
-        chart.svg()
+    pub fn render_chart(&mut self) -> Result<()> {
+        let chart = Chart::new(self.reference, self.other);
+        self.chart = Some(chart.svg()?);
+        Ok(())
+    }
+
+    pub fn py(&self) -> PyCorrelation {
+        (
+            self.value,
+            self.whisky.clone(),
+            self.chart.clone(),
+        )
     }
 }
 
