@@ -36,7 +36,7 @@ fn asset(py: Python, name: &str) -> PyResult<(PyObject, String)> {
     if name == "whiskyton.json" {
         bytes = &whisky::AUTOCOMPLETE;
     }
-    if let Some(b) = assets::ASSETS.get(name) {
+    if let Some(b) = assets::by_name(name) {
         bytes = b
     }
     if bytes.is_empty() {
