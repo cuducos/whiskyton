@@ -21,8 +21,8 @@ ARG PORT
 ADD poetry.lock poetry.lock
 ADD pyproject.toml pyproject.toml
 COPY --from=crates /wheels /wheels
-RUN pip install poetry>=1.8.0 && \
-    poetry install --without dev && \
+RUN pip install poetry==1.8.3 && \
+    poetry install --no-dev && \
     poetry run pip install /wheels/*
 
 ADD whiskyton/ whiskyton/
